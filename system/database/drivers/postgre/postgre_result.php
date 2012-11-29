@@ -27,16 +27,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * PDO Result Class
+ * Postgres Result Class
  *
  * This class extends the parent result class: CI_DB_result
  *
  * @category	Database
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
- * @since	2.1
+ * @since	1.3
  */
-class CI_DB_pdo_result extends CI_DB_result {
+class CI_DB_postgre_result extends CI_DB_result {
 
 	/**
 	 * Number of rows in the result set
@@ -45,24 +45,9 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function num_rows()
 	{
-		if (is_int($this->num_rows))
-		{
-			return $this->num_rows;
-		}
-		elseif (count($this->result_array) > 0)
-		{
-			return $this->num_rows = count($this->result_array);
-		}
-		elseif (count($this->result_object) > 0)
-		{
-			return $this->num_rows = count($this->result_object);
-		}
-		elseif (($num_rows = $this->result_id->rowCount()) > 0)
-		{
-			return $this->num_rows = $num_rows;
-		}
-
-		return $this->num_rows = count($this->result_array());
+		return is_int($this->num_rows)
+			? $this->num_rows
+			: $this->num_rows = @pg_num_rows($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -74,7 +59,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function num_fields()
 	{
-		return $this->result_id->columnCount();
+		return @pg_num_fields($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -84,15 +69,14 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 *
 	 * Generates an array of column names
 	 *
-	 * @return	bool
+	 * @return	array
 	 */
 	public function list_fields()
 	{
 		$field_names = array();
 		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$field_names[$i] = @$this->result_id->getColumnMeta();
-			$field_names[$i] = $field_names[$i]['name'];
+			$field_names[] = pg_field_name($this->result_id, $i);
 		}
 
 		return $field_names;
@@ -109,32 +93,16 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function field_data()
 	{
-		try
+		$retval = array();
+		for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
 		{
-			$retval = array();
-
-			for ($i = 0, $c = $this->num_fields(); $i < $c; $i++)
-			{
-				$field = $this->result_id->getColumnMeta($i);
-
-				$retval[$i]			= new stdClass();
-				$retval[$i]->name		= $field['name'];
-				$retval[$i]->type		= $field['native_type'];
-				$retval[$i]->max_length		= ($field['len'] > 0) ? $field['len'] : NULL;
-				$retval[$i]->primary_key	= (int) ( ! empty($field['flags']) && in_array('primary_key', $field['flags'], TRUE));
-			}
-
-			return $retval;
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= pg_field_name($this->result_id, $i);
+			$retval[$i]->type		= pg_field_type($this->result_id, $i);
+			$retval[$i]->max_length		= pg_field_size($this->result_id, $i);
 		}
-		catch (Exception $e)
-		{
-			if ($this->db->db_debug)
-			{
-				return $this->db->display_error('db_unsupported_feature');
-			}
 
-			return FALSE;
-		}
+		return $retval;
 	}
 
 	// --------------------------------------------------------------------
@@ -146,10 +114,28 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	public function free_result()
 	{
-		if (is_object($this->result_id))
+		if (is_resource($this->result_id))
 		{
+			pg_free_result($this->result_id);
 			$this->result_id = FALSE;
 		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Data Seek
+	 *
+	 * Moves the internal pointer to the desired offset. We call
+	 * this internally before fetching results to make sure the
+	 * result set starts at zero.
+	 *
+	 * @param	int	$n
+	 * @return	bool
+	 */
+	protected function _data_seek($n = 0)
+	{
+		return pg_result_seek($this->result_id, $n);
 	}
 
 	// --------------------------------------------------------------------
@@ -163,7 +149,7 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	protected function _fetch_assoc()
 	{
-		return $this->result_id->fetch(PDO::FETCH_ASSOC);
+		return pg_fetch_assoc($this->result_id);
 	}
 
 	// --------------------------------------------------------------------
@@ -178,10 +164,10 @@ class CI_DB_pdo_result extends CI_DB_result {
 	 */
 	protected function _fetch_object($class_name = 'stdClass')
 	{
-		return $this->result_id->fetchObject($class_name);
+		return pg_fetch_object($this->result_id, NULL, $class_name);
 	}
 
 }
 
-/* End of file pdo_result.php */
-/* Location: ./system/database/drivers/pdo/pdo_result.php */
+/* End of file postgre_result.php */
+/* Location: ./system/database/drivers/postgre/postgre_result.php */

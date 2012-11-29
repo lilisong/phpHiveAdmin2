@@ -21,35 +21,48 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.1.0
+ * @since		Version 1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * PDO Forge Class
+ * Postgre Utility Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/database/
+ * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_forge extends CI_DB_forge {
+class CI_DB_postgre_utility extends CI_DB_utility {
 
 	/**
-	 * CREATE TABLE IF statement
+	 * List databases statement
 	 *
 	 * @var	string
 	 */
-	protected $_create_table_if	= FALSE;
+	protected $_list_databases	= 'SELECT datname FROM pg_database';
 
 	/**
-	 * DROP TABLE IF statement
+	 * OPTIMIZE TABLE statement
 	 *
 	 * @var	string
 	 */
-	protected $_drop_table_if	= FALSE;
+	protected $_optimize_table	= 'REINDEX TABLE %s';
 
+	// --------------------------------------------------------------------
+
+	/**
+	 * Export
+	 *
+	 * @param	array	$params	Preferences
+	 * @return	mixed
+	 */
+	protected function _backup($params = array())
+	{
+		// Currently unsupported
+		return $this->db->display_error('db_unsupported_feature');
+	}
 }
 
-/* End of file pdo_forge.php */
-/* Location: ./system/database/drivers/pdo/pdo_forge.php */
+/* End of file postgre_utility.php */
+/* Location: ./system/database/drivers/postgre/postgre_utility.php */
