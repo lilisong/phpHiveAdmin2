@@ -1,10 +1,10 @@
-<?php
-$lang['warn_alter_table'] = '±ä¸ü±íµÄ×Ö¶ÎÊôÐÔ£¬ÇëÐ¡ÐÄ²Ù×÷';
-$lang['warn_add_table'] = "ÇëÍ¬Ê±ÊäÈë±íÃûÓë×Ö¶ÎÊý!";
-$lang['warn_overwrite_confirm'] = "¸²¸ÇÔ­Êý¾Ý?";
-$lang['warn_must_enter_full_path'] = "±ØÐëÎªÊý¾Ý¼ÓÔØÊäÈëÍêÕûµÄÂ·¾¶ºÍÎÄ¼þÃû";
-$lang['warn_drop_etl_confirm'] = "É¾³ýETLÅäÖÃÎÄ¼þ?";
-$lang['warn_drop_database_confirm'] = 'È·ÈÏÉ¾³ýDB';
-$lang['warn_sure_confirm'] = 'È·ÈÏ?';
-$lang['warn_drop_column_confirm'] = 'É¾³ý×Ö¶Î? (±¾²Ù×÷²»»áÉ¾³ýHDFSÉÏµÄÊý¾Ý)';
-$lang['warn_drop_table_confirm'] = "È·¶¨É¾³ý¸Ã±í£¿";
+ï»¿<?php
+$lang['warn_alter_table'] = 'å˜æ›´è¡¨çš„å­—æ®µå±žæ€§ï¼Œè¯·å°å¿ƒæ“ä½œ';
+$lang['warn_add_table'] = "è¯·åŒæ—¶è¾“å…¥è¡¨åä¸Žå­—æ®µæ•°!";
+$lang['warn_overwrite_confirm'] = "è¦†ç›–åŽŸæ•°æ®?";
+$lang['warn_must_enter_full_path'] = "å¿…é¡»ä¸ºæ•°æ®åŠ è½½è¾“å…¥å®Œæ•´çš„è·¯å¾„å’Œæ–‡ä»¶å";
+$lang['warn_drop_etl_confirm'] = "åˆ é™¤ETLé…ç½®æ–‡ä»¶?";
+$lang['warn_drop_database_confirm'] = 'ç¡®è®¤åˆ é™¤DB';
+$lang['warn_sure_confirm'] = 'ç¡®è®¤?';
+$lang['warn_drop_column_confirm'] = 'åˆ é™¤å­—æ®µ? (æœ¬æ“ä½œä¸ä¼šåˆ é™¤HDFSä¸Šçš„æ•°æ®)';
+$lang['warn_drop_table_confirm'] = "ç¡®å®šåˆ é™¤è¯¥è¡¨ï¼Ÿ";

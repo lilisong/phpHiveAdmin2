@@ -1,9 +1,9 @@
-<?php
-$lang['success_create_database'] = '´´½¨Êý¾Ý¿â³É¹¦';
-$lang['success_create_schema'] = '´´½¨ Schema³É¹¦';
-$lang['success_create_table'] = "³É¹¦´´½¨±í£¡";
-$lang['success_alter_table'] = "³É¹¦ÐÞ¸Ä±í£¡";
-$lang['success_drop_table'] = "³É¹¦É¾³ý±í£¡";
-$lang['success_drop_database'] = "É¾³ý³É¹¦!";
-$lang['success_drop_schema'] = '³É¹¦É¾³ýSchema';
-$lang['success_load_data'] = "³É¹¦¼ÓÔØÊý¾Ý";
+ï»¿<?php
+$lang['success_create_database'] = 'åˆ›å»ºæ•°æ®åº“æˆåŠŸ';
+$lang['success_create_schema'] = 'åˆ›å»º SchemaæˆåŠŸ';
+$lang['success_create_table'] = "æˆåŠŸåˆ›å»ºè¡¨ï¼";
+$lang['success_alter_table'] = "æˆåŠŸä¿®æ”¹è¡¨ï¼";
+$lang['success_drop_table'] = "æˆåŠŸåˆ é™¤è¡¨ï¼";
+$lang['success_drop_database'] = "åˆ é™¤æˆåŠŸ!";
+$lang['success_drop_schema'] = 'æˆåŠŸåˆ é™¤Schema';
+$lang['success_load_data'] = "æˆåŠŸåŠ è½½æ•°æ®";
