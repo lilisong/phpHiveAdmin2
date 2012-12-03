@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `ehm_pha_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+INSERT INTO `ehm_pha_user` (`user_id`, `username`, `password`, `role`) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'superadmin');
 
 CREATE TABLE IF NOT EXISTS `ehm_pha_job` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
