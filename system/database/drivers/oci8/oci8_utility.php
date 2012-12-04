@@ -21,35 +21,40 @@
  * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
  * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
- * @since		Version 2.1.0
+ * @since		Version 1.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * PDO Forge Class
+ * Oracle Utility Class
  *
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/database/
+ * @link		http://codeigniter.com/user_guide/database/
  */
-class CI_DB_pdo_forge extends CI_DB_forge {
+class CI_DB_oci8_utility extends CI_DB_utility {
 
 	/**
-	 * CREATE TABLE IF statement
+	 * List databases statement
 	 *
 	 * @var	string
 	 */
-	protected $_create_table_if	= FALSE;
+	protected $_list_databases	= 'SELECT username FROM dba_users'; // Schemas are actual usernames
 
 	/**
-	 * DROP TABLE IF statement
+	 * Export
 	 *
-	 * @var	string
+	 * @param	array	$params	Preferences
+	 * @return	mixed
 	 */
-	protected $_drop_table_if	= FALSE;
+	protected function _backup($params = array())
+	{
+		// Currently unsupported
+		return $this->db->display_error('db_unsupported_feature');
+	}
 
 }
 
-/* End of file pdo_forge.php */
-/* Location: ./system/database/drivers/pdo/pdo_forge.php */
+/* End of file oci8_utility.php */
+/* Location: ./system/database/drivers/oci8/oci8_utility.php */
