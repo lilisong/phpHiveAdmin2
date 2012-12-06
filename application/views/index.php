@@ -359,7 +359,7 @@
 
 	<!-- start: JavaScript-->
 
-		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
 	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
 	
 		<script src="js/bootstrap.js"></script>
