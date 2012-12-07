@@ -10,7 +10,7 @@ class Manage extends CI_Controller
 	
 	public function login()
 	{
-		$this->lang->load('common', 'chinese');
+		$this->lang->load('commons', 'chinese');
 		
 		$data['lang'] = $this->lang->line('common_lang_set');
 		$data['title'] = $this->lang->line('common_title');
