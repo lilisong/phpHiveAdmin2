@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="<?php echo lang?>">
+<html lang="<?php echo $lang?>">
 <head>
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title><?php echo title?></title>
+	<title><?php echo $title?></title>
 	<meta name="description" content="phpHiveAdmin,Hive,Apache,Hadoop,php,admin">
 	<meta name="author" content="Xianglei,Shidongjie">
 	<!-- end: Meta -->
