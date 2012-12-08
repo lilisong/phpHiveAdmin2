@@ -8,7 +8,7 @@
 						<a href="#"><i class="icon-cog"></i></a>-->
 					</div>
 					<h2>phpHiveAdmin</h2>
-					<form class="form-horizontal" action="index.html" method="post">
+					<form class="form-horizontal" action="login_action" method="post">
 						<fieldset>
 							
 							<div class="input-prepend" title="Username">
