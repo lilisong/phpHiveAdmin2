@@ -2,7 +2,6 @@
 
 class Manage extends CI_Controller
 {
-   
 	public function index()
 	{
 		$this->load->view('index');
@@ -17,18 +16,15 @@ class Manage extends CI_Controller
 		$this->load->view('login');
 		$this->load->view('footer');
 	}
-    public function login_action()
-    {
-       $this->load->database();
-       $this->load->model('usermodel','userlogin');
-	   $this->userlogin->loginaction(); 
-    }
-    public function hiveaction()
-    { 
-        $this->load->model('usermodel','hivemodel');
-        $this->hivemodel->hivedatabase();
-    }
-    
-    
-    
+	public function login_action()
+	{
+		$this->load->database();
+		$this->load->model('usermodel','user');
+		$this->user->login_action(); 
+	}
+	public function show_databases()
+	{ 
+		$this->load->model('hivemodel','hive');
+		$this->hive->show_databases();
+	}
 }
