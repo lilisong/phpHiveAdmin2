@@ -2,7 +2,7 @@
 
 class Manage extends CI_Controller
 {
-
+   
 	public function index()
 	{
 		$this->load->view('index');
@@ -23,4 +23,12 @@ class Manage extends CI_Controller
        $this->load->model('usermodel','userlogin');
 	   $this->userlogin->loginaction(); 
     }
+    public function hiveaction()
+    { 
+        $this->load->model('usermodel','hivemodel');
+        $this->hivemodel->hivedatabase();
+    }
+    
+    
+    
 }

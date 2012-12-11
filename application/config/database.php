@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once __DIR__ . '/../../config.inc.php';
-
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -50,10 +48,10 @@ include_once __DIR__ . '/../../config.inc.php';
 
 $active_group = 'default';
 $active_record = TRUE;
-/*
+
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = '';
+$db['default']['password'] = '123456';
 $db['default']['database'] = 'phphiveadmin';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
@@ -66,23 +64,8 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
-*/
 
-$db['default']['hostname'] = $configure['meta_database_host'];
-$db['default']['username'] = $configure['meta_database_user'];
-$db['default']['password'] = $configure['meta_database_pass'];
-$db['default']['database'] = $configure['meta_database_name'];
-$db['default']['dbdriver'] = $configure['meta_database_type'];
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+
 
 
 /* End of file database.php */
