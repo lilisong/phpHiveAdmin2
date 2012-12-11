@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once __DIR__ . "/../../config.inc.php";
-
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -71,7 +69,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= $configure['language'];
+
 
 /*
 |--------------------------------------------------------------------------
@@ -358,7 +356,8 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-
+$config['hivehost'] = 'localhost';
+$config['hiveport'] = '10000';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

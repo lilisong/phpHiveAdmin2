@@ -1,4 +1,6 @@
 <?php
+$configure = array();
+
 /*
 The path in system that where phpHiveAdmin put, please do not change it.
 

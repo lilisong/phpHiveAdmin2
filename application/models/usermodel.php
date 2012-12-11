@@ -1,10 +1,15 @@
 <?php
 class UserModel extends CI_Model{
 
-	function __construct()
-	{
-		parent::__construct();
-	}
+	 public function __construct() { 
+        parent::__construct();
+         $GLOBALS['THRIFT_ROOT'] = __DIR__."/../../libs/";
+        include_once $GLOBALS['THRIFT_ROOT'] . 'packages/hive_service/ThriftHive.php';
+        include_once $GLOBALS['THRIFT_ROOT'] . 'packages/hive_metastore/ThriftHiveMetastore.php';
+        include_once $GLOBALS['THRIFT_ROOT'] . 'transport/TSocket.php';
+        include_once $GLOBALS['THRIFT_ROOT'] . 'protocol/TBinaryProtocol.php';
+         
+    } 
     
     function loginaction()
     {
@@ -23,10 +28,29 @@ class UserModel extends CI_Model{
                 echo "failed";
             }
             
-         }   
+         }
+    }
+    function hivedatabase()
+    {
+        $host=$this->config->item('hivehost');
+        $port=$this->config->item('hiveport');
+        $transport = new TSocket($host, $port);
+        $protocol = new TBinaryProtocol($transport);
+        $client = new ThriftHiveClient($protocol);
+        //Create ThriftHive object
+        
+        $transport->open();
+        $client->execute('show databases');
+        $db_array = $client->fetchAll();        
+        $i = 0;
+        while('' != @$db_array[$i]) {
+                        echo $db_array[$i]."<br>";
+                        $i++;
+        }
+        
+        $transport->close();
         
     }
-    
     
     
     
