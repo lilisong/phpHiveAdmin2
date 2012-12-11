@@ -1,8 +1,10 @@
 <?php
+
+$configure == array();
 /*
 The path in system that where phpHiveAdmin put, please do not change it.
 
-phpHiveAdminËùÔÚÎÄ¼þÏµÍ³Â·¾¶£¬×Ô¶¯»ñÈ¡£¬Çë²»ÒªÐÞ¸Ä¡£
+phpHiveAdminæ‰€åœ¨æ–‡ä»¶ç³»ç»Ÿè·¯å¾„ï¼Œè‡ªåŠ¨èŽ·å–ï¼Œè¯·ä¸è¦ä¿®æ”¹ã€‚
 */
 $configure['fs_root'] = __DIR__;
 
@@ -12,10 +14,10 @@ Support some usually database, like mysql, mysqli, postgresql, oracle...
 Need compile the drivers with php first.
 but not support Derby(Apache) access.
 
-ÉèÖÃHive´æ´¢ÔªÊý¾ÝËùÊ¹ÓÃµÄÊý¾Ý¿â
-Ö§³Ö³£ÓÃµÄÊý¾Ý¿âÁ¬½Ó·½Ê½£¬ÀýÈçmysql,mysqli,postgresql,oracleµÈµÈ
-ÐèÔ¤ÏÈÔÚphpÖÐ±àÒë¸ÃÊý¾Ý¿âµÄÇý¶¯
-µ«ÊÇ²»Ö§³ÖDerby(Apache)·ÃÎÊ
+è®¾ç½®Hiveå­˜å‚¨å…ƒæ•°æ®æ‰€ä½¿ç”¨çš„æ•°æ®åº“
+æ”¯æŒå¸¸ç”¨çš„æ•°æ®åº“è¿žæŽ¥æ–¹å¼ï¼Œä¾‹å¦‚mysql,mysqli,postgresql,oracleç­‰ç­‰
+éœ€é¢„å…ˆåœ¨phpä¸­ç¼–è¯‘è¯¥æ•°æ®åº“çš„é©±åŠ¨
+ä½†æ˜¯ä¸æ”¯æŒDerby(Apache)è®¿é—®
 */
 $configure['meta_database_host'] = '127.0.0.1';
 $configure['meta_database_port'] = '3306';
@@ -29,9 +31,9 @@ Setting up hiveserver thrift host and port,
 and metastore thrift host and port, if needed.
 Please see `hive --service -help` for more help
 
-ÉèÖÃhiveserverµÄthriftÖ÷»úIPºÍ¶Ë¿Ú
-Èç¹ûÐèÒªµÄ»°£¬ÉèÖÃmetastore·ÃÎÊµÄÖ÷»úºÍ¶Ë¿Ú
-Çë²é¿´ `hive --service -help`»ñÈ¡thrift°ïÖúºÍmetastore°ïÖú
+è®¾ç½®hiveserverçš„thriftä¸»æœºIPå’Œç«¯å£
+å¦‚æžœéœ€è¦çš„è¯ï¼Œè®¾ç½®metastoreè®¿é—®çš„ä¸»æœºå’Œç«¯å£
+è¯·æŸ¥çœ‹ `hive --service -help`èŽ·å–thriftå¸®åŠ©å’Œmetastoreå¸®åŠ©
 */
 $configure['hive_thrift_host'] = '127.0.0.1';
 $configure['hive_thrift_port'] = '10000';
@@ -42,15 +44,15 @@ $configure['hive_metastore_port'] = '9083';
 Setting up languages you need in phpHiveAdmin user interface,
 now support chinese or english
 
-ÉèÖÃphpHiveAdminÓÃ»§½çÃæËùÊ¹ÓÃµÄÓïÑÔ
-Ä¿Ç°Ö§³ÖÖÐÎÄ(chinese)ºÍÓ¢ÎÄ(english)
+è®¾ç½®phpHiveAdminç”¨æˆ·ç•Œé¢æ‰€ä½¿ç”¨çš„è¯­è¨€
+ç›®å‰æ”¯æŒä¸­æ–‡(chinese)å’Œè‹±æ–‡(english)
 */
 $configure['language'] = 'chinese';
 
 /*
 Setting up the system environment that used by phpHiveAdmin
 
-ÉèÖÃphpHiveAdminËùÊ¹ÓÃµÄÏµÍ³»·¾³±äÁ¿
+è®¾ç½®phpHiveAdminæ‰€ä½¿ç”¨çš„ç³»ç»ŸçŽ¯å¢ƒå˜é‡
 */
 $configure['hadoop_home'] = '/usr';
 $configure['java_home'] = '/usr/java/default';
@@ -58,18 +60,18 @@ $configure['hive_home'] = '/usr/local/hive';
 
 $configure['lang_set'] = 'zh_CN.UTF-8' ;
 //Or en_US.UTF-8, if you are in english countries.
-//Èç¹ûÄã´¦ÔÚÓ¢Óï¹ú¼Ò£¬ÇëÊ¹ÓÃen_US.UTF-8
+//å¦‚æžœä½ å¤„åœ¨è‹±è¯­å›½å®¶ï¼Œè¯·ä½¿ç”¨en_US.UTF-8
 
 $configure['output_seperator'] = '\t'; 
 // The result data columns seperating character.
-// ÓÃÀ´·Ö¸ô½á¹û¼¯Êý¾ÝÁÐµÄ·Ö¸ô·û.
+// ç”¨æ¥åˆ†éš”ç»“æžœé›†æ•°æ®åˆ—çš„åˆ†éš”ç¬¦.
 
 /*
 Setting up phpHiveAdmin output path,
 please use linux commandline console to chmod these path below to 777
 
-ÉèÖÃphpHiveAdminµÄÊä³öÂ·¾¶
-ÇëÊ¹ÓÃLinuxÃüÁîÐÐÖÕ¶ËÀ´½«ÏÂÁÐÂ·¾¶chmodÎª777
+è®¾ç½®phpHiveAdminçš„è¾“å‡ºè·¯å¾„
+è¯·ä½¿ç”¨Linuxå‘½ä»¤è¡Œç»ˆç«¯æ¥å°†ä¸‹åˆ—è·¯å¾„chmodä¸º777
 */
 $configure['etl_path'] = $configure['fs_root'] . '/etl/';
 $configure['result_path'] = $configure['fs_root'] . '/results/';
@@ -78,9 +80,9 @@ $configure['log_path'] = $configure['fs_root'] . '/logs/';
 /*
 Setting up Hive thrift path, no need to change them.
 
-ÉèÖÃHive thrift°üµÄÂ·¾¶£¬ÎÞÐè×ÔÐÐÐÞ¸Ä
+è®¾ç½®Hive thriftåŒ…çš„è·¯å¾„ï¼Œæ— éœ€è‡ªè¡Œä¿®æ”¹
 */
-$configure['thrift_root'] = $configure['fs_root']."/libs/";
+$configure['thrift_root'] = $configure['fs_root'] . "/libs/";
 
 include_once $configure['thrift_root'] . 'packages/hive_service/ThriftHive.php';
 include_once $configure['thrift_root'] . 'packages/hive_metastore/ThriftHiveMetastore.php';
