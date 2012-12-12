@@ -4,6 +4,7 @@ $(function () {
 	var chart = new Highcharts.Chart({
 	
 	    chart: {
+			backgroundColor: "#DFDFDF",
 	        renderTo: 'mapred_slot_realtime',
 	        type: 'gauge',
 	        plotBorderWidth: 1,
@@ -11,7 +12,7 @@ $(function () {
 	        	linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
 	        	stops: [
 	        		[0, '#FFF4C6'],
-	        		[0.3, '#FFFFFF'],
+	        		[0.3, '#EFFFFF'],
 	        		[1, '#FFF4C6']
 	        	]
 	        },
