@@ -1,7 +1,7 @@
 <?php
 $lang['common_lang_set'] = 'cn';
 $lang['common_title'] = 'phpHiveAdmin';
-$lang['common_sql_query'] = 'SQL查询';
+$lang['common_hql_query'] = 'HQL查询';
 $lang['common_cluster_status'] = '集群状态';
 $lang['common_schema'] = 'Schema';
 $lang['common_thrift_schema'] = 'ThriftSchema';

@@ -13,10 +13,10 @@
 	<!-- end: Mobile Specific -->
 
 	<!-- start: CSS -->
-	<link id="bootstrap-style" href="<?php echo $this->config->base_url();?>css/bootstrap.css" rel="stylesheet">
-	<link href="<?php echo $this->config->base_url();?>css/bootstrap-responsive.min.css" rel="stylesheet">
-	<link id="base-style" href="<?php echo $this->config->base_url();?>css/style.css" rel="stylesheet">
-	<link id="base-style-responsive" href="<?php echo $this->config->base_url();?>css/style-responsive.css" rel="stylesheet">
+	<link id="bootstrap-style" href="/css/bootstrap.css" rel="stylesheet">
+	<link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link id="base-style" href="/css/style.css" rel="stylesheet">
+	<link id="base-style-responsive" href="/css/style-responsive.css" rel="stylesheet">
 	<!-- end: CSS -->
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -25,7 +25,7 @@
 	<![endif]-->
 
 	<!-- start: Favicon -->
-	<link rel="shortcut icon" href="<?php echo $this->config->base_url();?>img/favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	<!-- end: Favicon -->
                 
 </head>

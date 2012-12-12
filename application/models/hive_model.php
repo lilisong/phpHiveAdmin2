@@ -18,19 +18,20 @@ class Hive_model extends CI_Model
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
-        //Create ThriftHive object
-        
-		$transport->open();
-		$client->execute('show databases');
-		$db_array = $client->fetchAll();        
-		$i = 0;
-		while('' != @$db_array[$i])
+		//Create ThriftHive object
+		try
 		{
-			echo $db_array[$i]."<br>";
-			$i++;
+			$transport->open();
+			$client->execute('show databases');
+			$db_array = $client->fetchAll();        
+			$transport->close();
+			return $db_array;
 		}
-		$transport->close();
-    }
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
 
 	public function show_tables($db_name)
 	{
@@ -39,19 +40,21 @@ class Hive_model extends CI_Model
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
-        //Create ThriftHive object
-        
-		$transport->open();
-		$client->execute('use '.$db_name);
-		$client->execute('show tables');
-		$db_array = $client->fetchAll();        
-		$i = 0;
-		while('' != @$db_array[$i])
+		//Create ThriftHive object
+
+		try
 		{
-			echo $db_array[$i]."<br>";
-			$i++;
+			$transport->open();
+			$client->execute('use '.$db_name);
+			$client->execute('show tables');
+			$tbl_array = $client->fetchAll();        
+			$transport->close();
+			return $tbl_array;
 		}
-		$transport->close();
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
 	}
 }
 ?>
