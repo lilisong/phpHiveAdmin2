@@ -111,7 +111,7 @@ $(function () {
 			var leftVal;
 			var rightVal;
 
-			$.getJSON('/index.php/manage/GetClusterStatus/', function(data){
+			$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/GetClusterStatus/', function(data){
 				leftVal =  data.mapTasks;
 				rightVal = data.reduceTasks;
 				

@@ -13,10 +13,10 @@
 	<!-- end: Mobile Specific -->
 
 	<!-- start: CSS -->
-	<link id="bootstrap-style" href="/css/bootstrap.css" rel="stylesheet">
-	<link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
-	<link id="base-style" href="/css/style.css" rel="stylesheet">
-	<link id="base-style-responsive" href="/css/style-responsive.css" rel="stylesheet">
+	<link id="bootstrap-style" href="<?php echo $this->config->base_url();?>css/bootstrap.css" rel="stylesheet">
+	<link href="<?php echo $this->config->base_url();?>css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link id="base-style" href="<?php echo $this->config->base_url();?>css/style.css" rel="stylesheet">
+	<link id="base-style-responsive" href="<?php echo $this->config->base_url();?>css/style-responsive.css" rel="stylesheet">
 	<script src="/js/jquery-1.8.3.min.js"></script>
 	<!-- end: CSS -->
 
@@ -26,7 +26,7 @@
 	<![endif]-->
 
 	<!-- start: Favicon -->
-	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="shortcut icon" href="<?php echo $this->config->base_url();?>favicon.ico">
 	<!-- end: Favicon -->
                 
 </head>

@@ -2,7 +2,7 @@
 <img src="/img/phphiveadmin.jpg" />
 <br>
 <br>
-<form method=post action=/index.php/manage/add_database>
+<form method=post action=<?php echo $this->config->base_url();?>index.php/manage/add_database>
 	<table class="table-bordered table-striped table-hover">
 		<tr>
 			<td>
@@ -24,7 +24,7 @@
 <input type=submit name=submit class="btn btn-primary btn-small" value=<?php echo $common_submit;?>>
 </form>
 <br><br>
-<form method=post action=/index.php/manage/add_database>
+<form method=post action=<?php echo $this->config->base_url();?>index.php/manage/add_database>
 	<table class="table-bordered table-striped table-hover">
 		<tr>
 			<td>

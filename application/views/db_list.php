@@ -4,7 +4,7 @@
 	<tr>
 		<td>
 			<i class="icon-zoom-in"></i>
-			<a href="/index.php/manage/ShowTables/<?php echo $item;?>">
+			<a href="<?php echo $this->config->base_url();?>index.php/manage/ShowTables/<?php echo $item;?>">
 				<?php echo $item;?>
 			</a>
 		</td>
