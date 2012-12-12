@@ -19,12 +19,12 @@ class Manage extends CI_Controller
 	public function login_action()
 	{
 		$this->load->database();
-		$this->load->model('usermodel','user');
+		$this->load->model('user','user');
 		$this->user->login_action(); 
 	}
 	public function show_databases()
 	{ 
-		$this->load->model('hivemodel','hive');
+		$this->load->model('hive_model','hive');
 		$this->hive->show_databases();
 	}
 }

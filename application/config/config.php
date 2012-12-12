@@ -356,7 +356,7 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-$config['hivehost'] = 'localhost';
+$config['hivehost'] = '114.112.70.45';
 $config['hiveport'] = '10000';
 
 /* End of file config.php */
