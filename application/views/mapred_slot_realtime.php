@@ -94,42 +94,36 @@ $(function () {
 	    	
 	
 	    series: [{
-	        data: [-20],
+	        data: [<?php echo $maxMapTasks;?>],
 	        yAxis: 0
 	    }, {
-	        data: [-20],
+	        data: [<?php echo $maxReduceTasks;?>],
 	        yAxis: 1
 	    }]
 	
 	},
 	
-	// Let the music play
 	function(chart) {
-	    setInterval(function() {
-	        var left = chart.series[0].points[0],
-	            right = chart.series[1].points[0],
-	            leftVal, 
-	            inc = (Math.random() - 0.5) * 3;
+		setInterval(function() {
+			var left = chart.series[0].points[0];
+			var right = chart.series[1].points[0];
+			var leftVal;
+			var rightVal;
+
+			$.getJSON('/index.php/manage/GetClusterStatus/', function(data){
+				leftVal =  data.mapTasks;
+				rightVal = data.reduceTasks;
+				
+				left.update(leftVal, false);
+				right.update(rightVal, false);
+				chart.redraw();
+			});
 	
-	        //leftVal =  left.y + inc;
-	        //rightVal = leftVal + inc / 3;
-			leftVal =  <?php echo $mapTasks;?>;
-	        rightVal = <?php echo $reduceTasks;?>;
-	        /*if (leftVal < 0 || leftVal > <?php echo $maxMapTasks;?>) {
-	            leftVal = left.y - inc;
-	        }
-	        if (rightVal < 0 || rightVal > <?php echo $maxReduceTasks;?>) {
-	            rightVal = leftVal;
-	        }*/
-	
-	        left.update(leftVal, false);
-	        right.update(rightVal, false);
-	        chart.redraw();
-	
-	    }, 1000);
+	    }, 2000);
 	
 	});
 });
+
 
 		</script>
 
