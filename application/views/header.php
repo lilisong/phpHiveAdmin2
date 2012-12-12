@@ -17,6 +17,7 @@
 	<link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
 	<link id="base-style" href="/css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="/css/style-responsive.css" rel="stylesheet">
+	<script src="/js/jquery-1.8.3.min.js"></script>
 	<!-- end: CSS -->
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->

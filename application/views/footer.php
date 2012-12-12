@@ -1,7 +1,10 @@
 		<!-- start: JavaScript-->
 
-		<script src="/js/jquery-1.8.3.min.js"></script>
+		
 		<script src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script src="/js/highcharts.js"></script>
+		<script src="/js/highcharts-more.js"></script>
+		<script src="/js/modules/exporting.js"></script>
 
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/jquery.cookie.js"></script>

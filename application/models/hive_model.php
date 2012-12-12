@@ -33,7 +33,7 @@ class Hive_model extends CI_Model
 		}
 	}
 
-	public function show_tables($db_name)
+	public function show_tables($db_name = 'default')
 	{
 		$host=$this->config->item('hivehost');
 		$port=$this->config->item('hiveport');
@@ -50,6 +50,29 @@ class Hive_model extends CI_Model
 			$tbl_array = $client->fetchAll();        
 			$transport->close();
 			return $tbl_array;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+	
+	public function get_cluster_status()
+	{
+		$host=$this->config->item('hivehost');
+		$port=$this->config->item('hiveport');
+		$transport = new TSocket($host, $port);
+		$protocol = new TBinaryProtocol($transport);
+		$client = new ThriftHiveClient($protocol);
+		//Create ThriftHive object
+		
+		try
+		{
+			$transport->open();
+			$status = $client->getClusterStatus();
+			$transport->close();
+			$json = json_encode($status);
+			return $json;
 		}
 		catch (Exception $e)
 		{
