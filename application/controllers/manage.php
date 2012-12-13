@@ -48,6 +48,11 @@ class Manage extends CI_Controller
 		$data['maxReduceTasks'] = $json->maxReduceTasks;
 		$data['mapTasks'] = $json->mapTasks;
 		$data['reduceTasks'] = $json->reduceTasks;
+		$data['common_mr_slots_used'] = $this->lang->line('common_mr_slots_used');
+		$data['common_map_slots'] = $this->lang->line('common_map_slots');
+		$data['common_reduce_slots'] = $this->lang->line('common_reduce_slots');
+		$data['common_using'] = $this->lang->line('common_using');
+		$data['common_value'] = $this->lang->line('common_value');
 		$this->load->view('mapred_slot_realtime', $data);
 		
 		$this->load->view('div_end');

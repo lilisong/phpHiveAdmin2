@@ -24,7 +24,7 @@
 =================================================================== */
 
 body {
-	background: url(../img/bg-light.jpg) repeat;
+	background: url(/img/bg-light.jpg) repeat;
 	color: #646464;
 }
 

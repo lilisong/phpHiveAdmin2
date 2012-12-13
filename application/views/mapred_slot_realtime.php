@@ -20,7 +20,7 @@ $(function () {
 		},
 	
 		title: {
-			text: 'Map/Reduce Slots'
+			text: '<?php echo $common_mr_slots_used;?>'
 		},
 		
 		pane: [{
@@ -55,7 +55,7 @@ $(function () {
 			}],
 			pane: 0,
 			title: {
-				text: 'Using<br/><span style="font-size:8px">Map Slots</span>',
+				text: '<?php echo $common_using;?><br/><span style="font-size:8px"><?php echo $common_map_slots;?></span>',
 				y: -40
 			}
 		}, {
@@ -76,7 +76,7 @@ $(function () {
 			}],
 			pane: 1,
 			title: {
-				text: 'Using<br/><span style="font-size:8px">Reduce Slots</span>',
+				text: '<?php echo $common_using;?><br/><span style="font-size:8px"><?php echo $common_reduce_slots;?></span>',
 				y: -40
 			}
 		}],
@@ -123,11 +123,11 @@ $(function () {
 	
 	});
 });
-</script>
 
 
-<script type="text/javascript">
+//----------------------------
 var map=0;
+var reduce=0;
 
 $(function () {
 	$(document).ready(function() {
@@ -148,35 +148,41 @@ $(function () {
 					load: function() {
 
 						// set up the updating of the chart each second
-						var series = this.series[0];
+						var maps = this.series[0];
+						var reduces = this.series[1];
 						setInterval(function() {
-							var x = (new Date()).getTime(), // current time
-								y = map;
+							var x1 = (new Date()).getTime(), // current time
+								y1 = map;
+							var x2 = (new Date()).getTime(),
+								y2 = reduce;
 								
-							series.addPoint([x, y], true, true);
+							maps.addPoint([x1, y1], true, true);
+							reduces.addPoint([x2, y2], true, true);
 							$.getJSON("<?php echo $this->config->base_url();?>index.php/manage/GetClusterStatus/", function(data){
 								map=data.mapTasks;
+								reduce = data.reduceTasks;
 							});
 						}, 2000);
 					}
 				}
 			},
 			title: {
-				text: 'Map/Reduce Slots used'
+				text: '<?php echo $common_mr_slots_used;?>'
 			},
 			xAxis: {
 				type: 'datetime',
-				tickPixelInterval: 150
+				tickPixelInterval: 120
 			},
 			yAxis: {
 				title: {
-					text: 'Value'
+					text: '<?php echo $common_value;?>'
 				},
 				plotLines: [{
 					value: 0,
 					width: 1,
 					color: '#808080'
-				}]
+				}
+				]
 			},
 			tooltip: {
 				formatter: function() {
@@ -186,28 +192,46 @@ $(function () {
 				}
 			},
 			legend: {
-				enabled: false
+				enabled: true
 			},
 			exporting: {
 				enabled: false
 			},
 			series: [{
-				name: 'Map Slots',
+				name: '<?php echo $common_map_slots;?>',
 				data: (function() {
 					// generate an array of random data
-					var data = [],
+					var map = [],
 						time = (new Date()).getTime(),
 						i;
 	
 					for (i = -19; i <= 0; i++) {
-						data.push({
+						map.push({
 							x: time + i * 1000,
 							y: 0//Math.random()
 						});
 					}
-					return data;
+					return map;
 				})()
-			}]
+			},
+			{
+				name: '<?php echo $common_reduce_slots;?>',
+				data: (function() {
+					// generate an array of random data
+					var reduce = [],
+						time = (new Date()).getTime(),
+						i;
+	
+					for (i = -19; i <= 0; i++) {
+						reduce.push({
+							x: time + i * 1000,
+							y: 0//Math.random()
+						});
+					}
+					return reduce;
+				})()
+			}
+			]
 		});
 	});
 	
