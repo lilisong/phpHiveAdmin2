@@ -3,7 +3,7 @@
 $(function () {
 	var chart = new Highcharts.Chart({
 		chart: {
-			backgroundColor: "#DFDFDF",
+			backgroundColor: "#F5F5F5",
 			renderTo: 'mapred_slot_realtime',
 			type: 'gauge',
 			plotBorderWidth: 1,
@@ -140,7 +140,7 @@ $(function () {
 		var chart;
 		chart = new Highcharts.Chart({
 			chart: {
-				backgroundColor: "#DFDFDF",
+				backgroundColor: "#F5F5F5",
 				renderTo: 'mapred_slots_lines',
 				type: 'spline',
 				marginRight: 10,
