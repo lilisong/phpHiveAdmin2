@@ -280,7 +280,7 @@ class Hive_model extends CI_Model
 		}
 	}
 	
-	public function array_reindex($pArray)
+	private function array_reindex($pArray)
 	{
 		if(count($pArray) != 0)
 		{

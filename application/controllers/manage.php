@@ -179,7 +179,7 @@ class Manage extends CI_Controller
 			$array_desc = explode('	',$array_desc_desc[$i]);
 			$array_desc_desc_col['name'][$i] = trim($array_desc[0]);
 			$array_desc_desc_col['type'][$i] = trim($array_desc[1]);
-			$array_desc_desc_col['comment'][$i] = trim($array_desc[2]);
+			@$array_desc_desc_col['comment'][$i] = trim($array_desc[2]);
 			$i++;
 		}
 		$data['column_name'] = $array_desc_desc_col['name'];

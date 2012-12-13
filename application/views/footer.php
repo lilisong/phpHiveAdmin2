@@ -4,7 +4,6 @@
 		<script src="<?php echo $this->config->base_url();?>js/jquery-ui-1.8.21.custom.min.js"></script>
 		<script src="<?php echo $this->config->base_url();?>js/highcharts.js"></script>
 		<script src="<?php echo $this->config->base_url();?>js/highcharts-more.js"></script>
-		<script src="<?php echo $this->config->base_url();?>js/modules/exporting.js"></script>
 
 		<script src="<?php echo $this->config->base_url();?>js/bootstrap.js"></script>
 		<script src="<?php echo $this->config->base_url();?>js/jquery.cookie.js"></script>
@@ -44,5 +43,7 @@
 		<script src="<?php echo $this->config->base_url();?>js/custom.js"></script>
 
 		<!-- end: JavaScript-->
+		<hr></hr>
+		<center>Copyright phpHiveAdmin under GPLv3 license</center>
 	</body>
 </html>
