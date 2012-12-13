@@ -1,6 +1,13 @@
 <?php
 class Hive_model extends CI_Model
 {
+	public $hive_host = $this->config->item('hive_host');
+	public $hive_port = $this->config->item('hive_port');
+	public $transport;
+	public $protocol;
+	public $hive;
+	public $metastore;
+	
 	public function __construct()
 	{ 
 		parent::__construct();
@@ -9,22 +16,20 @@ class Hive_model extends CI_Model
 		#include_once $GLOBALS['THRIFT_ROOT'] . 'packages/hive_metastore/ThriftHiveMetastore.php';
 		include_once $GLOBALS['THRIFT_ROOT'] . 'transport/TSocket.php';
 		include_once $GLOBALS['THRIFT_ROOT'] . 'protocol/TBinaryProtocol.php';
-    }
+		
+		$this->transport = new TSocket($this->hive_host, $this->hive_port);
+		$this->protocol = new TBinaryProtocol($this->transport);
+		$this->hive = new ThriftHiveClient($this->protocol);
+	}
 
 	public function show_databases()
 	{
-		$host=$this->config->item('hive_host');
-		$port=$this->config->item('hive_port');
-		$transport = new TSocket($host, $port);
-		$protocol = new TBinaryProtocol($transport);
-		$client = new ThriftHiveClient($protocol);
-		//Create ThriftHive object
 		try
 		{
-			$transport->open();
-			$client->execute('show databases');
-			$db_array = $client->fetchAll();        
-			$transport->close();
+			$this->transport->open();
+			$this->hive->execute('show databases');
+			$db_array = $this->hive->fetchAll();        
+			$this->transport->close();
 			return $db_array;
 		}
 		catch (Exception $e)
@@ -35,18 +40,12 @@ class Hive_model extends CI_Model
 	
 	public function desc_formatted_table($db_name = 'default', $tbl_name = '', $key = '1')
 	{
-		$host=$this->config->item('hive_host');
-		$port=$this->config->item('hive_port');
-		$transport = new TSocket($host, $port);
-		$protocol = new TBinaryProtocol($transport);
-		$client = new ThriftHiveClient($protocol);
-		
 		try
 		{
-			$transport->open();
-			$client->execute('use ' . $db_name);
-			$client->execute('desc formatted ' . $tbl_name);
-			$array_desc_table = $client->fetchAll();
+			$this->transport->open();
+			$this->hive->execute('use ' . $db_name);
+			$this->hive->execute('desc formatted ' . $tbl_name);
+			$array_desc_table = $this->hive->fetchAll();
 			#key=1 means columns detail, key=2 means table properties, key=3 means table sets key=4 means partitions
 			foreach($array_desc_table as $k=>$v)
 			{
@@ -137,7 +136,7 @@ class Hive_model extends CI_Model
 			}
 			$arr = $this->array_reindex($arr);
 
-			$transport->close();
+			$this->transport->close();
 			
 			return $arr;
 		}
@@ -149,17 +148,12 @@ class Hive_model extends CI_Model
 
 	public function get_example_data($db_name = 'default', $tbl_name = '', $limit = '2')
 	{
-		$host=$this->config->item('hive_host');
-		$port=$this->config->item('hive_port');
-		$transport = new TSocket($host, $port);
-		$protocol = new TBinaryProtocol($transport);
-		$client = new ThriftHiveClient($protocol);
 		try
 		{
-			$transport->open();
-			$client->execute('use ' . $db_name);
-			$client->execute('select * from ' . $tbl_name . ' limit ' . $limit);
-			$arr_tmp = $client->fetchAll();
+			$this->transport->open();
+			$this->hive->execute('use ' . $db_name);
+			$this->hive->execute('select * from ' . $tbl_name . ' limit ' . $limit);
+			$arr_tmp = $this->hive->fetchAll();
 			$i = 0;
 			foreach(@$arr_tmp as $k => $v)
 			{
@@ -174,7 +168,7 @@ class Hive_model extends CI_Model
 				}
 				$i++;
 			}
-			$transport->close();
+			$this->transport->close();
 			return $array;
 		}
 		catch (Exception $e)
@@ -185,11 +179,6 @@ class Hive_model extends CI_Model
 
 	public function desc_table_hiveudfs($db_name = 'default', $tbl_name = '')
 	{
-		$host=$this->config->item('hive_host');
-		$port=$this->config->item('hive_port');
-		$transport = new TSocket($host, $port);
-		$protocol = new TBinaryProtocol($transport);
-		$client = new ThriftHiveClient($protocol);
 		$str = "";
 		try
 		{
@@ -204,10 +193,10 @@ class Hive_model extends CI_Model
 			else
 			{
 				#insert Table name and column names into Hql language defination arrays
-				$transport->open();
-				$client->execute('use ' . $db_name);
-				$client->execute('desc ' . $tbl_name);
-				$array_desc_table = $client->fetchAll();
+				$this->transport->open();
+				$this->hive->execute('use ' . $db_name);
+				$this->hive->execute('desc ' . $tbl_name);
+				$array_desc_table = $this->hive->fetchAll();
 				$transport->close();
 				$i = 0;
 				while ('' != @$array_desc_table[$i])
@@ -235,20 +224,13 @@ class Hive_model extends CI_Model
 
 	public function show_tables($db_name = 'default')
 	{
-		$host=$this->config->item('hive_host');
-		$port=$this->config->item('hive_port');
-		$transport = new TSocket($host, $port);
-		$protocol = new TBinaryProtocol($transport);
-		$client = new ThriftHiveClient($protocol);
-		//Create ThriftHive object
-
 		try
 		{
-			$transport->open();
-			$client->execute('use '.$db_name);
-			$client->execute('show tables');
-			$tbl_array = $client->fetchAll();
-			$transport->close();
+			$this->transport->open();
+			$this->hive->execute('use '.$db_name);
+			$this->hive->execute('show tables');
+			$tbl_array = $this->hive->fetchAll();
+			$this->transport->close();
 			return $tbl_array;
 		}
 		catch (Exception $e)
@@ -259,18 +241,11 @@ class Hive_model extends CI_Model
 	
 	public function get_cluster_status()
 	{
-		$host=$this->config->item('hive_host');
-		$port=$this->config->item('hive_port');
-		$transport = new TSocket($host, $port);
-		$protocol = new TBinaryProtocol($transport);
-		$client = new ThriftHiveClient($protocol);
-		//Create ThriftHive object
-		
 		try
 		{
-			$transport->open();
-			$status = $client->getClusterStatus();
-			$transport->close();
+			$this->transport->open();
+			$status = $this->hive->getClusterStatus();
+			$this->transport->close();
 			$json = json_encode($status);
 			return $json;
 		}
