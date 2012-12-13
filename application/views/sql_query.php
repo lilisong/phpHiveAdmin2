@@ -1,6 +1,6 @@
 <div class="span10">
 <?php echo $var_db_name;?>
-<i class=icon-backward></i>  <a href="/index.php/manage/ShowTables/<?php echo $var_db_name;?>">返回</a>
+<i class=icon-backward></i>  <a href="<?php echo $this->config->base_url();?>index.php/manage/ShowTables/<?php echo $var_db_name;?>">返回</a>
 <br><br>
 
 <div class="btn-group">
@@ -11,16 +11,16 @@ SQL查询-->
 <a href="getFilelist.php?database=active&table=active_20121213">
 文件列表</a>
 </td>-->
-<a class="btn" href="/index.php/manage/LoadData/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
+<a class="btn" href="<?php echo $this->config->base_url();?>index.php/manage/LoadData/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
 <i class=icon-chevron-right></i>
 <?php echo $common_load_data;?></a>
-<a class="btn" href="/index.php/manage/CloneTable/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
+<a class="btn" href="<?php echo $this->config->base_url();?>index.php/manage/CloneTable/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
 <i class=icon-random></i>
 <?php echo $common_clone_table;?></a>
-<a class="btn" href="/index.php/manage/TableDetail/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
+<a class="btn" href="<?php echo $this->config->base_url();?>index.php/manage/TableDetail/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
 <i class=icon-zoom-in></i>
 <?php echo $common_table_detail;?></a>
-<a class="btn btn-warning" href="/index.php/manage/AlterTable/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
+<a class="btn btn-warning" href="<?php echo $this->config->base_url();?>index.php/manage/AlterTable/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
 <i class=icon-pencil></i>
 <?php echo $common_alter_table;?></a>
 <a class="btn btn-danger" href="#">
@@ -58,7 +58,7 @@ SQL查询-->
 	<script type="text/javascript">
 		var hiveudfs = [];
 		function initHiveudfsTextarea() {
-			$.ajax("/index.php/manage/GetHiveUdfs/<?php echo $var_db_name;?>/<?php echo $table_name;?>", {
+			$.ajax("<?php echo $this->config->base_url();?>index.php/manage/GetHiveUdfs/<?php echo $var_db_name;?>/<?php echo $table_name;?>", {
 			//$.ajax("js/hiveudfs.txt", {
 				success : function(data, textStatus, jqXHR) {
 					hiveudfs = data.replace(/\r/g, "").split("\n");
