@@ -23,9 +23,9 @@ but not support Derby(Apache) access.
 $configure['meta_database_host'] = '127.0.0.1';
 $configure['meta_database_port'] = '3306';
 $configure['meta_database_user'] = 'root';
-$configure['meta_database_pass'] = '';
-$configure['meta_database_type'] = 'mysqli';
-$configure['meta_database_name'] = 'easyhadoop';
+$configure['meta_database_pass'] = '123456';
+$configure['meta_database_type'] = 'mysql';
+$configure['meta_database_name'] = 'phphiveadmin';
 
 /*
 Setting up hiveserver thrift host and port,
@@ -36,7 +36,7 @@ Please see `hive --service -help` for more help
 如果需要的话，设置metastore访问的主机和端口
 请查看 `hive --service -help`获取thrift帮助和metastore帮助
 */
-$configure['hive_thrift_host'] = '127.0.0.1';
+$configure['hive_thrift_host'] = '114.112.70.45';
 $configure['hive_thrift_port'] = '10000';
 $configure['hive_metastore_host'] = '127.0.0.1';
 $configure['hive_metastore_port'] = '9083';
@@ -77,17 +77,5 @@ please use linux commandline console to chmod these path below to 777
 $configure['etl_path'] = $configure['fs_root'] . '/etl/';
 $configure['result_path'] = $configure['fs_root'] . '/results/';
 $configure['log_path'] = $configure['fs_root'] . '/logs/';
-
-/*
-Setting up Hive thrift path, no need to change them.
-
-设置Hive thrift包的路径，无需自行修改
-*/
-$configure['thrift_root'] = $configure['fs_root'] . "/libs/";
-
-include_once $configure['thrift_root'] . 'packages/hive_service/ThriftHive.php';
-include_once $configure['thrift_root'] . 'packages/hive_metastore/ThriftHiveMetastore.php';
-include_once $configure['thrift_root'] . 'transport/TSocket.php';
-include_once $configure['thrift_root'] . 'protocol/TBinaryProtocol.php';
 
 ?>

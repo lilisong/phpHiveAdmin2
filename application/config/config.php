@@ -1,5 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+include_once __DIR__ . "/../../config.inc.php";
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -356,8 +357,26 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-$config['hivehost'] = '114.112.70.45';
-$config['hiveport'] = '10000';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
+
+/*
+Hive and Hadoop runtime environment settings, do not modify here!!!
+Modify config.inc.php in webroot directory.
+
+Hive与Hadoop的运行环境设置， 不要修改这里的任何东西！！！
+配置环境请修改webroot路径下的config.inc.php
+*/
+$config['language']	= $configure['language'];
+$config['hive_host'] = $configure['hive_thrift_host'];
+$config['hive_port'] = $configure['hive_thrift_port'];
+$config['metastore_host'] = $configure['hive_metastore_host'];
+$config['metastore_port'] = $configure['hive_metastore_port'];
+$config['hadoop_home'] = $configure['hadoop_home'];
+$config['java_home'] = $configure['java_home'];
+$config['hive_home'] = $configure['hive_home'];
+$config['lang_set'] = $configure['lang_set'];
+$config['output_seperator'] = $configure['output_seperator'];
+
+

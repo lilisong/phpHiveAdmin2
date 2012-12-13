@@ -1,5 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+include_once __DIR__ . "/../../config.inc.php";
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -49,11 +50,11 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '123456';
-$db['default']['database'] = 'phphiveadmin';
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['hostname'] = $configure['meta_database_host'];
+$db['default']['username'] = $configure['meta_database_user'];
+$db['default']['password'] = $configure['meta_database_pass'];
+$db['default']['database'] = $configure['meta_database_name'];
+$db['default']['dbdriver'] = $configure['meta_database_type'];
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

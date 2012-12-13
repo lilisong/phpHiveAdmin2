@@ -13,8 +13,8 @@ class Hive_model extends CI_Model
 
 	public function show_databases()
 	{
-		$host=$this->config->item('hivehost');
-		$port=$this->config->item('hiveport');
+		$host=$this->config->item('hive_host');
+		$port=$this->config->item('hive_port');
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
@@ -35,8 +35,8 @@ class Hive_model extends CI_Model
 	
 	public function desc_formatted_table($db_name = 'default', $tbl_name = '', $key = '1')
 	{
-		$host=$this->config->item('hivehost');
-		$port=$this->config->item('hiveport');
+		$host=$this->config->item('hive_host');
+		$port=$this->config->item('hive_port');
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
@@ -149,8 +149,8 @@ class Hive_model extends CI_Model
 
 	public function get_example_data($db_name = 'default', $tbl_name = '', $limit = '2')
 	{
-		$host=$this->config->item('hivehost');
-		$port=$this->config->item('hiveport');
+		$host=$this->config->item('hive_host');
+		$port=$this->config->item('hive_port');
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
@@ -185,8 +185,8 @@ class Hive_model extends CI_Model
 
 	public function desc_table_hiveudfs($db_name = 'default', $tbl_name = '')
 	{
-		$host=$this->config->item('hivehost');
-		$port=$this->config->item('hiveport');
+		$host=$this->config->item('hive_host');
+		$port=$this->config->item('hive_port');
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
@@ -235,8 +235,8 @@ class Hive_model extends CI_Model
 
 	public function show_tables($db_name = 'default')
 	{
-		$host=$this->config->item('hivehost');
-		$port=$this->config->item('hiveport');
+		$host=$this->config->item('hive_host');
+		$port=$this->config->item('hive_port');
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
@@ -259,8 +259,8 @@ class Hive_model extends CI_Model
 	
 	public function get_cluster_status()
 	{
-		$host=$this->config->item('hivehost');
-		$port=$this->config->item('hiveport');
+		$host=$this->config->item('hive_host');
+		$port=$this->config->item('hive_port');
 		$transport = new TSocket($host, $port);
 		$protocol = new TBinaryProtocol($transport);
 		$client = new ThriftHiveClient($protocol);
