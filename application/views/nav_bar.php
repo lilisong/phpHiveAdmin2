@@ -9,7 +9,7 @@
 			<div class="nav-collapse collapse">
 				<ul class="nav">
 				<li class="">
-					<a class="active" href="index.php" target="left">
+					<a class="active" href="/index.php">
 						<?php echo $common_hql_query;?>
 					</a>
 				</li>
@@ -19,27 +19,27 @@
 					</a>
 				</li>
 				<li class="">
-					<a href="getClusterStatus.php" target="right">
+					<a href="getClusterStatus.php">
 						<?php echo $common_cluster_status;?>
 					</a>
 				</li>
 				<li class="">
-					<a href="fileBrowser.php" target="right">
+					<a href="fileBrowser.php">
 						<?php echo $common_hdfs_browser;?>
 					</a>
 				</li>
 				<li class="">
-					<a href="metaSummury.php" target="right">
+					<a href="metaSummury.php">
 						<?php echo $common_meta_summury;?>
 					</a>
 				</li>
 				<li class="">
-					<a href="history.php" target="right">
+					<a href="history.php">
 						<?php echo $common_history;?>
 					</a>
 				</li>
 				<li class="">
-					<a href="logOut.php" target="_parent">
+					<a href="logOut.php">
 						<?php echo $common_log_out;?>
 					</a>
 				</li>

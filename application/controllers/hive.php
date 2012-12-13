@@ -10,6 +10,8 @@ class HiveDatabase extends CI_Controller
 	public function DropDatabase($db_name)
 	{
 		$this->load->model('hive_model','hive');
+		$ret = $this->hive->drop_database($db_name);
+		echo $ret;
 	}
 }
 

@@ -1,10 +1,10 @@
 <div class="span2">
 <table class="table table-hover">
-<?php foreach ($db_list as $item):?>
+<?php foreach ($table_list as $item):?>
 	<tr>
 		<td>
 			<i class="icon-zoom-in"></i>
-			<a href="/index.php/manage/ShowTables/<?php echo $item;?>">
+			<a href="/index.php/manage/SqlQuery/<?php echo $var_db_name;?>/<?php echo $item;?>">
 				<?php echo $item;?>
 			</a>
 		</td>
