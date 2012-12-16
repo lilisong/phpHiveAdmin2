@@ -1,8 +1,8 @@
 <?php
 class Hive_model extends CI_Model
 {
-	public $hive_host = $this->config->item('hive_host');
-	public $hive_port = $this->config->item('hive_port');
+	public $hive_host;
+	public $hive_port;
 	public $transport;
 	public $protocol;
 	public $hive;
@@ -17,6 +17,8 @@ class Hive_model extends CI_Model
 		include_once $GLOBALS['THRIFT_ROOT'] . 'transport/TSocket.php';
 		include_once $GLOBALS['THRIFT_ROOT'] . 'protocol/TBinaryProtocol.php';
 		
+		$this->hive_host = $this->config->item('hive_host');
+		$this->hive_port = $this->config->item('hive_port');
 		$this->transport = new TSocket($this->hive_host, $this->hive_port);
 		$this->protocol = new TBinaryProtocol($this->transport);
 		$this->hive = new ThriftHiveClient($this->protocol);

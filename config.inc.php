@@ -36,7 +36,7 @@ Please see `hive --service -help` for more help
 如果需要的话，设置metastore访问的主机和端口
 请查看 `hive --service -help`获取thrift帮助和metastore帮助
 */
-$configure['hive_thrift_host'] = '127.0.0.1';
+$configure['hive_thrift_host'] = '114.112.70.45';
 $configure['hive_thrift_port'] = '10000';
 $configure['hive_metastore_host'] = '127.0.0.1';
 $configure['hive_metastore_port'] = '9083';

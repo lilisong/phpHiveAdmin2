@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<title><?php echo $title?></title>
 	<meta name="description" content="phpHiveAdmin,Hive,Apache,Hadoop,php,admin">
-	<meta name="author" content="Xianglei,Shidongjie">
+	<meta name="author" content="Slaytanic,Hivefans">
 	<!-- end: Meta -->
 
 	<!-- start: Mobile Specific -->
