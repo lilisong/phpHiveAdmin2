@@ -37,7 +37,9 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-
+$route['hive'] = "Hive";
+$route['table'] = "Table";
+$route['query'] = "Query";
 $route['default_controller'] = "manage";
 $route['404_override'] = '';
 

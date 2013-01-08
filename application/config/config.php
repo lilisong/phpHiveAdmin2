@@ -371,12 +371,14 @@ Hive与Hadoop的运行环境设置， 不要修改这里的任何东西！！！
 $config['language']	= $configure['language'];
 $config['hive_host'] = $configure['hive_thrift_host'];
 $config['hive_port'] = $configure['hive_thrift_port'];
-$config['metastore_host'] = $configure['hive_metastore_host'];
-$config['metastore_port'] = $configure['hive_metastore_port'];
 $config['hadoop_home'] = $configure['hadoop_home'];
 $config['java_home'] = $configure['java_home'];
 $config['hive_home'] = $configure['hive_home'];
 $config['lang_set'] = $configure['lang_set'];
 $config['output_seperator'] = $configure['output_seperator'];
+
+$config['etl_path'] = $configure['root_path'] . '/etl/';
+$config['result_path'] = $configure['root_path'] . '/results/';
+$config['log_path'] = $configure['root_path'] . '/logs/';
 
 

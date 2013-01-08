@@ -1,11 +1,11 @@
 <div class="span10">
-<?php if(count($table_list) != 0):?>
+	<?php if(count($table_list) != 0):?>
 
-	<button type=button class="btn disabled"><i class=icon-remove></i><?php echo $common_drop_database;?></button>
+	<a class="btn disabled"><i class=icon-remove></i><?php echo $common_drop_database;?></a>
 
 	<?php else:?>
 
-	<button type=button class="btn btn-danger"><i class=icon-remove></i><?php echo $common_drop_database;?></button>
+	<a class="btn btn-danger" href="#drop_database" data-toggle="modal"><i class=icon-remove></i><?php echo $common_drop_database;?></a>
 
 	<?php endif;?>
 
@@ -37,22 +37,22 @@
 		<?php foreach($table_list as $item):?>
 			<tr>
 				<td>
-				<i class="icon-th-list"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/SqlQuery/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $item;?></a>
+				<i class="icon-th-list"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/query/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $item;?></a>
 				</td>
 				<td>
-				<i class="icon-pencil"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/AlterTable/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_alter_table;?></a>
+				<i class="icon-pencil"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/altertable/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_alter_table;?></a>
 				</td>
 				<td>
-				<i class="icon-chevron-right"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/LoadData/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_load_data;?></a>
+				<i class="icon-chevron-right"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/loaddata/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_load_data;?></a>
 				</td>
 				<td>
-				<i class="icon-random"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/CloneTable/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_clone_table;?></a>
+				<i class="icon-random"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/clonetable/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_clone_table;?></a>
 				</td>
 				<td>
-				<i class="icon-zoom-in"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/TableDetail/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_table_detail;?></a>
+				<i class="icon-zoom-in"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/tabledetail/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_table_detail;?></a>
 				</td>
 				<td>
-				<i class="icon-remove"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/DropTable/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_drop_table;?></a>
+				<i class="icon-remove"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/droptable/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_drop_table;?></a>
 				</td>
 			</tr>
 		<?php endforeach;?>

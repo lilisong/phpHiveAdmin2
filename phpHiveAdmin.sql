@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `ehm_pha_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 INSERT INTO `ehm_pha_user` (`id`, `username`, `password`, `role`) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'superadmin');
 
-CREATE TABLE IF NOT EXISTS `ehm_pha_job` (
+CREATE TABLE IF NOT EXISTS `ehm_pha_history_job` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(60) NOT NULL,
   `fingerprint` varchar(100) NOT NULL,

@@ -7,25 +7,7 @@ The path in system that where phpHiveAdmin put, please do not change it.
 
 phpHiveAdmin所在文件系统路径，自动获取，请不要修改。
 */
-$configure['fs_root'] = __DIR__;
-
-/*
-Settting up where the metadata of Hive stored.
-Support some usually database, like mysql, mysqli, postgresql, oracle...
-Need compile the drivers with php first.
-but not support Derby(Apache) access.
-
-设置Hive存储元数据所使用的数据库
-支持常用的数据库连接方式，例如mysql,mysqli,postgresql,oracle等等
-需预先在php中编译该数据库的驱动
-但是不支持Derby(Apache)访问
-*/
-$configure['meta_database_host'] = '127.0.0.1';
-$configure['meta_database_port'] = '3306';
-$configure['meta_database_user'] = 'root';
-$configure['meta_database_pass'] = '123456';
-$configure['meta_database_type'] = 'mysql';
-$configure['meta_database_name'] = 'phphiveadmin';
+$configure['root_path'] = __DIR__;
 
 /*
 Setting up hiveserver thrift host and port,
@@ -36,10 +18,8 @@ Please see `hive --service -help` for more help
 如果需要的话，设置metastore访问的主机和端口
 请查看 `hive --service -help`获取thrift帮助和metastore帮助
 */
-$configure['hive_thrift_host'] = '114.112.70.45';
+$configure['hive_thrift_host'] = '127.0.0.1';
 $configure['hive_thrift_port'] = '10000';
-$configure['hive_metastore_host'] = '127.0.0.1';
-$configure['hive_metastore_port'] = '9083';
 
 /*
 Setting up languages you need in phpHiveAdmin user interface,
@@ -74,8 +54,6 @@ please use linux commandline console to chmod these path below to 777
 设置phpHiveAdmin的输出路径
 请使用Linux命令行终端来将下列路径chmod为777
 */
-$configure['etl_path'] = $configure['fs_root'] . '/etl/';
-$configure['result_path'] = $configure['fs_root'] . '/results/';
-$configure['log_path'] = $configure['fs_root'] . '/logs/';
+
 
 ?>

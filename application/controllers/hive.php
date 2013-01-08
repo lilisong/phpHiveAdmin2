@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class HiveDatabase extends CI_Controller
+class Hive extends CI_Controller
 {
 	public function __construct()
 	{
@@ -10,8 +10,20 @@ class HiveDatabase extends CI_Controller
 	public function DropDatabase($db_name)
 	{
 		$this->load->model('hive_model','hive');
-		$ret = $this->hive->drop_database($db_name);
-		echo $ret;
+		echo $this->hive->drop_database($db_name);
+		$this->load->helper('url');
+		redirect($this->config->base_url(), "0", "refresh");
+	}
+	
+	public function CreateDatabase()
+	{
+		$this->load->model('hive_model','hive');
+		$db_name = $this->input->post('db_name');
+		$db_comment = $this->input->post('db_comment');
+		
+		$this->load->helper('url');
+		echo $this->hive->create_database($db_name, $db_comment);
+		redirect($this->config->base_url(), "3", "refresh");
 	}
 }
 

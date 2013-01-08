@@ -54,7 +54,7 @@ SQL查询-->
 </table>
 <br>
 
-<script src="/js/auto.js" type="text/javascript"></script>
+<!--<script src="<?php echo $this->config->base_url();?>js/auto.js" type="text/javascript"></script>-->
 	<script type="text/javascript">
 		var hiveudfs = [];
 		function initHiveudfsTextarea() {

@@ -3,7 +3,7 @@
 $(function () {
 	var chart = new Highcharts.Chart({
 		chart: {
-			backgroundColor: "#F5F5F5",
+			backgroundColor: "#FFFFFF",
 			renderTo: 'mapred_slot_realtime',
 			type: 'gauge',
 			plotBorderWidth: 1,
@@ -110,7 +110,7 @@ $(function () {
 			var leftVal;
 			var rightVal;
 
-			$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/GetClusterStatus/', function(data){
+			$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/getclusterstatus/', function(data){
 				leftVal =  data.mapTasks;
 				rightVal = data.reduceTasks;
 				
@@ -140,7 +140,7 @@ $(function () {
 		var chart;
 		chart = new Highcharts.Chart({
 			chart: {
-				backgroundColor: "#F5F5F5",
+				backgroundColor: "#FFFFFF",
 				renderTo: 'mapred_slots_lines',
 				type: 'spline',
 				marginRight: 10,
@@ -158,7 +158,7 @@ $(function () {
 								
 							maps.addPoint([x1, y1], true, true);
 							reduces.addPoint([x2, y2], true, true);
-							$.getJSON("<?php echo $this->config->base_url();?>index.php/manage/GetClusterStatus/", function(data){
+							$.getJSON("<?php echo $this->config->base_url();?>index.php/manage/getclusterstatus/", function(data){
 								map=data.mapTasks;
 								reduce = data.reduceTasks;
 							});

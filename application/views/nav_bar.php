@@ -1,6 +1,7 @@
 <!--Nav bar area-->
 <div class="navbar navbar-inverse">
 	<div class="navbar-inner">
+		<a class="brand" href="<?php echo $this->config->base_url();?>"><?php echo $common_title;?></a>
 		<div class="container">
 			<!--<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 				<span class="icon-bar"></span>

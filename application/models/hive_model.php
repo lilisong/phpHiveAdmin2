@@ -1,4 +1,5 @@
 <?php
+
 class Hive_model extends CI_Model
 {
 	public $hive_host;
@@ -6,14 +7,13 @@ class Hive_model extends CI_Model
 	public $transport;
 	public $protocol;
 	public $hive;
-	public $metastore;
-	
+
+
 	public function __construct()
 	{ 
 		parent::__construct();
 		$GLOBALS['THRIFT_ROOT'] = __DIR__ . "/../../libs/";
 		include_once $GLOBALS['THRIFT_ROOT'] . 'packages/hive_service/ThriftHive.php';
-		#include_once $GLOBALS['THRIFT_ROOT'] . 'packages/hive_metastore/ThriftHiveMetastore.php';
 		include_once $GLOBALS['THRIFT_ROOT'] . 'transport/TSocket.php';
 		include_once $GLOBALS['THRIFT_ROOT'] . 'protocol/TBinaryProtocol.php';
 		
@@ -24,13 +24,13 @@ class Hive_model extends CI_Model
 		$this->hive = new ThriftHiveClient($this->protocol);
 	}
 
+
 	public function show_databases()
 	{
 		try
 		{
 			$this->transport->open();
-			$this->hive->execute('show databases');
-			$db_array = $this->hive->fetchAll();        
+			$db_array = $this->hive->get_all_databases();
 			$this->transport->close();
 			return $db_array;
 		}
@@ -39,114 +39,368 @@ class Hive_model extends CI_Model
 			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 	}
-	
-	public function desc_formatted_table($db_name = 'default', $tbl_name = '', $key = '1')
+
+
+	public function create_database($db_name, $db_desc = '')
 	{
+		$sql = "CREATE DATABASE IF NOT EXISTS ".$db_name." COMMENT '".$db_desc."'";
 		try
 		{
 			$this->transport->open();
-			$this->hive->execute('use ' . $db_name);
-			$this->hive->execute('desc formatted ' . $tbl_name);
-			$array_desc_table = $this->hive->fetchAll();
-			#key=1 means columns detail, key=2 means table properties, key=3 means table sets key=4 means partitions
-			foreach($array_desc_table as $k=>$v)
-			{
-				if(preg_match('/^	 	 /',$v))
-				{
-					$index[$k] = $k;
-				}
-			}
-
-			$index = $this->array_reindex($index);
-			if($key == "1")
-			{
-				$offset = 2;
-				for ($i = $offset; $i < $index[1]; $i++)
-				{
-					$arr[$i] = trim($array_desc_table[$i]);
-				}
-			}
-			elseif($key == "2")
-			{
-				foreach($array_desc_table as $k => $v)
-				{
-					if(preg_match('/^# Detailed/',$v))
-					{
-						$offset_start = $k+1;
-					}
-					if(preg_match('/^# Storage/',$v))
-					{
-						$offset_end = $k-1;
-					}
-				}
-				for($i = $offset_start; $i < $offset_end; $i++)
-				{
-					$arr[$i] = trim($array_desc_table[$i]);
-				}
-			}
-			elseif($key == "3")
-			{
-				foreach($array_desc_table as $k => $v)
-				{
-					if(preg_match('/^# Storage/',$v))
-					{
-						$offset_start = $k+1;
-					}
-				}
-				$offset_end = count($array_desc_table);
-				for($i = $offset_start; $i <= $offset_end; $i++)
-				{
-					$arr[$i] = trim($array_desc_table[$i]);
-				}
-			}
-			elseif($key == "4")
-			{
-				foreach($array_desc_table as $k => $v)
-				{
-					if(preg_match('/^# Partition/',$v))
-					{
-						$offset_start = $k+3;
-					}
-					else
-					{
-						$offset_start = "";
-					}
-					if(preg_match('/^# Detailed/',$v))
-					{
-						$offset_end = $k-1;
-					}
-					else
-					{
-						$offset_end = "";
-					}
-				}
-				if($offset_start == "")
-				{
-					$arr = array();
-				}
-				else
-				{
-					for($i = $offset_start; $i < $offset_end; $i++)
-					{
-						$arr[$i] = trim($array_desc_table[$i]);
-					}
-				}
-			}
-			else
-			{
-				$arr = array();
-			}
-			$arr = $this->array_reindex($arr);
-
+			$this->hive->execute($sql);
 			$this->transport->close();
-			
-			return $arr;
+			return $sql;
 		}
 		catch (Exception $e)
 		{
 			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 	}
+
+
+	public function drop_database($db_name, $del = FALSE)
+	{
+		try
+		{
+			$this->transport->open();
+			$this->hive->drop_database($db_name, $del);
+			$this->transport->close();
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+	
+
+/**************************************database*****************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/**************************************table********************************************************/
+
+	public function create_table($db_name, $tbl_name, $tbl_comment = " ", $cols_name = array(), $cols_type = array(), $cols_comment = array(), 
+								$part_name = array(), $part_type = array(), $part_comment = array(),
+								$external = ' EXTERNAL_TABLE ', $store_type = 'text', $line_term = '\n', $cols_term = '\t',
+								$location = 'hdfs:///user/hive/warehouse/')
+	{
+		#external = true external_table, external = false, managed_table, other input table_name | MANAGED_TABLE, EXTERNAL_TABLE, VIRTUAL_VIEW, INDEX_TABLE
+		#store_type :
+		#text => ' STORED AS TEXTFILE ', 
+		#lzo => ' STORED AS INPUTFORMAT \"com.hadoop.mapred.DeprecatedLzoTextInputFormat\" OUTPUTFORMAT \"org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat\" '
+		#sequence => ' STORED AS SEQUENCEFILE '
+		#rcfile => ' STORED AS RCFILE '
+		#gzip => ' STORED AS TEXTFILE '
+		#bzip2 => ' STORED AS TEXTFILE '
+		#default => ' STORED AS TEXTFILE '
+		
+		switch($external)
+		{
+			case "MANAGED_TABLE":
+				$extern = " ";
+				$on_table = " ";
+				$if = " IF NOT EXIST ";
+				$location = " ";
+				break;
+			case "EXTERNAL_TABLE":
+				$extern = " EXTERNAL ";
+				$on_table = " ";
+				$if = " IF NOT EXIST ";
+				if($location != 'hdfs:///user/hive/warehouse/')
+					$location = " " . $location . " ";
+				else
+					$location = " " . $location . $db_name . ".db/" . $tbl_name;
+				break;
+			#not support index and view yet
+			/*case "INDEX_TABLE":
+				$extern = " INDEX ";
+				$on_table = " ON ";
+				$if = " ";
+				$location = " ";
+				break;
+			case "VIRTUAL_VIEW":
+				$extern = " VIEW ";
+				$on_table = " ON ";
+				$if = " ";
+				$location = " ";
+				break;*/
+		}
+		###################
+		$sql = "CREATE ";
+		$sql = $sql . $extern . " TABLE " . $on_table . $if ." `". $db_name . "`.`" . $tbl_name . "` ";
+		###################
+		#create external table if not exist `db_name`.`table_name` (
+		#create table if not exist `db_name`.`table_name` (
+		#create index on `db_name`.`table_name`
+		#create view on `db_name`.`table_name`
+		$i = 0;
+		$cols = "";
+		while("" != $cols_name[$i])
+		{
+			#generate `cols1_name` INT COMMENT 'cols1_comment', `cols2_name` INT COMMENT 'cols2_comment', 
+			$cols .= "`".$cols_name[$i]."` ".$cols_type[$i]." COMMENT '".$cols_comment[$i]."',";
+			$i++;
+		}
+		$cols = substr($cols, 0 , -1);
+		$cols = "(". $cols . ")";
+		
+		$tbl_comment = " COMMENT '". $tbl_comment ."'";
+		##############
+		$sql = $sql . $cols . $tbl_comment;
+		##############
+		#generate partitions hql
+		if(count($part_name) > 0)
+		{
+			$i = 0;
+			$part = "";
+			while ("" != $part_name[$i])
+			{
+				$part .= "`".$part_name[$i]."` ".$part_type[$i]." COMMENT '".$part_comment[$i]."',";
+				$i++;
+			}
+			$part = substr($part, 0, -1);
+			$part = " PARTITIONED BY (" . $part . ")";
+		}
+		else
+		{
+			$part = " ";
+		}
+		#############
+		$sql = $sql . $part;
+		#############
+		switch($store_type)
+		{
+			case "text":
+				$stored = ' STORED AS TEXTFILE ';
+				break;
+			case "lzo":
+				$stored = ' STORED AS INPUTFORMAT \"com.hadoop.mapred.DeprecatedLzoTextInputFormat\" OUTPUTFORMAT \"org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat\" ';
+				break;
+			case "sequence":
+				$stored = ' STORED AS SEQUENCEFILE ';
+				break;
+			case "rcfile":
+				$stored = ' STORED AS RCFILE ';
+				break;
+			case "gzip":
+				$stored = ' STORED AS TEXTFILE ';
+				break;
+			case "bzip2":
+				$stored = ' STORED AS TEXTFILE ';
+				break;
+			default:
+				$stored = ' STORED AS TEXTFILE ';
+				break;
+		}
+		
+		$cols_term = stripcslashes($cols_term);
+		$line_term = stripcslashes($line_term);
+		$cols_term = " ROW FORMAT DELIMITED FIELDS TERMINATED BY \"".$cols_term."\" ";
+		$line_term = " LINES TERMINATED BY \"".$line_term."\" ";
+		####################
+		$sql = $sql . $cols_term . $line_term . $stored . $location;
+		####################
+		
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function clone_table($db_name, $tbl_name, $stbl_name, $external = TRUE, $location = 'hdfs:///user/hive/warehouse/')
+	{
+		if($location == 'hdfs:///user/hive/warehouse/')
+		{
+			$location = 'hdfs:///user/hive/warehouse/'.$db_name.'.db/'.$tbl_name;
+		}
+		else
+		{
+			$location = $location;
+		}
+		if($external == TRUE)
+		{
+			$sql = "CREATE EXTERNAL TABLE IF NOT EXIST `".$db_name."`.`".$tbl_name."` LIKE " . $stbl_name . " " . $location;
+		}
+		else
+		{
+			$sql = "CREATE TABLE IF NOT EXIST `".$db_name."`.`".$tbl_name."` LIKE " . $stbl_name . " ";
+		}
+		
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function drop_table($db_name = 'default', $tbl_name = '', $del = FALSE)
+	{
+		try
+		{
+			$this->transport->open();
+			$this->hive->drop_table($db_name, $tbl_name, $del);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function rename_table($db_name, $src_tbl_name, $dest_tbl_name)
+	{
+		$sql = "ALTER TABLE `".$src_tbl_name."` RENAME TO `".$dest_tbl_name."`";
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function get_table_detail($db_name = 'default', $tbl_name = '', $key = 'cols')
+	{
+		# key=cols means columns detail
+		# key=bucketCols means bucketCols detail
+		# key=sortCols means sortCols detail
+		# key=partitionKeys means partitions detail
+		# key=properties means other table description
+
+		try
+		{
+			$this->transport->open();
+
+			$tbl_obj = $this->hive->get_table($db_name, $tbl_name);
+			$array = array();
+			switch($key)
+			{
+				case 'cols':
+					$cols = $tbl_obj->sd->cols;
+					$i = 0;
+					foreach($cols as $k=>$v)
+					{
+						$array['name'][$i] = $v->name;
+						$array['type'][$i] = $v->type;
+						$array['comment'][$i] = $v->comment;
+						$i++;
+					}
+					break;
+				case 'bucketCols':
+					$cols = $tbl_obj->sd->bucketCols;
+					$i = 0;
+					foreach($cols as $k=>$v)
+					{
+						$array['name'][$i] = $v->name;
+						$array['type'][$i] = $v->type;
+						$array['comment'][$i] = $v->comment;
+						$i++;
+					}
+					break;
+				case 'sortCols':
+					$cols = $tbl_obj->sd->bucketCols;
+					$i = 0;
+					foreach($cols as $k=>$v)
+					{
+						$array['name'][$i] = $v->name;
+						$array['type'][$i] = $v->type;
+						$array['comment'][$i] = $v->comment;
+						$i++;
+					}
+					break;
+				case 'partitionKeys':
+					$cols = $tbl_obj->partitionKeys;
+					$i = 0;
+					foreach($cols as $k=>$v)
+					{
+						$array['name'][$i] = $v->name;
+						$array['type'][$i] = $v->type;
+						$array['comment'][$i] = $v->comment;
+						$i++;
+					}
+					break;
+				case 'properties':
+					$array = array();
+					$array['tableName'] = $tbl_obj->tableName;
+					$array['dbName'] = $tbl_obj->dbName;
+					$array['owner'] = $tbl_obj->owner;
+					$array['createTime'] = $tbl_obj->createTime;
+					$array['lastAccessTime'] = $tbl_obj->lastAccessTime;
+					$array['retention'] = $tbl_obj->retention;
+					$array['location'] = $tbl_obj->sd->location;
+					$array['inputFormat'] = $tbl_obj->sd->inputFormat;
+					$array['outputFormat'] = $tbl_obj->sd->outputFormat;
+					$array['compressed'] = $tbl_obj->sd->compressed;
+					$array['numBuckets'] = $tbl_obj->sd->numBuckets;
+					$array['serdeInfo_name'] = $tbl_obj->sd->serdeInfo->name;
+					$array['serdeInfo_serializationLib'] = $tbl_obj->sd->serdeInfo->serializationLib;
+					$array['parameters_EXTERNAL'] = $tbl_obj->parameters['EXTERNAL'];
+					$array['parameters_transient_lastDdlTime'] = $tbl_obj->parameters['transient_lastDdlTime'];
+					$array['viewOriginalText'] = $tbl_obj->viewOriginalText;
+					$array['viewExpandedText'] = $tbl_obj->viewExpandedText;
+					$array['tableType'] = $tbl_obj->tableType;
+					$array['privileges'] = $tbl_obj->privileges;
+					break;
+				default:
+					break;
+			}
+			$this->transport->close();
+			
+			return $array;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function get_table_cols($db_name = 'default', $tbl_name = '')
+	{
+		try
+		{
+			$this->transport->open();
+			$obj = $this->hive->get_schema($db_name, $tbl_name);
+			$array_cols = array();
+			$i = 0;
+			foreach($obj as $k => $v)
+			{
+				$array_cols['name'][$i] = $v->name;
+				$array_cols['type'][$i] = $v->type;
+				$array_cols['comment'][$i] = $v->comment;
+				$i++;
+			}
+			$this->transport->close();
+			
+			return $array_cols;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
 
 	public function get_example_data($db_name = 'default', $tbl_name = '', $limit = '2')
 	{
@@ -179,6 +433,7 @@ class Hive_model extends CI_Model
 		}
 	}
 
+
 	public function desc_table_hiveudfs($db_name = 'default', $tbl_name = '')
 	{
 		$str = "";
@@ -186,7 +441,7 @@ class Hive_model extends CI_Model
 		{
 			#Hql language defination file
 			$file = __DIR__ . "/../../js/hiveudfs.txt";
-
+			
 			if($tbl_name == "" || !$tbl_name)
 			{
 				#Use default defination as an array if not set table name
@@ -195,28 +450,22 @@ class Hive_model extends CI_Model
 			else
 			{
 				#insert Table name and column names into Hql language defination arrays
-				$this->transport->open();
-				$this->hive->execute('use ' . $db_name);
-				$this->hive->execute('desc ' . $tbl_name);
-				$array_desc_table = $this->hive->fetchAll();
-				$transport->close();
-				$i = 0;
-				while ('' != @$array_desc_table[$i])
+				$cols = $this->get_table_cols($db_name, $tbl_name);
+				
+				$array_col_names=array();
+				for($i = 0; $i<count($cols['name']); $i++)
 				{
-					$array_desc = explode('	',$array_desc_table[$i]);
-					$array_desc_desc[$i] = $array_desc[0];
-					$i++;
+					$arr_col_names[$i] = trim($cols['name'][$i]);
 				}
-				$array_table = array($tbl_name);
+				$array_table = array($tbl_name,$db_name);
 				$array = file($file);
-				$array = array_merge($array,$array_desc_desc);
-				$array = array_merge($array,$array_table);
+				$array = array_merge($array, $array_table, $arr_col_names);
 			}
 			foreach ($array as $key => $value)
 			{
 				$str .= trim($value)."\n";
 			}
-			return $str;
+			return substr($str,0,-1);
 		}
 		catch (Exception $e)
 		{
@@ -224,14 +473,13 @@ class Hive_model extends CI_Model
 		}
 	}
 
+
 	public function show_tables($db_name = 'default')
 	{
 		try
 		{
 			$this->transport->open();
-			$this->hive->execute('use '.$db_name);
-			$this->hive->execute('show tables');
-			$tbl_array = $this->hive->fetchAll();
+			$tbl_array = $this->hive->get_all_tables($db_name);
 			$this->transport->close();
 			return $tbl_array;
 		}
@@ -240,6 +488,173 @@ class Hive_model extends CI_Model
 			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 	}
+	
+/**************************************table********************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/**************************************columns******************************************************/
+	
+	public function add_columns($db_name = 'default', $tbl_name = '', $cols_name = array(), $cols_type = array(), $cols_comment = array())
+	{
+		$i = 0;
+		$cols = "";
+		while("" != $cols_name[$i])
+		{
+			#generate `cols1_name` INT COMMENT 'cols1_comment', `cols2_name` INT COMMENT 'cols2_comment', 
+			$cols .= "`".$cols_name[$i]."` ".$cols_type[$i]." COMMENT '".$cols_comment[$i]."',";
+			$i++;
+		}
+		$cols = substr($cols, 0 , -1);
+		$cols = "(". $cols . ")";
+		
+		$sql = "ALTER TABLE `".$db_name."`.`".$tbl_name."` ADD COLUMNS " . $cols;
+		
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function drop_columns($db_name = 'default', $tbl_name = '', $cols_name = array(), $cols_type = array(), $drop_column_name)
+	{
+		$cols = $this->get_table_detail($db_name, $tbl_name);
+		
+		$str = '';
+		$i = 0;
+		while("" != $cols['name'][$i])
+		{
+			if($cols['name'][$i] == $drop_column_name)
+			{
+				unset($cols['name'][$i]);
+				unset($cols['type'][$i]);
+				unset($cols['comment'][$i]);
+			}
+			$str .= "`" . $cols['name'][$i] . "` " . $cols['type'][$i] . " COMMENT '" . $cols['comment'][$i] . "',";
+			$i++;
+		}
+		$str = substr($str, 0, -1);
+		$str = " ( ". $str . " ) ";
+		$sql = "ALTER TABLE `".$db_name."`.`".$table_name."` REPLACE COLUMNS " . $str;
+		
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function change_column($db_name = 'default', $tbl_name = '', $src_col_name, 
+									$dest_col_name, $dest_col_type, $dest_col_comment)
+	{
+		$sql = "ALTER TABLE `".$db_name."`.`". $tbl_name ."` CHANGE `".$src_col_name."` `".$dest_col_name."` `".$dest_col_type."` COMMENT ".$dest_col_comment ;
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+
+	public function move_column($db_name = 'default', $tbl_name = '', $src_col_name, $src_col_type, $pos = 'AFTER', $dest_col_name)
+	{
+		#$pos = AFTER | FIRST
+		if($pos == "FIRST")
+		{
+			$dest_col_name = '';
+		}
+		$sql = "ALTER TABLE `".$db_name."`.`". $tbl_name ."` CHANGE `".$src_col_name."` `".$src_col_name."` ".$pos." ". $dest_col_name;
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+	
+/**************************************columns******************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/**************************************partitions***************************************************/
+	
+/**************************************partitions***************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/**************************************load data****************************************************/
+	
+	public function load_data($db_name = 'default', $tbl_name = '', $local = 'LOCAL', $path = '/tmp', $partition = '', $overwrite = FALSE)
+	{
+		# $local = LOCAL | HDFS
+		# $path default is /tmp
+		if($local == "HDFS")
+		{
+			$local = "";
+		}
+		else
+		{
+			$local = $local;
+		}
+		
+		if($partition == "")
+		{
+			$partition == " ";
+		}
+		else
+		{
+			$partition = " PARTITION " . $partition;
+		}
+		
+		if($overwrite == FALSE)
+		{
+			$overwrite = " ";
+		}
+		else
+		{
+			$overwrite = " OVERWRITE ";
+		}
+		$sql = "LOAD DATA " . $local . " INPATH '" . $path . "' " .$overwrite . " INTO TABLE " . $db_name . "." . $tbl_name . $partition;
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+	
+/**************************************load data****************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/**************************************etcs*********************************************************/
 	
 	public function get_cluster_status()
 	{
@@ -256,99 +671,51 @@ class Hive_model extends CI_Model
 			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 	}
-	
-	private function array_reindex($pArray)
+
+
+	private function async_execute_hql($command, $file_name, $type, &$code)
 	{
-		if(count($pArray) != 0)
-		{
-			$i = 0;
-			foreach(@$pArray as $value)
-			{
-				$arr[$i] = $value; 
-				$i++;
-			}
-			return $arr;
-		}
-		else
-		{
-			return array();
-		}
-	}
-	
-	public function array_filters($pArray)
-	{
-		if(is_array($pArray) == FALSE)
-		{
-			return False;
-		}
-		$i = 0;
-		foreach ($pArray as $key => $value)
-		{
-			if($value != "")
-			{
-				$arr[$i] = $value;
-			}
-			$i++;
-		}
-		$arr = $this->ArrayReindex($arr);
-		return $arr;
-	}
-	
-	public function make_finger_print()
-	{
-		$mtime = explode(" ",microtime());
-		$date = date("Y-m-d-H-i-s",$mtime[1]);
-		$mtime = (float)$mtime[1] + (float)$mtime[0];
-		$sha1 = $date."_".sha1($mtime);
-		return $sha1;
-	}
-	
-	public function async_execute_hql($pCmd,$pTimestamp,$pFilename,$pType,&$pCode)
-	{
-		global $env;
 		$descriptorspec = array(
 			0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
 			1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
 			2 => array("pipe", "w") // stderr is a file to write to
 		);
-
+		
 		$pipes= array();
 		
-		#$log = $env['logs_path'].$pTimestamp.".debug";
-		#$this->LogAction($log,"w",$pCmd."\n");
+		$process = proc_open($command, $descriptorspec, $pipes);
 		
-		$process = proc_open($pCmd, $descriptorspec, $pipes);
-
 		$output= "";
-
+		
 		if (!is_resource($process))
 		{
 			return false;
 		}
-
+		
 		#close child's input imidiately
 		fclose($pipes[0]);
-
+		
 		stream_set_blocking($pipes[1],0);
 		stream_set_blocking($pipes[2],0);
 		
 		$todo= array($pipes[1],$pipes[2]);
-	
-		$fp = fopen($pFilename,"w");
-		#fwrite($fp,$pTimestamp."\n\n");
+		
+		$fp = fopen($file_name, "w");
+		#fwrite($fp,$time_stamp."\n\n");
 		while( true )
 		{
 			$read= array(); 
 			#if( !feof($pipes[1]) ) $read[]= $pipes[1];
-			if( !feof($pipes[$pType]) )	$read[]= $pipes[$pType];// get system stderr on real time
+			if( !feof($pipes[$type]) )
+				$read[]= $pipes[$type];// get system stderr on real time
 			
 			if (!$read)
 			{
 				break;
 			}
-	
+			
 			$ready= stream_select($read, $write=NULL, $ex= NULL, 2);
-	
+			
 			if ($ready === false)
 			{
 				break; #should never happen - something died
@@ -360,63 +727,52 @@ class Hive_model extends CI_Model
 				$output .= $s;
 				fwrite($fp,$s);
 			}
-	
+		
 		}
-	
+		
 		fclose($fp);
-
+		
 		fclose($pipes[1]);
 		fclose($pipes[2]);
-
-		$pCode= proc_close($process);
-
+		
+		$code= proc_close($process);
+		
 		return $output;
 	}
-	
-	public function export_csv($pFingerPrint)
-	{
-		global $env;
-		$filename1 = $env['output_path'].'/hive_res.'.$pFingerPrint.'.out';
-		$filename2 = $env['output_path'].'/hive_res.'.$pFingerPrint.'.csv';
-		$fp1 = @fopen($filename1,"r");
-		$fp2 = @fopen($filename2,"w");
-		while(!feof($fp1))
-		{
-			$str = str_replace($env['seperator'], ",", fgets($fp1));
-			fputs($fp2,$str);
-		}
-		fclose($fp2);
-		fclose($fp1);
-		
-		unlink($filename1);
-	}
-	
-	public function quicksort_log_file($pArray)
-	{
-		if (count($pArray) <= 1)
-		{
-			return $pArray;
-		}
-		$key = explode("_",$pArray[0]);
-		$key = $key[1];
-		$left_arr = array();
-		$right_arr = array();
-		for ($i=1; $i<count($pArray); $i++)
-		{
-			$sort_key = explode("_",$pArray[$i]);
-			if ( $sort_key[1] <= $key)
-			{
-				$left_arr[] = $pArray[$i];
-			}
-			else
-			{
-				$right_arr[] = $pArray[$i];
-			}
-		}
-		$left_arr = $this->QuickSortForLogFile($left_arr);
-		$right_arr = $this->QuickSortForLogFile($right_arr);
 
-		return array_merge($right_arr, array($pArray[0]), $left_arr);
+
+	public function cli_query($sql)
+	{
+		$this->load->model('utilities', 'util');
+		$LANG = " export LANG=" . $this->config->item('lang_set') . "; ";
+		$JAVA_HOME = " export JAVA_HOME=" . $this->config->item('java_home') . "; ";
+		$HADOOP_HOME = " export HADOOOP_HOME=" . $this->config->item('hadoop_home') . "; ";
+		$HIVE_HOME = " export HIVE_HOME=" . $this->config->item('hive_home'). "; ";
+		
+		$finger_print = $util->make_finger_print();
+		$filename = $util->make_filename($finger_print);
+		$log_file = $filename['log_with_path'];
+		$out_file = $filename['out_with_path'];
+		$run_file = $filename['run_with_path'];
+		
+		$this->load->helper('file');
+		write_file($log_file, $sql);
+		
+		$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
+		
+		$this->async_execute_hql($command, $run_file, 2, $code);
+		$this->utils->export_csv($finger_print);
 	}
+
+
+	public function get_query_status($file_name)
+	{
+		$array = @file($filename);
+		foreach($array as $k => $v)
+		{
+			return nl2br($v);
+		}
+	}
+	
 }
 ?>
