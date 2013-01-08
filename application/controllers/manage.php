@@ -160,7 +160,4 @@ class Manage extends CI_Controller
 		$html = $this->hive->create_database($db_name);
 		echo $html;
 	}
-	
-	public function CreateTable()
-	{}
 }

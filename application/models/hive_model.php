@@ -98,17 +98,17 @@ class Hive_model extends CI_Model
 			case "MANAGED_TABLE":
 				$extern = " ";
 				$on_table = " ";
-				$if = " IF NOT EXIST ";
+				$if = " IF NOT EXISTS ";
 				$location = " ";
 				break;
 			case "EXTERNAL_TABLE":
 				$extern = " EXTERNAL ";
 				$on_table = " ";
-				$if = " IF NOT EXIST ";
+				$if = " IF NOT EXISTS ";
 				if($location != 'hdfs:///user/hive/warehouse/')
-					$location = " " . $location . " ";
+					$location = ' LOCATION "' . $location . '" ';
 				else
-					$location = " " . $location . $db_name . ".db/" . $tbl_name;
+					$location = ' LOCATION "' . $location . $db_name . '.db/' . $tbl_name . '" ';
 				break;
 			#not support index and view yet
 			/*case "INDEX_TABLE":
@@ -132,13 +132,11 @@ class Hive_model extends CI_Model
 		#create table if not exist `db_name`.`table_name` (
 		#create index on `db_name`.`table_name`
 		#create view on `db_name`.`table_name`
-		$i = 0;
 		$cols = "";
-		while("" != $cols_name[$i])
+		for($i = 0; $i < count($cols_name); $i++)
 		{
 			#generate `cols1_name` INT COMMENT 'cols1_comment', `cols2_name` INT COMMENT 'cols2_comment', 
 			$cols .= "`".$cols_name[$i]."` ".$cols_type[$i]." COMMENT '".$cols_comment[$i]."',";
-			$i++;
 		}
 		$cols = substr($cols, 0 , -1);
 		$cols = "(". $cols . ")";
@@ -148,14 +146,12 @@ class Hive_model extends CI_Model
 		$sql = $sql . $cols . $tbl_comment;
 		##############
 		#generate partitions hql
-		if(count($part_name) > 0)
-		{
-			$i = 0;
+		if($part_name[0] != "")
+		{var_dump($part_name);
 			$part = "";
-			while ("" != $part_name[$i])
+			for($i = 0; $i < count($part_name); $i++)
 			{
 				$part .= "`".$part_name[$i]."` ".$part_type[$i]." COMMENT '".$part_comment[$i]."',";
-				$i++;
 			}
 			$part = substr($part, 0, -1);
 			$part = " PARTITIONED BY (" . $part . ")";
@@ -173,7 +169,7 @@ class Hive_model extends CI_Model
 				$stored = ' STORED AS TEXTFILE ';
 				break;
 			case "lzo":
-				$stored = ' STORED AS INPUTFORMAT \"com.hadoop.mapred.DeprecatedLzoTextInputFormat\" OUTPUTFORMAT \"org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat\" ';
+				$stored = ' STORED AS INPUTFORMAT "com.hadoop.mapred.DeprecatedLzoTextInputFormat" OUTPUTFORMAT "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat" ';
 				break;
 			case "sequence":
 				$stored = ' STORED AS SEQUENCEFILE ';
@@ -201,7 +197,7 @@ class Hive_model extends CI_Model
 		####################
 		
 		try
-		{
+		{echo $sql;
 			$this->transport->open();
 			$this->hive->execute($sql);
 			$this->transport->close();
@@ -218,23 +214,23 @@ class Hive_model extends CI_Model
 	{
 		if($location == 'hdfs:///user/hive/warehouse/')
 		{
-			$location = 'hdfs:///user/hive/warehouse/'.$db_name.'.db/'.$tbl_name;
+			$location = ' LOCATION "hdfs:///user/hive/warehouse/'.$db_name.'.db/'.$tbl_name.'" ';
 		}
 		else
 		{
-			$location = $location;
+			$location = ' LOCATION "'. $location.'"';
 		}
 		if($external == TRUE)
 		{
-			$sql = "CREATE EXTERNAL TABLE IF NOT EXIST `".$db_name."`.`".$tbl_name."` LIKE " . $stbl_name . " " . $location;
+			$sql = "CREATE EXTERNAL TABLE IF NOT EXISTS `".$db_name."`.`".$tbl_name."` LIKE `". $db_name ."`.`" . $stbl_name . "` " . $location;
 		}
 		else
 		{
-			$sql = "CREATE TABLE IF NOT EXIST `".$db_name."`.`".$tbl_name."` LIKE " . $stbl_name . " ";
+			$sql = "CREATE TABLE IF NOT EXISTS `".$db_name."`.`".$tbl_name."` LIKE `". $db_name ."`.`" . $stbl_name . "` ";
 		}
 		
 		try
-		{
+		{echo $sql;
 			$this->transport->open();
 			$this->hive->execute($sql);
 			$this->transport->close();
@@ -254,7 +250,7 @@ class Hive_model extends CI_Model
 			$this->transport->open();
 			$this->hive->drop_table($db_name, $tbl_name, $del);
 			$this->transport->close();
-			return $sql;
+			//return $sql;
 		}
 		catch (Exception $e)
 		{
@@ -271,7 +267,6 @@ class Hive_model extends CI_Model
 			$this->transport->open();
 			$this->hive->execute($sql);
 			$this->transport->close();
-			return $sql;
 		}
 		catch (Exception $e)
 		{
@@ -355,7 +350,10 @@ class Hive_model extends CI_Model
 					$array['numBuckets'] = $tbl_obj->sd->numBuckets;
 					$array['serdeInfo_name'] = $tbl_obj->sd->serdeInfo->name;
 					$array['serdeInfo_serializationLib'] = $tbl_obj->sd->serdeInfo->serializationLib;
-					$array['parameters_EXTERNAL'] = $tbl_obj->parameters['EXTERNAL'];
+					$array['serialization_format'] = $tbl_obj->sd->serdeInfo->parameters['serialization.format'];
+					//$array['line_delim'] = $tbl_obj->sd->serdeInfo->parameters['line.delim'];
+					//$array['field_delim'] = $tbl_obj->sd->serdeInfo->parameters['field.delim'];
+					//$array['parameters_EXTERNAL'] = $tbl_obj->parameters['EXTERNAL'];
 					$array['parameters_transient_lastDdlTime'] = $tbl_obj->parameters['transient_lastDdlTime'];
 					$array['viewOriginalText'] = $tbl_obj->viewOriginalText;
 					$array['viewExpandedText'] = $tbl_obj->viewExpandedText;
