@@ -219,11 +219,9 @@ class Manage extends CI_Controller
 		
 		
 		$data['common_download_result'] = $this->lang->line('common_download_result');
-		$this->load->view('get_result', $data);
 		$data['sql_columns'] = $sql_columns;
 		$data['data_matrix'] = $data_matrix;
-		
-		
+		$this->load->view('get_result', $data);
 		
 		$this->load->view('div_end');
 		$this->load->view('div_end');

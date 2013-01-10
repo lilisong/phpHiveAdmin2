@@ -1,5 +1,5 @@
 <div class="span12">
-<input type="button" class="btn btn-success" name=download value="<?php echo $common_download_result;?>" onclick="">
+<input type="button" class="btn btn-success" name="download" value="<?php echo $common_download_result;?>" onclick="">
 
 <br><br>
 
