@@ -168,16 +168,23 @@ class Manage extends CI_Controller
 	{
 		set_time_limit(0);
 		$sql = $this->input->post('sql');
+		$finger_print = $this->input->post('finger_print');
 		$this->load->model('hive_model', 'hive');
-		$this->hive->cli_query($sql);
+		$this->hive->cli_query($sql, $finger_print);
+	}
+	
+	public function GetFingerPrint()
+	{
+		$this->load->model('utilities_model', 'utils');
+		echo $this->utils->make_finger_print();
 	}
 	
 	public function GetQueryStatus()
 	{
 		set_time_limit(0);
-		$run_file = $this->input->post('run_file');
+		$finger_print = $this->input->post('finger_print');
 		$this->load->model('hive_model', 'hive');
-		$str = $this->hive->get_query_status($run_file);
+		$str = $this->hive->get_query_status($finger_print);
 		echo $str;
 	}
 }

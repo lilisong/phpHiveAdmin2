@@ -2,8 +2,7 @@
 
 function QueryStatus()
 {
-	var filename = document.getElementById('run_file').value;
-	$.post('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/', {run_file:filename}, function(html){
+	$.post('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/', { finger_print:$('#finger_print').val() }, function(html){
 		html = html;
 		$('#sql_query_status').html(html);
 	});
@@ -25,11 +24,11 @@ function RefreshStatus()
 
 			<div id="sql_query_status">
 			</div>
-			<input type="hidden" id="run_file" value="">
+			<input type="hidden" id="finger_print" value="">
 
 	</div>
 	<div class="modal-footer">
 		<a href="" class="btn"><?php echo $common_cli_done;?></a>
-		<a href="#" class="btn btn-primary"><?php echo $common_submit;?></a>
+		<a href="#" class="btn btn-primary" onclick="SqlQuery();RefreshStatus()"><?php echo $common_submit;?></a>
 	</div>
 </div>

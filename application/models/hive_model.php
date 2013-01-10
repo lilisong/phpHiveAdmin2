@@ -766,7 +766,7 @@ class Hive_model extends CI_Model
 	}
 
 
-	public function cli_query($sql)
+	public function cli_query($sql, $finger_print)
 	{
 		$this->load->model('utilities_model', 'utils');
 		$LANG = " export LANG=" . $this->config->item('lang_set') . "; ";
@@ -774,7 +774,6 @@ class Hive_model extends CI_Model
 		$HADOOP_HOME = " export HADOOP_HOME=" . $this->config->item('hadoop_home') . "; ";
 		$HIVE_HOME = " export HIVE_HOME=" . $this->config->item('hive_home'). "; ";
 		
-		$finger_print = $this->utils->make_finger_print();
 		$filename = $this->utils->make_filename($finger_print);
 		$log_file = $filename['log_with_path'];
 		$out_file = $filename['out_with_path'];
@@ -792,11 +791,13 @@ class Hive_model extends CI_Model
 		$this->utils->export_csv($finger_print);
 		sleep(1);
 	}
-
-
-	public function get_query_status($file_name)
+	
+	public function get_query_status($finger_print)
 	{
-		$array = @file($file_name);
+		$this->load->model('utilities_model', 'utils');
+		$filename = $this->utils->make_filename($finger_print);
+		$run_file = $filename['run_with_path'];echo $run_file;
+		$array = @file($run_file);
 		$array = array_reverse($array);
 
 		$str = "";
