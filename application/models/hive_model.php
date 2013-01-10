@@ -781,7 +781,7 @@ class Hive_model extends CI_Model
 		$run_file = $filename['run_with_path'];
 		
 		$this->load->helper('file');
-		if(octal_permissions($this->config->item('log_path')) != "777" || octal_permissions($this->config->item('result_path')) != "777")
+		if(!is_writeable($log_file) || !is_writeable($run_file))
 		{
 			die('Please chmod logs and results directory to 777!!!');
 		}
@@ -797,6 +797,10 @@ class Hive_model extends CI_Model
 
 	public function get_query_status($file_name)
 	{
+		if(!is_readable($file_name))
+		{
+			die('Please chmod logs and results directory to 777!!!');
+		}
 		$array = @file($file_name);
 		$array = array_reverse($array);
 
