@@ -771,7 +771,7 @@ class Hive_model extends CI_Model
 		$this->load->model('utilities_model', 'utils');
 		$LANG = " export LANG=" . $this->config->item('lang_set') . "; ";
 		$JAVA_HOME = " export JAVA_HOME=" . $this->config->item('java_home') . "; ";
-		$HADOOP_HOME = " export HADOOOP_HOME=" . $this->config->item('hadoop_home') . "; ";
+		$HADOOP_HOME = " export HADOOP_HOME=" . $this->config->item('hadoop_home') . "; ";
 		$HIVE_HOME = " export HIVE_HOME=" . $this->config->item('hive_home'). "; ";
 		
 		$finger_print = $this->utils->make_finger_print();
@@ -796,7 +796,7 @@ class Hive_model extends CI_Model
 	{
 		$array = @file($file_name);
 		$array = array_reverse($array);
-		var_dump($array);
+
 		$str = "";
 		foreach($array as $k => $v)
 		{

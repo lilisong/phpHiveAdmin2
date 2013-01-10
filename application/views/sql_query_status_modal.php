@@ -6,19 +6,25 @@ function SqlQuery()
 	
 	$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:hsql}, function(html){
 		html = html;
+		$('#run_file').val(html);
 		//$('#sql_query_status').html(html);
-		setInterval(QueryStatus(html),1000);
 	});
 	
 	
 }
 
-function QueryStatus(filename)
+function QueryStatus()
 {
+	var filename = document.getElementById('run_fule').value;
 	$.post('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/', {run_file:filename}, function(html){
 		html = html;
 		$('#sql_query_status').html(html);
 	});
+}
+
+function RefreshStatus()
+{
+	setInterval(QueryStatus,1000);
 }
 
 </script>
@@ -32,10 +38,11 @@ function QueryStatus(filename)
 
 			<div id="sql_query_status">
 			</div>
+			<input type="hidden" id="run_file" value="">
 
 	</div>
 	<div class="modal-footer">
 		<a href="" class="btn"><?php echo $common_cli_done;?></a>
-		<a href="#" class="btn btn-primary" onclick="SqlQuery()"><?php echo $common_submit;?></a>
+		<a href="#" class="btn btn-primary" onclick="RefreshStatus()"><?php echo $common_submit;?></a>
 	</div>
 </div>

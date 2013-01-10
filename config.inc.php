@@ -35,9 +35,9 @@ Setting up the system environment that used by phpHiveAdmin
 
 设置phpHiveAdmin所使用的系统环境变量
 */
-$configure['hadoop_home'] = '/usr';
+$configure['hadoop_home'] = '/opt/modules/hadoop/hadoop-1.0.3';
 $configure['java_home'] = '/usr/java/default';
-$configure['hive_home'] = '/usr/local/hive';
+$configure['hive_home'] = '/opt/module/hive/hive-0.9.0';
 
 $configure['lang_set'] = 'zh_CN.UTF-8' ;
 //Or en_US.UTF-8, if you are in english countries.
