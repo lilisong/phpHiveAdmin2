@@ -147,7 +147,7 @@ SQL查询-->
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
-				<a href="#sql_query_status_modal" data-toggle="modal" data-keyboard="false" data-backdrop="static" class="btn" onclick="MakeFingerPrint()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
+				<a href="#sql_query_status_modal" data-toggle="modal" data-keyboard="false" data-backdrop="static" onclick="MakeFingerPrint()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
 			</ul>
 		</div>
 
