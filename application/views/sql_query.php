@@ -1,6 +1,6 @@
 <div class="span10">
-<?php echo $var_db_name;?>
-<i class=icon-backward></i>  <a href="<?php echo $this->config->base_url();?>index.php/table/index/<?php echo $var_db_name;?>">返回</a>
+
+<a href="<?php echo $this->config->base_url();?>index.php/table/index/<?php echo $var_db_name;?>"><i class=icon-backward></i>  <?php echo $var_db_name;?> <?php echo $common_back;?></a>
 <br><br>
 
 <div class="btn-group">

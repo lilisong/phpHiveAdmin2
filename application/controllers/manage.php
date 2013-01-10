@@ -114,6 +114,7 @@ class Manage extends CI_Controller
 		
 		#generate query strict on right area
 		$data['common_table_name'] = $this->lang->line('common_table_name');
+		$data['common_back'] = $this->lang->line('common_back');
 		$data['common_alter_table'] = $this->lang->line('common_alter_table');
 		$data['common_load_data'] = $this->lang->line('common_load_data');
 		$data['common_clone_table'] = $this->lang->line('common_clone_table');
