@@ -35,6 +35,13 @@ class Manage extends CI_Controller
 		$data['db_list'] = $this->hive->show_databases();
 		$this->load->view('db_list',$data);
 
+		#Generate add database on right area
+		$data['common_add_database'] = $this->lang->line('common_add_database');
+		$data['common_add_schema'] = $this->lang->line('common_add_schema');
+		$data['common_comment'] = $this->lang->line('common_comment');
+		$data['common_submit'] = $this->lang->line('common_submit');
+		$this->load->view('create_database',$data);
+
 		#Generate Gauge meters
 		$json = json_decode($this->hive->get_cluster_status());
 		$data['maxMapTasks'] = $json->maxMapTasks;
@@ -47,13 +54,6 @@ class Manage extends CI_Controller
 		$data['common_using'] = $this->lang->line('common_using');
 		$data['common_value'] = $this->lang->line('common_value');
 		$this->load->view('mapred_slot_realtime', $data);
-		
-		#Generate add database on right area
-		$data['common_add_database'] = $this->lang->line('common_add_database');
-		$data['common_add_schema'] = $this->lang->line('common_add_schema');
-		$data['common_comment'] = $this->lang->line('common_comment');
-		$data['common_submit'] = $this->lang->line('common_submit');
-		$this->load->view('create_database',$data);
 		
 		$this->load->view('div_end');
 		$this->load->view('div_end');

@@ -1,4 +1,4 @@
-<div class="span4 offset2">
+<div class="span4">
 <img src="/img/phphiveadmin.jpg" />
 <br>
 <br>
