@@ -782,19 +782,15 @@ class Hive_model extends CI_Model
 		
 		$this->load->helper('file');
 		
-		if(!write_file($log_file, $sql))
-		{
-			die('Please chmod logs and results directory to 777 for reading!!!');
-		}
-		else
-		{
-			echo $run_file;
+		@write_file($log_file, $sql);
 		
-			$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
+		echo $run_file;
 		
-			$this->async_execute_hql($cmd, $run_file, 2, $code);
-			$this->utils->export_csv($finger_print);
-		}
+		$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
+		
+		$this->async_execute_hql($cmd, $run_file, 2, $code);
+		$this->utils->export_csv($finger_print);
+
 	}
 
 
