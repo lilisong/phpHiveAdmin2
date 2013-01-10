@@ -33,13 +33,14 @@ function ConfirmClose()
 {
 	window.event.returnValue = pb_strConfirmCloseMessage;
 	pb_blnCloseWindow = true;
+	GetResult();
 }
 
 function ShowConfirmClose(ctrl)
 {
 	if(ctrl)
 	{
-		GetResult();
+		document.body.onbeforeunload = ConfirmClose;
 	}
 	else
 	{
