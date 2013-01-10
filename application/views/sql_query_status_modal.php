@@ -29,7 +29,7 @@ function GetResult()
 
 function ConfirmClose()
 {
-	var confirm = confirm("请确认查询完成后离开本页");
+	var confirm = window.confirm("请确认查询完成后离开本页");
 	if(confirm)
 	{
 		GetResult();
@@ -39,20 +39,6 @@ function ConfirmClose()
 		return false;
 	}
 }
-
-function ShowConfirmClose(ctrl)
-{
-	if(ctrl)
-	{
-		document.body.onbeforeunload = ConfirmClose;
-	}
-	else
-	{
-		document.body.onbeforeunload = null;
-	}
-}
-ShowConfirmClose(true);
-//var int=self.setInterval("QueryStatus()",2000)
 
 </script>
 
@@ -69,7 +55,7 @@ ShowConfirmClose(true);
 
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" onclick="ShowConfirmClose(true)"><?php echo $common_cli_done;?></a>
+		<a href="#" class="btn" onclick="ConfirmClose()"><?php echo $common_cli_done;?></a>
 		<a href="#" class="btn btn-primary" onclick="SqlQuery();RefreshStatus(true)"><?php echo $common_submit;?></a>
 	</div>
 </div>
