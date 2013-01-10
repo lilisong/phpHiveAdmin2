@@ -9,7 +9,7 @@
 			</button>-->
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-				<li <?php if($this->router->class == "manage"){ echo "class=\"active\"";}?>>
+				<li <?php if($this->router->class == "manage" || $this->router->class == "table"){ echo "class=\"active\"";}?>>
 					<a class="active" href="/index.php">
 						<?php echo $common_hql_query;?>
 					</a>

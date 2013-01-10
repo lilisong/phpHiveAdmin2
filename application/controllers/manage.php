@@ -187,4 +187,53 @@ class Manage extends CI_Controller
 		$str = $this->hive->get_query_status($finger_print);
 		echo $str;
 	}
+	
+	public function GetResult()
+	{
+		$finger_print = $this->uri->segment(3,0);
+		
+		$this->load->model('hive_model', 'hive');
+		$data_martix = $this->hive->get_result($finger_print);
+		$this->load->model('utilities_model', 'utils');
+		$sql_columns = $this->utils->split_sql_cols($finger_print);
+		
+		#Generate Header
+		$this->lang->load('commons', 'chinese');
+		$data['common_lang_set'] = $this->lang->line('common_lang_set');
+		$data['common_title'] = $this->lang->line('common_title');
+		$this->load->view('header',$data);
+
+		#Generate Navigation top bar
+		$data['common_hql_query'] = $this->lang->line('common_hql_query');
+		$data['common_etl'] = $this->lang->line('common_etl');
+		$data['common_cluster_status'] = $this->lang->line('common_cluster_status');
+		$data['common_hdfs_browser'] = $this->lang->line('common_hdfs_browser');
+		$data['common_meta_summury'] = $this->lang->line('common_meta_summury');
+		$data['common_history'] = $this->lang->line('common_history');
+		$data['common_log_out'] = $this->lang->line('common_log_out');
+		$this->load->view('nav_bar',$data);
+
+		#Generate div container
+		$this->load->view('div_fluid');
+		$this->load->view('div_row_fluid');
+		
+		
+		$data['common_download_result'] = $this->lang->line('common_download_result');
+		$this->load->view('get_result', $data);
+		$data['sql_columns'] = $sql_columns;
+		$data['data_matrix'] = $data_matrix;
+		
+		
+		
+		$this->load->view('div_end');
+		$this->load->view('div_end');
+
+		#Generate Footer
+		$this->load->view('footer');
+	}
+	
+	public function DownloadResult()
+	{
+		
+	}
 }

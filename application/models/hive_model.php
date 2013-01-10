@@ -789,6 +789,7 @@ class Hive_model extends CI_Model
 		
 		$this->async_execute_hql($cmd, $run_file, 2, $code);
 		$this->utils->export_csv($finger_print);
+		unlink($out_file);
 		sleep(1);
 	}
 	
@@ -812,6 +813,39 @@ class Hive_model extends CI_Model
 		else
 		{
 			die('Do not re-submit!!!');
+		}
+	}
+	
+	public function get_result($finger_print)
+	{
+		$this->load->model('utilities_model', 'utils');
+		$filename = $this->utils->make_filename($finger_print);
+		$csv_file = $filename['csv_with_path'];
+		
+		$this->load->helper('file');
+		if(file_exists($csv_file))
+		{
+			$fp = fopen($csv_file,"r");
+			$i = 0;
+			while($i != 30)
+			{
+				$string .= fgets($fp,4096);
+				$i++;
+			}
+			fclose($fp);
+			if(strlen($string) > 0)
+			{
+				$data_tmp = explode(",", explode("\n", $string));
+				return $data_tmp; // return a matrix
+			}
+			else
+			{
+				die('No result found');
+			}
+		}
+		else
+		{
+			die('Not complete yet, wait and goto history to find.');
 		}
 	}
 	

@@ -163,10 +163,33 @@ class Utilities_model extends CI_Model
 	public function download_csv($file_name)
 	{
 		$this->load->helper('file');
-		$full_file_name = $this->config->item('result_path').$file_name;
+		$full_file_name = $file_name;
 		$this->load->helper('download');
 		$content = readfile($full_file_name);
 		force_download($file_name, $content);
+	}
+	
+	public function split_sql_cols($finger_print)
+	{
+		$this->load->helper('file');
+		$file_name = $this->make_filename($finger_print);
+		$file_name = $file_name['log_with_path'];
+		if(file_exists($file_name))
+		{
+			$sql = read_file($file_name);
+		}
+		else
+		{
+			die('no such file');
+		}
+		
+		$start = stripos($sql, "select") + 6;
+		$end = stripos($sql, "from");
+		$length = $end - $start;
+		$sub = trim(substr($sql,$start,$length));
+		$columns = explode(",", $sub);
+		
+		return $columns; #as an array
 	}
 	
 }
