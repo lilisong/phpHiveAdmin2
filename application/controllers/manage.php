@@ -166,14 +166,15 @@ class Manage extends CI_Controller
 	
 	public function SqlQuery()
 	{
+		set_time_limit(0);
 		$sql = $this->input->post('sql');
 		$this->load->model('hive_model', 'hive');
-		$file_name = $this->hive->cli_query($sql);
-		echo $file_name;
+		$this->hive->cli_query($sql);
 	}
 	
 	public function GetQueryStatus()
 	{
+		set_time_limit(0);
 		$run_file = $this->input->post('run_file');
 		$this->load->model('hive_model', 'hive');
 		$str = $this->hive->get_query_status($run_file);

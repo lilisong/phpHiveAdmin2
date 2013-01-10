@@ -781,14 +781,17 @@ class Hive_model extends CI_Model
 		$run_file = $filename['run_with_path'];
 		
 		$this->load->helper('file');
+		if(octal_permissions($this->config->item('log_path')) != "777" || octal_permissions($this->config->item('result_path')) != "777")
+		{
+			die('Please chmod logs and results directory to 777!!!');
+		}
 		write_file($log_file, $sql);
+		echo $run_file;
 		
 		$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
 		
 		$this->async_execute_hql($cmd, $run_file, 2, $code);
 		$this->utils->export_csv($finger_print);
-		
-		return $run_file;
 	}
 
 

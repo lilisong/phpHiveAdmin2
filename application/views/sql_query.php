@@ -139,7 +139,7 @@ SQL查询-->
 <br>
 
 <a href="#get_query_plan" data-toggle="modal" class="btn btn-primary" onclick="GetQueryPlan()"><i class=icon-ok></i> <?php echo $common_hql_validator;?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="#sql_query_status_modal" data-toggle="modal" class="btn" onclick="SqlQuery()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
+<a href="#sql_query_status_modal" data-toggle="modal" class="btn"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
 
 </form>
 
