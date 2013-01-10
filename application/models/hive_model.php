@@ -827,6 +827,7 @@ class Hive_model extends CI_Model
 		{
 			$fp = fopen($csv_file,"r");
 			$i = 0;
+			$string = "";
 			while($i != 30)
 			{
 				$string .= fgets($fp,4096);
@@ -835,8 +836,13 @@ class Hive_model extends CI_Model
 			fclose($fp);
 			if(strlen($string) > 0)
 			{
-				$data_tmp = explode(",", explode("\n", $string));
-				return $data_tmp; // return a matrix
+				$data_tmp = explode("\n", $string);
+				$data_matrix = "";
+				for($i = 0; $i < count($data_tmp); $i++)
+				{
+					$data_matrix[$i] = explode(',', $data_tmp);
+				}
+				return $data_matrix; // return a data matrix
 			}
 			else
 			{

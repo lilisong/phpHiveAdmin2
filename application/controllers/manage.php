@@ -193,7 +193,7 @@ class Manage extends CI_Controller
 		$finger_print = $this->uri->segment(3,0);
 		
 		$this->load->model('hive_model', 'hive');
-		$data_martix = $this->hive->get_result($finger_print);
+		$data_matrix = $this->hive->get_result($finger_print);
 		$this->load->model('utilities_model', 'utils');
 		$sql_columns = $this->utils->split_sql_cols($finger_print);
 		
