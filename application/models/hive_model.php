@@ -840,7 +840,7 @@ class Hive_model extends CI_Model
 				$data_matrix = "";
 				for($i = 0; $i < count($data_tmp); $i++)
 				{
-					$data_matrix[$i] = explode(',', $data_tmp);
+					$data_matrix[$i] = explode(',', $data_tmp[$i]);
 				}
 				return $data_matrix; // return a data matrix
 			}
