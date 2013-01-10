@@ -790,7 +790,7 @@ class Hive_model extends CI_Model
 		
 		$this->async_execute_hql($cmd, $run_file, 2, $code);
 		$this->utils->export_csv($finger_print);
-
+		sleep(1);
 	}
 
 

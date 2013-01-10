@@ -30,6 +30,6 @@ function RefreshStatus()
 	</div>
 	<div class="modal-footer">
 		<a href="" class="btn"><?php echo $common_cli_done;?></a>
-		<a href="#" class="btn btn-primary" onclick="javascript:SqlQuery(); RefreshStatus()"><?php echo $common_submit;?></a>
+		<a href="#" class="btn btn-primary"><?php echo $common_submit;?></a>
 	</div>
 </div>

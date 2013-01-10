@@ -129,18 +129,32 @@ SQL查询-->
 			$('#sql_query_status').html(html);
 		});
 	}
-		
+	
+	function QueryStatus()
+	{
+		var filename = document.getElementById('run_file').value;
+		$.post('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/', {run_file:filename}, function(html){
+			html = html;
+			$('#sql_query_status').html(html);
+		});
+	}
+
+	function RefreshStatus()
+	{
+		setInterval(QueryStatus,1000);
+	}
+
 	</script>
 
-<form method="post" name="form">
-<div id="hiveudf">
-<textarea cols="300" rows="9" name="sql" id="sql">select * from <?php echo $var_db_name;?>.<?php echo $table_name;?> limit 30</textarea>
-</div>
-<br>
+		<form method="post" name="form">
+		<div id="hiveudf">
+			<textarea cols="300" rows="9" name="sql" id="sql">select * from <?php echo $var_db_name;?>.<?php echo $table_name;?> limit 30</textarea>
+		</div>
+		<br>
 
-<a href="#get_query_plan" data-toggle="modal" class="btn btn-primary" onclick="GetQueryPlan()"><i class=icon-ok></i> <?php echo $common_hql_validator;?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="#sql_query_status_modal" data-toggle="modal" class="btn"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
+		<a href="#get_query_plan" data-toggle="modal" class="btn btn-primary" onclick="GetQueryPlan()"><i class=icon-ok></i> <?php echo $common_hql_validator;?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="#sql_query_status_modal" data-toggle="modal" class="btn" onclick="SqlQuery();RefreshStatus()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
 
-</form>
+		</form>
 
 </div>
