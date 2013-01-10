@@ -51,7 +51,7 @@ function ShowConfirmClose(ctrl)
 		document.body.onbeforeunload = null;
 	}
 }
-
+ShowConfirmClose(true);
 //var int=self.setInterval("QueryStatus()",2000)
 
 </script>
