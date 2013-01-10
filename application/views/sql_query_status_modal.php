@@ -22,7 +22,7 @@ function RefreshStatus(ctrl)
 
 function GetResult()
 {
-	var finger_print = document.getElementById('fingerprint').value;
+	var finger_print = document.getElementById('finger_print').value;
 	var href = '<?php echo $this->config->base_url();?>index.php/manage/getresult/' + finger_print;
 	window.location = href;
 }
