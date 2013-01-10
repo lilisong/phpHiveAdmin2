@@ -27,13 +27,17 @@ function GetResult()
 	window.location = href;
 }
 
-var pb_strConfirmCloseMessage = "请确认查询完成后离开本页";
-var pb_blnCloseWindow = false;
 function ConfirmClose()
 {
-	window.event.returnValue = pb_strConfirmCloseMessage;
-	pb_blnCloseWindow = true;
-	GetResult();
+	var confirm = confirm("请确认查询完成后离开本页");
+	if(confirm)
+	{
+		GetResult();
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function ShowConfirmClose(ctrl)
