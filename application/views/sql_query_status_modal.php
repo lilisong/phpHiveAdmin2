@@ -1,21 +1,8 @@
 <script>
 
-function SqlQuery()
-{
-	var hsql = document.getElementById('sql').value;
-	
-	$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:hsql}, function(html){
-		html = html;
-		$('#run_file').val(html);
-		//$('#sql_query_status').html(html);
-	});
-	
-	
-}
-
 function QueryStatus()
 {
-	var filename = document.getElementById('run_fule').value;
+	var filename = document.getElementById('run_file').value;
 	$.post('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/', {run_file:filename}, function(html){
 		html = html;
 		$('#sql_query_status').html(html);

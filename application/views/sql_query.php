@@ -118,6 +118,18 @@ SQL查询-->
 		$(document).ready(function() {
 			initHiveudfsTextarea();
 		});
+		
+	function SqlQuery()
+	{
+		var hsql = document.getElementById('sql').value;
+	
+		$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:hsql}, function(html){
+			html = html;
+			$('#run_file').val(html);
+			//$('#sql_query_status').html(html);
+		});
+	}
+		
 	</script>
 
 <form method="post" name="form">
