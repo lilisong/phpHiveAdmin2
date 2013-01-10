@@ -781,26 +781,25 @@ class Hive_model extends CI_Model
 		$run_file = $filename['run_with_path'];
 		
 		$this->load->helper('file');
-		if(!is_writeable($log_file) || !is_writeable($run_file))
+		
+		if(!write_file($log_file, $sql))
 		{
-			die('Please chmod logs and results directory to 777!!!');
+			die('Please chmod logs and results directory to 777 for reading!!!');
 		}
-		write_file($log_file, $sql);
-		echo $run_file;
+		else
+		{
+			echo $run_file;
 		
-		$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
+			$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
 		
-		$this->async_execute_hql($cmd, $run_file, 2, $code);
-		$this->utils->export_csv($finger_print);
+			$this->async_execute_hql($cmd, $run_file, 2, $code);
+			$this->utils->export_csv($finger_print);
+		}
 	}
 
 
 	public function get_query_status($file_name)
 	{
-		if(!is_readable($file_name))
-		{
-			die('Please chmod logs and results directory to 777!!!');
-		}
 		$array = @file($file_name);
 		$array = array_reverse($array);
 
