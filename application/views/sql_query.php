@@ -137,12 +137,12 @@ SQL查询-->
 	}
 
 	</script>
-	<div>
+
 		<div id="hiveudf">
 			<textarea cols="300" rows="9" name="sql" id="sql">select * from <?php echo $var_db_name;?>.<?php echo $table_name;?> limit 30</textarea>
 		</div>
 		<br>
-		<div class="btn-group" align="right">
+		<div class="btn-group">
 		<a href="#get_query_plan" data-toggle="modal" class="btn btn-primary" onclick="GetQueryPlan()"><i class=icon-ok></i> <?php echo $common_hql_validator;?></a>
 		<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
 			<span class="caret"></span>
@@ -150,7 +150,7 @@ SQL查询-->
 		<ul class="dropdown-menu">
 			<a href="#sql_query_status_modal" data-toggle="modal" data-keyboard="false" data-backdrop="static" class="btn" onclick="MakeFingerPrint()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
 		</ul>
-		</div>
+
 	</div>
 
 </div>
