@@ -1,6 +1,6 @@
 <div class="span10">
 
-<a href="<?php echo $this->config->base_url();?>index.php/table/index/<?php echo $var_db_name;?>" class="btn btn-inverse"><i class=icon-backward></i> <?php echo $common_back;?>  <?php echo $var_db_name;?></a>
+<a href="<?php echo $this->config->base_url();?>index.php/table/index/<?php echo $var_db_name;?>" class="btn btn-inverse"><i class="icon-backward icon-white"></i> <?php echo $common_back;?>  <?php echo $var_db_name;?></a>
 <br><br>
 
 <div class="btn-group">
