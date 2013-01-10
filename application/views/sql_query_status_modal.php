@@ -27,6 +27,26 @@ function GetResult()
 	window.location = href;
 }
 
+var pb_strConfirmCloseMessage = "请确认查询完成后离开本页";
+var pb_blnCloseWindow = false;
+function ConfirmClose()
+{
+	window.event.returnValue = pb_strConfirmCloseMessage;
+	pb_blnCloseWindow = true;
+}
+
+function ShowConfirmClose(ctrl)
+{
+	if(ctrl)
+	{
+		GetResult();
+	}
+	else
+	{
+		document.body.onbeforeunload = null;
+	}
+}
+
 //var int=self.setInterval("QueryStatus()",2000)
 
 </script>
@@ -44,7 +64,7 @@ function GetResult()
 
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" onclick="GetResult()"><?php echo $common_cli_done;?></a>
+		<a href="#" class="btn" onclick="ShowConfirmClose(true)"><?php echo $common_cli_done;?></a>
 		<a href="#" class="btn btn-primary" onclick="SqlQuery();RefreshStatus(true)"><?php echo $common_submit;?></a>
 	</div>
 </div>
