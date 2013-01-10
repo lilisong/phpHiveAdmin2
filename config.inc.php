@@ -43,7 +43,7 @@ $configure['lang_set'] = 'zh_CN.UTF-8' ;
 //Or en_US.UTF-8, if you are in english countries.
 //如果你处在英语国家，请使用en_US.UTF-8
 
-$configure['output_seperator'] = '\t'; 
+$configure['output_seperator'] = "\t"; 
 // The result data columns seperating character.
 // 用来分隔结果集数据列的分隔符.
 

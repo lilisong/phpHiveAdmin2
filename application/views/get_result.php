@@ -1,4 +1,4 @@
-<div class="span12">
+<div class="span10">
 <input type="button" class="btn btn-success" name="download" value="<?php echo $common_download_result;?>" onclick="">
 
 <br><br>
