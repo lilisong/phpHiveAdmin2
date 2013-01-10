@@ -89,8 +89,8 @@ class Manage extends CI_Controller
 	{
 		#Generate Header
 		$this->lang->load('commons', 'chinese');
-		$data['lang'] = $this->lang->line('common_lang_set');
-		$data['title'] = $this->lang->line('common_title');
+		$data['common_lang_set'] = $this->lang->line('common_lang_set');
+		$data['common_title'] = $this->lang->line('common_title');
 		$this->load->view('header',$data);
 
 		#Generate Navigation top bar
@@ -121,24 +121,19 @@ class Manage extends CI_Controller
 		$data['common_drop_table'] = $this->lang->line('common_drop_table');
 		$data['table_name'] = $table_name;
 		#Get table detail describe;
-		$array_desc_table_cols = $this->hive->get_table_detail($db_name, $table_name, "cols");
-		$array_desc_table_partitionKeys = $this->hive->get_table_detail($db_name, $table_name, "partitionKeys");
-		if(count($array_desc_table_partitionKeys) != 0)
-		{
-			$array_desc_desc = array_merge($array_desc_table_cols,$array_desc_table_partitionKeys);
-		}
-		else
-		{
-			$array_desc_desc = $array_desc_table_cols;
-		}
-
+		$array_desc_desc = $this->hive->get_table_cols($db_name,$table_name);
+		
 		$data['column_name'] = $array_desc_desc['name'];
 		$data['column_type'] = $array_desc_desc['type'];
 		$data['column_comment'] = $array_desc_desc['comment'];
 		$data['example_data'] = $this->hive->get_example_data($db_name, $table_name, 2);
 		$data['common_hql_validator'] = $this->lang->line('common_hql_validator');
 		$data['common_submit'] = $this->lang->line('common_submit');
+		$data['common_close'] = $this->lang->line('common_close');
+		$data['common_cli_done'] = $this->lang->line('common_cli_done');
 		$this->load->view('sql_query',$data);
+		$this->load->view('get_query_plan_modal', $data);
+		$this->load->view('sql_query_status_modal', $data);
 
 		$this->load->view('div_end');
 		$this->load->view('div_end');
@@ -159,5 +154,29 @@ class Manage extends CI_Controller
 		$this->load->model('hive_model', 'hive');
 		$html = $this->hive->create_database($db_name);
 		echo $html;
+	}
+	
+	public function GetQueryPlan()
+	{
+		$sql = $this->input->post('sql');
+		$this->load->model('hive_model', 'hive');
+		$html = $this->hive->get_query_plan($sql);
+		echo $html;
+	}
+	
+	public function SqlQuery()
+	{
+		$sql = $this->input->post('sql');
+		$this->load->model('hive_model', 'hive');
+		$file_name = $this->hive->cli_query($sql);
+		echo $file_name;
+	}
+	
+	public function GetQueryStatus()
+	{
+		$run_file = $this->input->post('run_file');
+		$this->load->model('hive_model', 'hive');
+		$str = $this->hive->get_query_status($run_file);
+		echo $str;
 	}
 }

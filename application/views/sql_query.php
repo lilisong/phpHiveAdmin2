@@ -1,6 +1,6 @@
 <div class="span10">
 <?php echo $var_db_name;?>
-<i class=icon-backward></i>  <a href="<?php echo $this->config->base_url();?>index.php/manage/ShowTables/<?php echo $var_db_name;?>">返回</a>
+<i class=icon-backward></i>  <a href="<?php echo $this->config->base_url();?>index.php/table/index/<?php echo $var_db_name;?>">返回</a>
 <br><br>
 
 <div class="btn-group">
@@ -10,7 +10,7 @@ SQL查询-->
 <!--<td>
 <a href="getFilelist.php?database=active&table=active_20121213">
 文件列表</a>
-</td>-->
+</td>
 <a class="btn" href="<?php echo $this->config->base_url();?>index.php/manage/LoadData/<?php echo $var_db_name;?>/<?php echo $table_name;?>">
 <i class=icon-chevron-right></i>
 <?php echo $common_load_data;?></a>
@@ -25,7 +25,7 @@ SQL查询-->
 <?php echo $common_alter_table;?></a>
 <a class="btn btn-danger" href="#">
 <i class=icon-remove></i>
-<?php echo $common_drop_table;?></a>
+<?php echo $common_drop_table;?></a>-->
 </div>
 <br>
 <table class="table table-bordered table-striped table-condensed">
@@ -54,7 +54,42 @@ SQL查询-->
 </table>
 <br>
 
-<!--<script src="<?php echo $this->config->base_url();?>js/auto.js" type="text/javascript"></script>-->
+
+<style type="text/css">    
+	ul.auto-list {
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	border: 2px solid white;
+	background-color: #F5F5F5F5;
+	padding: 2;
+	margin: 2;
+	list-style: none;
+	}
+	ul.auto-list > li:hover, ul.auto-list > li[data-selected=true] {
+	background-color: #01AAD0;
+	}
+	ul.auto-list > li {
+	border: 2px solid #9F9F9F;
+	cursor: default;
+	padding: 3px;
+	font-size: 14px
+	}
+	{
+	font-weight: bold;
+	}
+	#ta {
+	width: 300px;
+	height: 100px;
+	font-size: 12px;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	white-space: pre;
+	}
+	#sql {width: 500px}
+</style>
+
+<script src="<?php echo $this->config->base_url();?>js/auto.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var hiveudfs = [];
 		function initHiveudfsTextarea() {
@@ -85,15 +120,14 @@ SQL查询-->
 		});
 	</script>
 
-<form method=post name=form>
+<form method="post" name="form">
 <div id="hiveudf">
-<textarea cols="80" rows="10" name="sql" id="sql">select * from <?php echo $table_name;?> limit 30</textarea>
+<textarea cols="300" rows="9" name="sql" id="sql">select * from <?php echo $var_db_name;?>.<?php echo $table_name;?> limit 30</textarea>
 </div>
 <br>
 
-<button type=button class="btn btn-primary" name=check value="" onclick="getQueryPlan()"><i class=icon-ok></i> <?php echo $common_hql_validator;?></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<button type=button name=submit class="btn"><i class="icon-refresh"></i> <?php echo $common_submit;?></button>
-<input type=hidden name=database value=<?php echo $var_db_name;?>>
+<a href="#get_query_plan" data-toggle="modal" class="btn btn-primary" onclick="GetQueryPlan()"><i class=icon-ok></i> <?php echo $common_hql_validator;?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#sql_query_status_modal" data-toggle="modal" class="btn" onclick="SqlQeury()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a>
 
 </form>
 

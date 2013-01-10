@@ -147,7 +147,7 @@ class Hive_model extends CI_Model
 		##############
 		#generate partitions hql
 		if($part_name[0] != "")
-		{var_dump($part_name);
+		{//var_dump($part_name);
 			$part = "";
 			for($i = 0; $i < count($part_name); $i++)
 			{
@@ -409,6 +409,7 @@ class Hive_model extends CI_Model
 			$this->hive->execute('select * from ' . $tbl_name . ' limit ' . $limit);
 			$arr_tmp = $this->hive->fetchAll();
 			$i = 0;
+			$array = array(array());
 			foreach(@$arr_tmp as $k => $v)
 			{
 				$arr = explode('	',$v);
@@ -423,7 +424,10 @@ class Hive_model extends CI_Model
 				$i++;
 			}
 			$this->transport->close();
-			return $array;
+			if(count($array) > 0)
+				return $array;
+			else
+				return array();
 		}
 		catch (Exception $e)
 		{
@@ -653,6 +657,29 @@ class Hive_model extends CI_Model
 /***************************************************************************************************/
 /***************************************************************************************************/
 /**************************************etcs*********************************************************/
+
+	public function get_query_plan($sql)
+	{
+		$sql = "EXPLAIN EXTENDED ". $sql;
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute($sql);
+			$array = $this->hive->fetchAll();
+			$this->transport->close();
+			$str = "";
+			foreach($array as $k => $v)
+			{
+				$str .= str_replace(" ","&nbsp;",$v)."<br />";
+			}
+			
+			return $str;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
 	
 	public function get_cluster_status()
 	{
@@ -741,14 +768,14 @@ class Hive_model extends CI_Model
 
 	public function cli_query($sql)
 	{
-		$this->load->model('utilities', 'util');
+		$this->load->model('utilities_model', 'utils');
 		$LANG = " export LANG=" . $this->config->item('lang_set') . "; ";
 		$JAVA_HOME = " export JAVA_HOME=" . $this->config->item('java_home') . "; ";
 		$HADOOP_HOME = " export HADOOOP_HOME=" . $this->config->item('hadoop_home') . "; ";
 		$HIVE_HOME = " export HIVE_HOME=" . $this->config->item('hive_home'). "; ";
 		
-		$finger_print = $util->make_finger_print();
-		$filename = $util->make_filename($finger_print);
+		$finger_print = $this->utils->make_finger_print();
+		$filename = $this->utils->make_filename($finger_print);
 		$log_file = $filename['log_with_path'];
 		$out_file = $filename['out_with_path'];
 		$run_file = $filename['run_with_path'];
@@ -758,18 +785,24 @@ class Hive_model extends CI_Model
 		
 		$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
 		
-		$this->async_execute_hql($command, $run_file, 2, $code);
+		$this->async_execute_hql($cmd, $run_file, 2, $code);
 		$this->utils->export_csv($finger_print);
+		
+		return $run_file;
 	}
 
 
 	public function get_query_status($file_name)
 	{
-		$array = @file($filename);
+		$array = @file($file_name);
+		$array = array_reverse($array);
+		var_dump($array);
+		$str = "";
 		foreach($array as $k => $v)
 		{
-			return nl2br($v);
+			$str .= $v."<br />\n";
 		}
+		echo $str;
 	}
 	
 }

@@ -58,6 +58,9 @@ class Table extends CI_Controller
 		$data['common_managed'] = $this->lang->line('common_managed');
 		$data['common_index_table'] = $this->lang->line('common_index_table');
 		$data['common_virtual_view'] = $this->lang->line('common_virtual_view');
+		$data['common_delete'] = $this->lang->line('common_delete');
+		$data['common_select'] = $this->lang->line('common_select');
+		$data['common_deselect'] = $this->lang->line('common_deselect');
 		$data['type'] = array('string'=>'String','tinyint'=>'Tiny int(3)','smallint'=>'Small int(5)','int'=>'Int(10)','bigint'=>'Big int(19)','double'=>'Double',
 						'map'=>'Map','structs'=>'Structs','arrays'=>'Arrays',
 						'float'=>'Float','boolean'=>'Boolean');
@@ -68,6 +71,7 @@ class Table extends CI_Controller
 		$data['error_invalid_column_numbers'] = $this->lang->line('error_invalid_column_numbers');
 		$data['error_invalid_partition_numbers'] = $this->lang->line('error_invalid_partition_numbers');
 		$this->load->view('create_table_modal', $data);
+		$this->load->view('batch_drop_table_modal', $data);
 
 		#Generate div end
 		$this->load->view('div_end');
@@ -259,6 +263,19 @@ class Table extends CI_Controller
 		$this->load->helper('url');
 		redirect($this->config->base_url() . "index.php/table/index/".$db_name, "3", "refresh");
 	}
+	
+	public function BatchDropTable()
+	{
+		$tables = $this->input->post('tables');
+		$this->load->model('hive_model', 'hive');
+		$table_name = explode(';',$tables);
+		foreach($table_name as $k => $v)
+		{
+			echo $v."-->dropped<br>";
+		}
+	}
+	
+	
 }
 
 ?>

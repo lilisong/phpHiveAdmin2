@@ -21,9 +21,38 @@
 </div>
 <br>
 <div>
+	<script>
+	function CheckUnCheckAll()
+	{
+		var checkAll = document.getElementById('chkAll');
+		var checkBox = document.getElementsByName("selected_table_name[]");
+		var arr = checkBox;
+		if(checkAll.checked==true){
+			checkAll.value = "";
+			for(i=0; i<arr.length; i++){
+				arr[i].checked = true;
+				checkAll.value += arr[i].value + ';';
+			}
+			var json = '{"tables":"' + checkAll.value.substring(0, (checkAll.value.length-1)) + '"}';
+			//alert(json);
+		}
+		if(checkAll.checked==false){
+			for(i=0; i<arr.length; i++){
+				if(arr[i].checked == true){
+					arr[i].checked = false;
+				}else {
+					arr[i].checked = true ;
+				}
+			}
+		}
+	}
+	
+	</script>
 	<table class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
+				<td>
+				</td>
 				<td>
 				<?php echo $common_table_name;?>
 				</td>
@@ -47,6 +76,9 @@
 		<tbody>
 		<?php foreach($table_list as $item):?>
 			<tr>
+				<td>
+				<input type="checkbox" name="selected_table_name[]" value="<?php echo $item;?>">
+				</td>
 				<td>
 				<i class="icon-th-list"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/query/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $item;?></a>
 				</td>
@@ -79,6 +111,17 @@
 				</td>
 			</tr>
 		<?php endforeach;?>
+			<tr>
+				<td>
+					<input type="hidden" name="db_name" value=<?php echo $var_db_name;?>><input type="checkbox" id="chkAll" onClick="CheckUnCheckAll()" /><br /><?php echo $common_select?> / <?php echo $common_deselect;?>
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><a href="#batch_drop_table" data-toggle="modal" class="btn btn-danger btn-small" onclick="BatchTableDropView()"><?php echo $common_delete;?></a></td>
+			</tr>
 		</tbody>
 	</table>
 </div>
