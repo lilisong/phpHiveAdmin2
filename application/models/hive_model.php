@@ -796,16 +796,23 @@ class Hive_model extends CI_Model
 	{
 		$this->load->model('utilities_model', 'utils');
 		$filename = $this->utils->make_filename($finger_print);
-		$run_file = $filename['run_with_path'];echo $run_file;
+		$run_file = $filename['run_with_path'];
 		$array = @file($run_file);
-		$array = array_reverse($array);
-
-		$str = "";
-		foreach($array as $k => $v)
+		if(is_array($array))
 		{
-			$str .= $v."<br />\n";
+			$array = array_reverse($array);
+
+			$str = "";
+			foreach($array as $k => $v)
+			{
+				$str .= $v."<br />\n";
+			}
+			echo $str;
 		}
-		echo $str;
+		else
+		{
+			die('Do not re-submit!!!');
+		}
 	}
 	
 }

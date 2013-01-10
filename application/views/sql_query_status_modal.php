@@ -8,16 +8,17 @@ function QueryStatus()
 	});
 }
 
-function RefreshStatus()
+function RefreshStatus(ctrl)
 {
-	setInterval(QueryStatus,1000);
+		setInterval(QueryStatus,2000);
 }
+
 
 </script>
 
 <div id="sql_query_status_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="int=window.clearInterval(int)">&times;</button>
 		<h3 id="myModalLabel"><?php echo $var_db_name;?></h3>
 	</div>
 	<div class="modal-body">

@@ -181,8 +181,8 @@ class Manage extends CI_Controller
 	
 	public function GetQueryStatus()
 	{
-		set_time_limit(0);
 		$finger_print = $this->input->post('finger_print');
+		echo $finger_print . '<br /><br />';
 		$this->load->model('hive_model', 'hive');
 		$str = $this->hive->get_query_status($finger_print);
 		echo $str;
