@@ -1,5 +1,6 @@
 <div class="span10">
-<input type="button" class="btn btn-success" name="download" value="<?php echo $common_download_result;?>" onclick="">
+
+<a class="btn btn-success" href="<?php echo $this->config->base_url()?>index.php/manage/downloadresult/<?php echo $this->uri->segment(3,0);?>" target="_blank"><?php echo $common_download_result;?></a>
 
 <br><br>
 
