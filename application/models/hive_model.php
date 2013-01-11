@@ -511,6 +511,7 @@ class Hive_model extends CI_Model
 			$this->transport->open();
 			$tbl_array = $this->hive->get_all_tables($db_name);
 			$this->transport->close();
+			$tbl_array = array_reverse($tbl_array);
 			return $tbl_array;
 		}
 		catch (Exception $e)
