@@ -261,12 +261,40 @@ class Hive_model extends CI_Model
 
 	public function rename_table($db_name, $src_tbl_name, $dest_tbl_name)
 	{
-		$sql = "ALTER TABLE `".$src_tbl_name."` RENAME TO `".$dest_tbl_name."`";
+		$sql = "ALTER TABLE ".$src_tbl_name." RENAME TO ".trim($dest_tbl_name);
 		try
 		{
 			$this->transport->open();
+			$this->hive->execute("USE ".$db_name);
 			$this->hive->execute($sql);
 			$this->transport->close();
+			return $sql;
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+	
+	public function change_table_external($db_name, $tbl_name, $external)
+	{
+		if($external == "EXTERNAL_TABLE")
+		{
+			$external = "TRUE";
+		}
+		else
+		{
+			$external = "FALSE";
+		}
+		
+		$sql = 'ALTER TABLE '.$tbl_name.' SET TBLPROPERTIES ("EXTERNAL" = "'.$external.'")';
+		try
+		{
+			$this->transport->open();
+			$this->hive->execute("USE ".$db_name);
+			$this->hive->execute($sql);
+			$this->transport->close();
+			return $sql;
 		}
 		catch (Exception $e)
 		{
@@ -498,22 +526,21 @@ class Hive_model extends CI_Model
 	
 	public function add_columns($db_name = 'default', $tbl_name = '', $cols_name = array(), $cols_type = array(), $cols_comment = array())
 	{
-		$i = 0;
 		$cols = "";
-		while("" != $cols_name[$i])
+		for($i = 0; $i < count($cols_name); $i++)
 		{
 			#generate `cols1_name` INT COMMENT 'cols1_comment', `cols2_name` INT COMMENT 'cols2_comment', 
 			$cols .= "`".$cols_name[$i]."` ".$cols_type[$i]." COMMENT '".$cols_comment[$i]."',";
-			$i++;
 		}
 		$cols = substr($cols, 0 , -1);
 		$cols = "(". $cols . ")";
 		
-		$sql = "ALTER TABLE `".$db_name."`.`".$tbl_name."` ADD COLUMNS " . $cols;
+		$sql = "ALTER TABLE ".$tbl_name." ADD COLUMNS " . $cols;
 		
 		try
 		{
 			$this->transport->open();
+			$this->hive->execute("USE ".$db_name);
 			$this->hive->execute($sql);
 			$this->transport->close();
 			return $sql;
@@ -525,30 +552,37 @@ class Hive_model extends CI_Model
 	}
 
 
-	public function drop_columns($db_name = 'default', $tbl_name = '', $cols_name = array(), $cols_type = array(), $drop_column_name)
+	public function drop_columns($db_name = 'default', $tbl_name = '', $drop_column_name)
 	{
-		$cols = $this->get_table_detail($db_name, $tbl_name);
+		$cols = $this->get_table_detail($db_name, $tbl_name, 'cols');
 		
 		$str = '';
-		$i = 0;
-		while("" != $cols['name'][$i])
+		for($i = 0; $i < count($cols['name']); $i++)
 		{
 			if($cols['name'][$i] == $drop_column_name)
 			{
-				unset($cols['name'][$i]);
-				unset($cols['type'][$i]);
-				unset($cols['comment'][$i]);
+				$cols['name'][$i] = '';
+				$cols['type'][$i] = '';
+				$cols['comment'][$i] = '';
 			}
-			$str .= "`" . $cols['name'][$i] . "` " . $cols['type'][$i] . " COMMENT '" . $cols['comment'][$i] . "',";
-			$i++;
+			if($cols['name'][$i] != "")
+			{
+				$str .= " `" . $cols['name'][$i] . "` " . $cols['type'][$i] . " COMMENT '" . $cols['comment'][$i] . "',";
+			}
+			else
+			{
+				continue;
+			}
 		}
+		
 		$str = substr($str, 0, -1);
 		$str = " ( ". $str . " ) ";
-		$sql = "ALTER TABLE `".$db_name."`.`".$table_name."` REPLACE COLUMNS " . $str;
+		$sql = "ALTER TABLE ".$tbl_name." REPLACE COLUMNS " . $str;
 		
 		try
 		{
 			$this->transport->open();
+			$this->hive->execute("USE ".$db_name);
 			$this->hive->execute($sql);
 			$this->transport->close();
 			return $sql;
@@ -563,10 +597,11 @@ class Hive_model extends CI_Model
 	public function change_column($db_name = 'default', $tbl_name = '', $src_col_name, 
 									$dest_col_name, $dest_col_type, $dest_col_comment)
 	{
-		$sql = "ALTER TABLE `".$db_name."`.`". $tbl_name ."` CHANGE `".$src_col_name."` `".$dest_col_name."` `".$dest_col_type."` COMMENT ".$dest_col_comment ;
+		$sql = "ALTER TABLE ". $tbl_name ." CHANGE `".$src_col_name."` `".$dest_col_name."` ".$dest_col_type." COMMENT '".$dest_col_comment."'" ;
 		try
 		{
 			$this->transport->open();
+			$this->hive->execute("USE ".$db_name);
 			$this->hive->execute($sql);
 			$this->transport->close();
 			return $sql;
@@ -609,22 +644,27 @@ class Hive_model extends CI_Model
 /***************************************************************************************************/
 /**************************************load data****************************************************/
 	
-	public function load_data($db_name = 'default', $tbl_name = '', $local = 'LOCAL', $path = '/tmp', $partition = '', $overwrite = FALSE)
+	public function load_data($db_name = 'default', $tbl_name = '', $local = 'HDFS', $path = '/tmp', $partition = '', $overwrite = FALSE)
 	{
 		# $local = LOCAL | HDFS
 		# $path default is /tmp
 		if($local == "HDFS")
 		{
-			$local = "";
+			$local = " ";
 		}
 		else
 		{
 			$local = $local;
 		}
 		
+		if($path == "")
+		{
+			die('Must enter path');
+		}
+		
 		if($partition == "")
 		{
-			$partition == " ";
+			$partition = " ";
 		}
 		else
 		{
@@ -639,11 +679,12 @@ class Hive_model extends CI_Model
 		{
 			$overwrite = " OVERWRITE ";
 		}
-		$sql = "LOAD DATA " . $local . " INPATH '" . $path . "' " .$overwrite . " INTO TABLE " . $db_name . "." . $tbl_name . $partition;
+		$sql = "LOAD DATA " . $local . " INPATH '" . $path . "' " .$overwrite . " INTO TABLE " . $tbl_name . $partition;
 		try
 		{
 			$this->transport->open();
-			$this->hive->execute($sql);
+			//$this->hive->execute('USE '.$db_name);
+			//$this->hive->execute($sql);
 			$this->transport->close();
 			return $sql;
 		}

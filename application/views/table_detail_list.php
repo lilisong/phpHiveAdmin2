@@ -3,6 +3,7 @@
 <table>
 	<tr>
 	<td>
+	<div class="btn-group">
 	<?php if(count($table_list) != 0):?>
 
 	<a class="btn disabled"><i class=icon-remove></i><?php echo $common_drop_database;?></a>
@@ -12,9 +13,8 @@
 	<a class="btn btn-danger" href="#drop_database" data-toggle="modal"><i class=icon-remove></i><?php echo $common_drop_database;?></a>
 
 	<?php endif;?>
-	</td>
-	<td>
 	<a class="btn btn-primary" href="#create_table" data-toggle="modal"><?php echo $common_add_table;?></a>
+	</div>
 	</td>
 	</tr>
 </table>

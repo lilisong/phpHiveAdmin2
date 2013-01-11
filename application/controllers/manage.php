@@ -11,7 +11,7 @@ class Manage extends CI_Controller
 	public function Index()
 	{
 		#Generate Header
-		$this->lang->load('commons', 'chinese');
+		$this->lang->load('commons');
 		$data['common_lang_set'] = $this->lang->line('common_lang_set');
 		$data['common_title'] = $this->lang->line('common_title');
 		$this->load->view('header',$data);
@@ -71,7 +71,7 @@ class Manage extends CI_Controller
 	
 	public function Login()
 	{
-		$this->lang->load('commons', 'chinese');
+		$this->lang->load('commons');
 		$data['lang'] = $this->lang->line('common_lang_set');
 		$data['title'] = $this->lang->line('common_title');
 		$this->load->view('header',$data);
@@ -88,7 +88,7 @@ class Manage extends CI_Controller
 	public function Query($db_name = 'default', $table_name = '')
 	{
 		#Generate Header
-		$this->lang->load('commons', 'chinese');
+		$this->lang->load('commons');
 		$data['common_lang_set'] = $this->lang->line('common_lang_set');
 		$data['common_title'] = $this->lang->line('common_title');
 		$this->load->view('header',$data);
@@ -199,7 +199,7 @@ class Manage extends CI_Controller
 		$sql_columns = $this->utils->split_sql_cols($finger_print);
 		
 		#Generate Header
-		$this->lang->load('commons', 'chinese');
+		$this->lang->load('commons');
 		$data['common_lang_set'] = $this->lang->line('common_lang_set');
 		$data['common_title'] = $this->lang->line('common_title');
 		$this->load->view('header',$data);
