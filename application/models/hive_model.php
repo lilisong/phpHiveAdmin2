@@ -845,7 +845,7 @@ class Hive_model extends CI_Model
 			$text = "";
 			foreach($array as $k => $v)
 			{
-				$text .= $v."<br />\n";
+				$text .= trim($v)."<br>";
 			}
 
 			$str = $array[0];
