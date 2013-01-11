@@ -862,8 +862,8 @@ class Hive_model extends CI_Model
 			
 			if(!is_numeric($map_per) || !is_numeric($reduce_per))
 			{
-				$map_per = 100;
-				$reduce_per = 100;
+				$map_per = 0;
+				$reduce_per = 0;
 			}
 
 			$json = '{"map_percent":"'.$map_per.'","reduce_percent":"'.$reduce_per.'","text":"'.$text.'"}';
