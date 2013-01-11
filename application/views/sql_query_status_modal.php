@@ -65,11 +65,11 @@ function ConfirmClose()
 	</div>
 	<div class="modal-body">
 
-			<div class="progress progress-striped progress-info active">
-				<div class="bar" style="" id="map_percent"></div>
+			<div class="progress progress-info progress-striped active">
+				<div class="bar" style="" id="map_percent">MAP</div>
 			</div>
-			<div class="progress progress-striped progress-success active">
-				<div class="bar" style="" id="reduce_percent"></div>
+			<div class="progress progress-success progress-striped active">
+				<div class="bar" style="" id="reduce_percent">REDUCE</div>
 			</div>
 			
 			<div id="sql_query_status">
