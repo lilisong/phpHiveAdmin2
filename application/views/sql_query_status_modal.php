@@ -19,7 +19,7 @@ function QueryStatus()
 		text = json.text;
 		$('#map_percent').attr("style", "width: " + map_per + "%;")
 		$('#reduce_percent').attr("style", "width: " + reduce_per + "%;")
-		$('#sql_query_status').html('<small>' + text + '</small>');
+		$('#sql_query_status').html('<small>' + text + '</small>');alert(text);
 	});
 	
 }
