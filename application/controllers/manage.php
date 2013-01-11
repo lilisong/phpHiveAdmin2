@@ -189,6 +189,14 @@ class Manage extends CI_Controller
 		echo $str;
 	}
 	
+	public function GetQueryStatusJson()
+	{
+		$finger_print = $this->uri->segment(3,0);
+		$this->load->model('hive_model', 'hive');
+		$str = $this->hive->get_query_status_json($finger_print);
+		echo $str;
+	}
+	
 	public function GetResult()
 	{
 		$finger_print = $this->uri->segment(3,0);

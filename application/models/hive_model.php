@@ -856,6 +856,37 @@ class Hive_model extends CI_Model
 		}
 	}
 	
+	public function get_query_status_json($finger_print)
+	{
+		$this->load->model('utilities_model', 'utils');
+		$filename = $this->utils->make_filename($finger_print);
+		$run_file = $filename['run_with_path'];
+		$array = @file($run_file);
+		if(is_array($array))
+		{
+			$array = array_reverse($array);
+
+			$str = $array[0];
+			$start_map = strpos($str, "map = ");
+			$end_map = strrpos($str, "%");
+			$len_map = $end_map - $start_map;
+			
+			$start_reduce = strpos($str, "reduce = ");
+			$end_reduce = strrpos($str, "%");
+			$len_reduce = $end_reduce - $start_reduce;
+			
+			$map_per = substr($str, $start_map, $len_map);
+			$reduce_per = substr($str, $start_reduce, $len_reduce);
+			
+			$json = '{"map_percent":"'.$map_per.'","reduce_percent":"'.$reduce_per.'"}';
+			return $json;
+		}
+		else
+		{
+			die('Do not re-submit!!!');
+		}
+	}
+	
 	public function get_result($finger_print)
 	{
 		$this->load->model('utilities_model', 'utils');

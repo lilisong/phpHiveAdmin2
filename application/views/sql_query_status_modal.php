@@ -16,6 +16,13 @@ function QueryStatus()
 		html = html;
 		$('#sql_query_status').html('<small>' + html + '</small>');
 	});
+	
+	/*$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/getquerystatusjson/' + $('#finger_print').val(), { }, function(json){
+		json = json;
+		var map_per = json.map_percent;
+		var reduce_per = json.reduce_percent;
+		$('#sql_query_status').html('<small>' + html + '</small>');
+	});*/
 }
 
 function RefreshStatus(ctrl)
