@@ -12,17 +12,16 @@ function SqlQuery()
 
 function QueryStatus()
 {
-	$.post('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/', { finger_print:$('#finger_print').val() }, function(html){
-		html = html;
-		$('#sql_query_status').html('<small>' + html + '</small>');
+	$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/' + $('#finger_print').val(), { }, function(json){
+		json = json;
+		map_per = json.map_percent;
+		reduce_per = json.reduce_percent;
+		text = json.text;
+		$('#map_percent').attr("style", "width: " + map_per + "%;")
+		$('#reduce_percent').attr("style", "width: " + reduce_per + "%;")
+		$('#sql_query_status').html('<small>' + text + '</small>');
 	});
 	
-	/*$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/getquerystatusjson/' + $('#finger_print').val(), { }, function(json){
-		json = json;
-		var map_per = json.map_percent;
-		var reduce_per = json.reduce_percent;
-		$('#sql_query_status').html('<small>' + html + '</small>');
-	});*/
 }
 
 function RefreshStatus(ctrl)
@@ -66,6 +65,13 @@ function ConfirmClose()
 	</div>
 	<div class="modal-body">
 
+			<div class="progress progress-striped progress-info active">
+				<div class="bar" style="" id="map_percent"></div>
+			</div>
+			<div class="progress progress-striped progress-success active">
+				<div class="bar" style="" id="reduce_percent"></div>
+			</div>
+			
 			<div id="sql_query_status">
 			</div>
 			<input type="hidden" id="finger_print" value="">

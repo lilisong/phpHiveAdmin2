@@ -182,20 +182,13 @@ class Manage extends CI_Controller
 	
 	public function GetQueryStatus()
 	{
-		$finger_print = $this->input->post('finger_print');
+		$finger_print = $this->uri->segment(3,0);
 		echo $finger_print . '<br /><br />';
 		$this->load->model('hive_model', 'hive');
 		$str = $this->hive->get_query_status($finger_print);
 		echo $str;
 	}
 	
-	public function GetQueryStatusJson()
-	{
-		$finger_print = $this->uri->segment(3,0);
-		$this->load->model('hive_model', 'hive');
-		$str = $this->hive->get_query_status_json($finger_print);
-		echo $str;
-	}
 	
 	public function GetResult()
 	{
