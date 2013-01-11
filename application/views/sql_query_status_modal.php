@@ -1,5 +1,15 @@
 <script>
 
+function SqlQuery()
+{
+	$('#query_submit').addClass('disabled');
+	$('#query_submit').attr('href','#');
+	$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:$('#sql').val(), finger_print:$('#finger_print').val()}, function(html){
+		html = html;
+		$('#sql_query_status').html(html);
+	});
+}
+
 function QueryStatus()
 {
 	$.post('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/', { finger_print:$('#finger_print').val() }, function(html){
@@ -56,6 +66,6 @@ function ConfirmClose()
 	</div>
 	<div class="modal-footer">
 		<a href="#" class="btn" onclick="ConfirmClose()"><?php echo $common_cli_done;?></a>
-		<a href="#" class="btn btn-primary" onclick="SqlQuery();RefreshStatus(true)"><?php echo $common_submit;?></a>
+		<a href="javascript:SqlQuery();RefreshStatus(true);" id="query_submit" class="btn btn-primary"><?php echo $common_submit;?></a>
 	</div>
 </div>

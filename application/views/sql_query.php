@@ -118,14 +118,6 @@ SQL查询-->
 		$(document).ready(function() {
 			initHiveudfsTextarea();
 		});
-		
-	function SqlQuery()
-	{
-		$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:$('#sql').val(), finger_print:$('#finger_print').val()}, function(html){
-			html = html;
-			$('#sql_query_status').html(html);
-		});
-	}
 	
 	function MakeFingerPrint()
 	{
@@ -147,7 +139,7 @@ SQL查询-->
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
-				<li><a href="#sql_query_status_modal" data-toggle="modal" data-keyboard="true" data-backdrop="static" onclick="MakeFingerPrint()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a></li>
+				<li><a href="#sql_query_status_modal" data-toggle="modal" data-keyboard="false" data-backdrop="static" onclick="MakeFingerPrint()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a></li>
 			</ul>
 		</div>
 
