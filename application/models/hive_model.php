@@ -854,5 +854,13 @@ class Hive_model extends CI_Model
 		}
 	}
 	
+	public function download_result($finger_print)
+	{
+		$this->load->model('utilities_model', 'utils');
+		$filename = $this->utils->make_filename($finger_print);
+		$csv = $filename['csv_with_path'];
+		$this->utils->download_csv($csv);
+	}
+	
 }
 ?>

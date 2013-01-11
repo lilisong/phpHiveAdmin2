@@ -163,9 +163,8 @@ class Utilities_model extends CI_Model
 	public function download_csv($file_name)
 	{
 		$this->load->helper('file');
-		$full_file_name = $file_name;
 		$this->load->helper('download');
-		$content = readfile($full_file_name);
+		$content = readfile($file_name);
 		force_download($file_name, $content);
 	}
 	

@@ -238,6 +238,8 @@ class Manage extends CI_Controller
 	
 	public function DownloadResult()
 	{
-		
+		$finger_print = $this->uri->segment(3,0);
+		$this->load->model('hive_model', 'hive');
+		$this->hive->download_result($finger_print);
 	}
 }
