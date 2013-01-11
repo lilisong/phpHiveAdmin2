@@ -324,7 +324,8 @@ class Table extends CI_Controller
 						'map'=>'Map','structs'=>'Structs','arrays'=>'Arrays',
 						'float'=>'Float','boolean'=>'Boolean');
 		
-		$external = $this->hive->get_table_detail($db_name, $tbl_name, 'properties')['tableType'];
+		$external = $this->hive->get_table_detail($db_name, $tbl_name, 'properties');
+		$external = $external['tableType'];
 		$data['external'] = $external;
 		
 		$cols = $this->hive->get_table_detail($db_name, $tbl_name, 'cols');
