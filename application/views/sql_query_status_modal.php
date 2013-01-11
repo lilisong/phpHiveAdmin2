@@ -12,7 +12,7 @@ function SqlQuery()
 
 function QueryStatus()
 {
-	$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/' + $('#finger_print').val(), { }, function(json){
+	$.getJSON('<?php echo $this->config->base_url();?>index.php/manage/getquerystatus/' + $('#finger_print').val(), function(json){
 		json = json;
 		map_per = json.map_percent;
 		reduce_per = json.reduce_percent;

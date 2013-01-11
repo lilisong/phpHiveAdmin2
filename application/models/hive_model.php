@@ -842,7 +842,7 @@ class Hive_model extends CI_Model
 		if(is_array($array))
 		{
 			$array = array_reverse($array);
-			
+			$text = "";
 			foreach($array as $k => $v)
 			{
 				$text .= $v."<br />\n";
