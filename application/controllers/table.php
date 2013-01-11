@@ -33,7 +33,7 @@ class Table extends CI_Controller
 		#Generate left table list on left area
 		$this->load->model('hive_model','hive');
 		$data['db_list'] = $this->hive->show_databases();
-		$data['table_list'] = array_reverse($this->hive->show_tables($db_name));
+		$data['table_list'] = $this->hive->show_tables($db_name);
 		$data['var_db_name'] = $db_name;
 		$this->load->view('db_list',$data);
 		
