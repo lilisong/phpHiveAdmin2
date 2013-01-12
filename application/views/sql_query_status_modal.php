@@ -30,10 +30,10 @@ function RefreshStatus(ctrl)
 	{
 		self.timer = setInterval(QueryStatus,2000);
 	}
-	else
+	/*else
 	{
 		clearInterval(self.timer);
-	}
+	}*/
 }
 
 function GetResult()
