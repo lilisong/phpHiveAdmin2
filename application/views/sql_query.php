@@ -121,11 +121,19 @@ SQL查询-->
 	
 	function MakeFingerPrint()
 	{
-		$.get('<?php echo $this->config->base_url();?>index.php/manage/getfingerprint/', {}, function(html){
-			html = html;
-			$('#finger_print').val(html);
-			$('#sql_query_status').html(html);
-		});
+		if($('#finger_print').val() == '')
+		{
+			$.get('<?php echo $this->config->base_url();?>index.php/manage/getfingerprint/', {}, function(html){
+				html = html;
+				$('#finger_print').val(html);
+				$('#sql_query_status').html(html);
+			});
+		}
+		else
+		{
+			$('#finger_print').addClass('disabled');
+			return false;
+		}
 	}
 
 	</script>
@@ -139,7 +147,7 @@ SQL查询-->
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
-				<li><a href="#sql_query_status_modal" data-toggle="modal" data-keyboard="false" data-backdrop="static" onclick="MakeFingerPrint()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a></li>
+				<li><a href="#sql_query_status_modal" data-toggle="modal" data-backdrop="static" onclick="MakeFingerPrint()"><i class="icon-refresh"></i> <?php echo $common_submit;?></a></li>
 			</ul>
 		</div>
 
