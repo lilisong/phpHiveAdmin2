@@ -766,38 +766,44 @@ class Hive_model extends CI_Model
 		stream_set_blocking($pipes[2],0);
 		
 		$todo= array($pipes[1],$pipes[2]);
-		
-		$fp = fopen($file_name, "w");
-		#fwrite($fp,$time_stamp."\n\n");
-		while( true )
+		try
 		{
-			$read= array(); 
-			#if( !feof($pipes[1]) ) $read[]= $pipes[1];
-			if( !feof($pipes[$type]) )
-				$read[]= $pipes[$type];// get system stderr on real time
-			
-			if (!$read)
+			$fp = fopen($file_name, "w");
+			#fwrite($fp,$time_stamp."\n\n");
+			while( true )
 			{
-				break;
+				$read= array(); 
+				#if( !feof($pipes[1]) ) $read[]= $pipes[1];
+				if( !feof($pipes[$type]) )
+					$read[]= $pipes[$type];// get system stderr on real time
+				
+				if (!$read)
+				{
+					break;
+				}
+				
+				$ready= stream_select($read, $write=NULL, $ex= NULL, 2);
+				
+				if ($ready === false)
+				{
+					break; #should never happen - something died
+				}
+				
+				foreach ($read as $r)
+				{
+					$s= fread($r,128);
+					$output .= $s;
+					fwrite($fp,$s);
+				}
+			
 			}
 			
-			$ready= stream_select($read, $write=NULL, $ex= NULL, 2);
-			
-			if ($ready === false)
-			{
-				break; #should never happen - something died
-			}
-			
-			foreach ($read as $r)
-			{
-				$s= fread($r,128);
-				$output .= $s;
-				fwrite($fp,$s);
-			}
-		
+			fclose($fp);
 		}
-		
-		fclose($fp);
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
 		
 		fclose($pipes[1]);
 		fclose($pipes[2]);
@@ -822,16 +828,22 @@ class Hive_model extends CI_Model
 		$run_file = $filename['run_with_path'];
 		
 		$this->load->helper('file');
-		
-		@write_file($log_file, $sql);
-		
-		echo $run_file;
-		
-		$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
-		
-		$this->async_execute_hql($cmd, $run_file, 2, $code);
-		$this->utils->export_csv($finger_print);
-		sleep(1);
+		try
+		{
+			write_file($log_file, $sql);
+			
+			echo $run_file;
+			
+			$cmd = $LANG . $JAVA_HOME . $HADOOP_HOME . $HIVE_HOME . $this->config->item('hive_home') . "/bin/hive -f " . $log_file . " > " . $out_file;
+			
+			$this->async_execute_hql($cmd, $run_file, 2, $code);
+			$this->utils->export_csv($finger_print);
+			sleep(1);
+		}
+		catch (Exception $e)
+		{
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
 	}
 	
 	public function get_query_status($finger_print)
@@ -839,40 +851,48 @@ class Hive_model extends CI_Model
 		$this->load->model('utilities_model', 'utils');
 		$filename = $this->utils->make_filename($finger_print);
 		$run_file = $filename['run_with_path'];
-		$array = @file($run_file);
-		if(is_array($array))
+		try
 		{
-			$array = array_reverse($array);
-			$text = "";
-			foreach($array as $k => $v)
+			$array = file($run_file);
+		
+			if(is_array($array))
 			{
-				$text .= trim($v)."<br>";
-			}
+				$array = array_reverse($array);
+				$text = "";
+				foreach($array as $k => $v)
+				{
+					$text .= trim($v)."<br>";
+				}
 
-			$str = $array[0];
-			$start_map = strpos($str, "map = ")+6;
-			$end_map = strpos($str, "%");
-			$len_map = $end_map - $start_map;
+				$str = $array[0];
+				$start_map = strpos($str, "map = ")+6;
+				$end_map = strpos($str, "%");
+				$len_map = $end_map - $start_map;
 
-			$start_reduce = strpos($str, "reduce = ")+9;
-			$end_reduce = strrpos($str, "%");
-			$len_reduce = $end_reduce - $start_reduce;
+				$start_reduce = strpos($str, "reduce = ")+9;
+				$end_reduce = strrpos($str, "%");
+				$len_reduce = $end_reduce - $start_reduce;
 
-			$map_per = substr($str, $start_map, $len_map);
-			$reduce_per = substr($str, $start_reduce, $len_reduce);
+				$map_per = substr($str, $start_map, $len_map);
+				$reduce_per = substr($str, $start_reduce, $len_reduce);
 			
-			if(!is_numeric($map_per) || !is_numeric($reduce_per))
-			{
-				$map_per = 0;
-				$reduce_per = 0;
-			}
+				if(!is_numeric($map_per) || !is_numeric($reduce_per))
+				{
+					$map_per = 0;
+					$reduce_per = 0;
+				}
 
-			$json = '{"map_percent":"'.$map_per.'","reduce_percent":"'.$reduce_per.'","text":"'.$text.'"}';
-			return $json;
+				$json = '{"map_percent":"'.$map_per.'","reduce_percent":"'.$reduce_per.'","text":"'.$text.'"}';
+				return $json;
+			}
+			else
+			{
+				die('Do not re-submit!!!');
+			}
 		}
-		else
+		catch (Exception $e)
 		{
-			die('Do not re-submit!!!');
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 	}
 	
@@ -885,28 +905,35 @@ class Hive_model extends CI_Model
 		$this->load->helper('file');
 		if(file_exists($csv_file))
 		{
-			$fp = fopen($csv_file,"r");
-			$i = 0;
-			$string = "";
-			while($i != 30)
+			try
 			{
-				$string .= fgets($fp,4096);
-				$i++;
-			}
-			fclose($fp);
-			if(strlen($string) > 0)
-			{
-				$data_tmp = explode("\n", $string);
-				$data_matrix = "";
-				for($i = 0; $i < count($data_tmp); $i++)
+				$fp = fopen($csv_file,"r");
+				$i = 0;
+				$string = "";
+				while($i != 30)
 				{
-					$data_matrix[$i] = explode(',', $data_tmp[$i]);
+					$string .= fgets($fp,4096);
+					$i++;
 				}
-				return $data_matrix; // return a data matrix
+				fclose($fp);
+				if(strlen($string) > 0)
+				{
+					$data_tmp = explode("\n", $string);
+					$data_matrix = "";
+					for($i = 0; $i < count($data_tmp); $i++)
+					{
+						$data_matrix[$i] = explode(',', $data_tmp[$i]);
+					}
+					return $data_matrix; // return a data matrix
+				}
+				else
+				{
+					die('No result found');
+				}
 			}
-			else
+			catch (Exception $e)
 			{
-				die('No result found');
+				echo 'Caught exception: ',  $e->getMessage(), "\n";
 			}
 		}
 		else
