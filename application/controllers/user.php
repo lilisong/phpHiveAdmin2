@@ -25,6 +25,17 @@ class User extends CI_Controller
 		$data['common_submit'] = $this->lang->line('common_submit');
 		$this->load->view('header',$data);
 		
+		#Generate Navigation top bar
+		$data['common_hql_query'] = $this->lang->line('common_hql_query');
+		$data['common_etl'] = $this->lang->line('common_etl');
+		$data['common_cluster_status'] = $this->lang->line('common_cluster_status');
+		$data['common_hdfs_browser'] = $this->lang->line('common_hdfs_browser');
+		$data['common_meta_summury'] = $this->lang->line('common_meta_summury');
+		$data['common_history'] = $this->lang->line('common_history');
+		$data['common_log_out'] = $this->lang->line('common_log_out');
+		$data['common_user_admin'] = $this->lang->line('common_user_admin');
+		$this->load->view('nav_bar',$data);
+		
 		#Generate div container
 		$this->load->view('div_fluid');
 		$this->load->view('div_row_fluid');
