@@ -124,14 +124,9 @@ class User extends CI_Controller
 		redirect($this->config->base_url() . 'index.php/user/index/', '0', "refresh");
 	}
 	
-	public function UpdateUser()
+	public function UpdateUserAcrion()
 	{
 		
-	}
-	
-	public function ListUser()
-	{
-		$this->load->model('user_model', 'user');
 	}
 	
 	public function LogOut()

@@ -90,7 +90,7 @@ class User_model extends CI_Model
 	
 	public function get_user_list()
 	{
-		$sql = "select * from ehm_pha_user";
+		$sql = "select * from ehm_pha_user where username != 'admin'";
 		$query = $this->db->query($sql);
 		$result = $query->result();
 		return $result;// object array need foreach to fetch it
