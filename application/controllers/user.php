@@ -104,12 +104,16 @@ class User extends CI_Controller
 		$this->load->model('user_model', 'user');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
+		$repassword = $this->input->post('repassword');
 		$onlydb = $this->input->post('onlydb');
 		$role = $this->input->post('role');
 		$reduce = $this->input->post('reduce');
 		$description = $this->input->post('description');
 		
-		$this->user->create_user($username, $password, $onlydb, $role, $reduce=0, $description);
+		if($password == $repassword)
+		{
+			$this->user->create_user($username, $password, $onlydb, $role, $reduce=0, $description);
+		}
 		$this->load->helper('url');
 		redirect($this->config->base_url() . 'index.php/user/index/', '0', "refresh");
 	}
