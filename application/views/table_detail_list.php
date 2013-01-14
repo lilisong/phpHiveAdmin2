@@ -1,5 +1,7 @@
 <div class="span10">
+<?php if($this->session->userdata('role') == "admin"):?>
 <div>
+
 <table>
 	<tr>
 	<td>
@@ -19,6 +21,7 @@
 	</tr>
 </table>
 </div>
+<?php endif;?>
 <br>
 <div>
 	<script>
