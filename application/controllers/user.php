@@ -6,9 +6,9 @@ class User extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->helper('url');
-		if(!$this->session->userdata('login') || $this->session->userdata('login') == FALSE)
+		if($this->session->userdata('role') != "admin")
 		{
-			redirect($this->config->base_url() . 'index.php/user/login/');
+			redirect($this->config->base_url() . 'index.php/manage/index/');
 		}
 	}
 	
