@@ -68,6 +68,7 @@ class User_model extends CI_Model
 		$query = $this->db->query($sql);
 		$result = $query->result();
 		$this->load->model('utilities_model', 'utils');
+		$username = $result[0]->username;
 		foreach($result as $row)
 		{
 			$username = $row->username;
