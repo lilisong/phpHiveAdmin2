@@ -66,8 +66,9 @@ class User_model extends CI_Model
 	{
 		$sql = "select user.username as username,job.fingerprint as fingerprint from ehm_pha_user user, ehm_pha_history_job job where user.id = '". $id ."' and user.username = job.username";
 		$query = $this->db->query($sql);
+		$result = $query->result();
 		$this->load->model('utilities_model', 'utils');
-		foreach($query as $row)
+		foreach($result as $row)
 		{
 			$username = $row->username;
 			$finger_print = $row->fingerprint;
