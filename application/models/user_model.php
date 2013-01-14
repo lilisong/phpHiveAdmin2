@@ -66,10 +66,10 @@ class User_model extends CI_Model
 	{
 		$sql = "select user.username as username,job.fingerprint as fingerprint from ehm_pha_user user, ehm_pha_history_job job where user.id = '". $id ."' and user.username = job.username";
 		$query = $this->db->query($sql);
-		$result = $query->result();
+		$result = @$query->result();
 		$this->load->model('utilities_model', 'utils');
-		$username = $result[0]->username;
-		foreach($result as $row)
+		$username = @$result[0]->username;
+		foreach($result as @$row)
 		{
 			$username = $row->username;
 			$finger_print = $row->fingerprint;
@@ -78,9 +78,9 @@ class User_model extends CI_Model
 			$log_with_path = $this->config->item('log_path') . $log;
 			try
 			{
-				unlink($log_with_path);
-				unlink($filename['csv_with_path']);
-				unlink($filename['run_with_path']);
+				@unlink($log_with_path);
+				@unlink($filename['csv_with_path']);
+				@unlink($filename['run_with_path']);
 			}
 			catch (Exception $e)
 			{
