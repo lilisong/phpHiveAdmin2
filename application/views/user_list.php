@@ -7,6 +7,8 @@
 			<td>Username:</td>
 			<td>Role:</td>
 			<td>Description:</td>
+			<td></td>
+			<td></td>
 		</tr>
 		<?php foreach($user_list as $row):?>
 		<tr>
