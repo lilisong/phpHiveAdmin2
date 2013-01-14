@@ -180,10 +180,9 @@ class Utilities_model extends CI_Model
 		$this->load->helper('file');
 		$this->load->helper('download');
 		//$this->load->database();
-		$sql = "select * from ehm_pha_history_job where fingerprint = '". $finger_print ."'";
-		$query = $this->db->query($sql);
-		$res = $query->result();
-		$username = $res[0]->username;
+		$this->load->model('history_model', 'history');
+		$res = $this->history->get_history_by_fingerprint($finger_print);
+		$username = $res->username;
 		try
 		{
 			$csv = 'hive_res.' . $finger_print . '.csv';
@@ -200,13 +199,17 @@ class Utilities_model extends CI_Model
 	public function split_sql_cols($finger_print)
 	{
 		$this->load->helper('file');
-		$file_name = $this->make_filename($finger_print);
-		$file_name = $file_name['log_with_path'];
-		if(file_exists($file_name))
+		$this->load->model('history_model', 'history');
+		$res = $this->history->get_history_by_fingerprint($finger_print);
+		$username = $res->username;
+		$log =$username . "_" . $finger_print . ".log";
+		$log_with_path = $this->config->item('log_path') . $log;
+		
+		if(file_exists($log_with_path))
 		{
 			try
 			{
-				$sql = read_file($file_name);
+				$sql = read_file($log_with_path);
 			}
 			catch (Exception $e)
 			{

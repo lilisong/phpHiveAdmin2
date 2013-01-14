@@ -97,6 +97,14 @@ class History_model extends CI_Model
 		return $json;
 	}
 	
+	public function get_history_by_fingerprint($finger_print)
+	{
+		$sql = "select * from ehm_pha_history_job where fingerprint = '".$finger_print."'";
+		$query = $this->db->query($sql);
+		$result = $query->result();
+		return $result[0];
+	}
+	
 }
 
 ?>

@@ -918,16 +918,18 @@ class Hive_model extends CI_Model
 	
 	public function get_result($finger_print)
 	{
-		$this->load->model('utilities_model', 'utils');
-		$filename = $this->utils->make_filename($finger_print);
-		$csv_file = $filename['csv_with_path'];
+		$this->load->model('history_model', 'history');
+		$res = $this->history->get_history_by_fingerprint($finger_print);
+		$username = $res->username;
+		$csv = 'hive_res.' . $finger_print . '.csv';
+		$csv_with_path = $this->config->item('result_path') . $csv;
 		
 		$this->load->helper('file');
-		if(file_exists($csv_file))
+		if(file_exists($csv_with_path))
 		{
 			try
 			{
-				$fp = fopen($csv_file,"r");
+				$fp = fopen($csv_with_path,"r");
 				$i = 0;
 				$string = "";
 				while($i != 30)
