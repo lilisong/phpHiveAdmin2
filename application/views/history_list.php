@@ -12,9 +12,10 @@
 			<?php foreach($results as $item):?>
 			<tr>
 				<?php
-				$filename = $this->config->item('log_path') . $this->session->userdata('username') . "_" . $item->fingerprint . ".log";;
+				$filename['log_with_path'] = $this->config->item('log_path') . $this->session->userdata('username') . "_" . $item->fingerprint . ".log";
+				$filename['log'] = $this->session->userdata('username') . "_" . $item->fingerprint . ".log";
 				?>
-				<td><?php echo $filename;?></td>
+				<td><?php echo $filename['log'];?></td>
 				<?php
 				$this->load->helper('file');
 				try
