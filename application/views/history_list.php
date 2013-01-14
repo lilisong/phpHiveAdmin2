@@ -9,12 +9,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach($results $history):?>
+			<?php foreach($results as $item):?>
 			<tr>
 				<?php
-				$filename = $utils->make_filename($history->fingerprint);
+				$filename = $this->config->item('log_path') . $this->session->userdata('username') . "_" . $item->fingerprint . ".log";;
 				?>
-				<td><?php echo $filename['out'];?></td>
+				<td><?php echo $filename;?></td>
 				<?php
 				$this->load->helper('file');
 				try
