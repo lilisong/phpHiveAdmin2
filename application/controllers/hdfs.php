@@ -5,6 +5,11 @@ class Hdfs extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		if(!$this->session->userdata('login') || $this->session->userdata('login') == FALSE)
+		{
+			$this->load->helper('url');
+			redirect($this->config->base_url() . 'index.php/user/login/');
+		}
 	}
 	
 	public function Index()

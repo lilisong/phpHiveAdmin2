@@ -6,6 +6,11 @@ class Manage extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		if(!$this->session->userdata('login') || $this->session->userdata('login') == FALSE)
+		{
+			$this->load->helper('url');
+			redirect($this->config->base_url() . 'index.php/user/login/');
+		}
 	}
 
 	public function Index()
@@ -173,7 +178,24 @@ class Manage extends CI_Controller
 		$sql = $this->input->post('sql');
 		$finger_print = $this->input->post('finger_print');
 		$this->load->model('hive_model', 'hive');
-		$this->hive->cli_query($sql, $finger_print);
+		if($this->session->userdata('role') == "admin")
+		{
+			$this->hive->cli_query($sql, $finger_print);
+		}
+		else
+		{
+			$this->load->model('utilities_model', 'utils');
+			if($this->utils->auth_sql($sql))
+			{
+				$this->hive->cli_query($sql, $finger_print);
+			}
+			else
+			{
+				echo "No privileges";
+				$this->load->helper('url');
+				redirect($this->config-base_url() . 'index.php',"2","refresh");
+			}
+		}
 	}
 	
 	public function GetFingerPrint()

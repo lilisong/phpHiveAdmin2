@@ -12,20 +12,19 @@ class User_model extends CI_Model
 		{
 			$sql="select * from ehm_pha_user where username='".$username."' and password='".md5($password)."'";
 			$query = $this->db->query($sql);
-			$result = $query->result();
 			if ($query->num_rows() > 0)
 			{
+				$result = $query->result();
 				$login = TRUE;
-				$session_array = array(	'id' => $result->id,
-										'username' => $result->username,
-										'password' => $result->password,
-										'login' => $login;
-										'onlydb' => explode(",", $result->onlydb),
-										'role' => $result->role),
-										'reduce' => $result->reduce,
+				$onlydb = explode(',', $result[0]->onlydb);
+				$session_array = array(	'id' => $result[0]->id,
+										'username' => $result[0]->username,
+										'password' => $result[0]->password,
+										'login' => $login,
+										'onlydb' => $onlydb,
+										'role' => $result[0]->role,
+										'reduce' => $result[0]->reduce);
 				$this->session->set_userdata($session_array);
-				$this->load->helper('url');
-				redirect($this->config->base_url());
 			}
 			else
 			{
@@ -36,11 +35,11 @@ class User_model extends CI_Model
 		}
 	}
 	
-	public function create_user($username, $password, $onlydb, $role = "user", $reduce = '1', $description)
+	public function create_user($username, $password, $onlydb, $role = "user", $reduce = '2', $description)
 	{
 		#role must be user | admin
 		$sql = "insert ehm_pha_user set username = '" . $username . "', password = '" . $password . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "'";
-		if(this->db->simple_query($sql))
+		if($this->db->simple_query($sql))
 		{
 			return '{"status":"success"}';
 		}
@@ -53,7 +52,7 @@ class User_model extends CI_Model
 	public function update_user($id, $username, $password, $onlydb, $role, $reduce, $description)
 	{
 		$sql = "update ehm_pha_user set username = '" . $username . "', password = '" . $password . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "' where id = '" . $id . "'";
-		if(this->db->simple_query($sql))
+		if($this->db->simple_query($sql))
 		{
 			return '{"status":"success"}';
 		}
@@ -66,7 +65,7 @@ class User_model extends CI_Model
 	public function drop_user($id)
 	{
 		$sql = "delete from ehm_pha_user where id = '" . $id . "'";
-		if(this->db->simple_query($sql))
+		if($this->db->simple_query($sql))
 		{
 			return '{"status":"success"}';
 		}

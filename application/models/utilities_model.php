@@ -220,29 +220,21 @@ class Utilities_model extends CI_Model
 		return $columns; #as an array
 	}
 	
-	public function auth_sql($sql, $role)
+	public function auth_sql($sql)
 	{
-		if($role == "user")
+		if(	preg_match("/^\s*insert\s+/i", $sql) || 
+			preg_match("/^\s*drop\s+/i", $sql) || 
+			preg_match("/^\s*create\s+/i", $sql) || 
+			preg_match("/^\s*alter\s+/i", $sql) ||
+			preg_match("/^\s*load\s+/i", $sql) ||
+			preg_match("/^\s*set\s+/i", $sql) ||
+			preg_match("/^\s*dfs\s+/i", $sql) )
 		{
-			
-			if(	preg_match("/^\s*insert\s+/i", $sql) || 
-				preg_match("/^\s*drop\s+/i", $sql) || 
-				preg_match("/^\s*create\s+/i", $sql) || 
-				preg_match("/^\s*alter\s+/i", $sql) ||
-				preg_match("/^\s*load\s+/i", $sql) ||
-				preg_match("/^\s*set\s+/i", $sql) ||
-				preg_match("/^\s*dfs\s+/i", $sql) )
-			{
-				return FALSE;
-			}
-			else
-			{
-				return $sql;
-			}
+			return FALSE;
 		}
 		else
 		{
-			return $sql;
+			return TRUE;
 		}
 	}
 	

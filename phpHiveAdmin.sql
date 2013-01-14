@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `ehm_pha_user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 INSERT INTO `ehm_pha_user` (`id`, `username`, `password`, `role`) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin');
+INSERT INTO `ehm_pha_user` (`id`, `username`, `password`, `onlydb`, `role`) VALUES (2, 'user', 'e10adc3949ba59abbe56e057f20f883e', 'default,mactive', 'user');
 
 CREATE TABLE IF NOT EXISTS `ehm_pha_history_job` (
   `id` int(10) NOT NULL AUTO_INCREMENT,

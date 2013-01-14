@@ -8,9 +8,9 @@ class History_model extends CI_Model
 		parent::__construct();
 	}
 	
-	public function count_history($username = "")
+	public function count_history($role = 'user')
 	{
-		if($username == "")
+		if($role == "admin")
 		{
 			$sql = "select * from ehm_pha_history_job";
 			$query = $this->db->query($sql);
@@ -18,6 +18,7 @@ class History_model extends CI_Model
 		}
 		else
 		{
+			$username = $this->session->userdata('username');
 			$sql = "select * from ehm_pha_history_job where username = '".$username."'";
 			$query = $this->db->query($sql);
 			$count = $query->num_rows();
@@ -25,7 +26,7 @@ class History_model extends CI_Model
 		return $count;
 	}
 	
-	public function get_history($limit = "20", $offset = "0")
+	public function get_history_list($limit = "20", $offset = "0")
 	{
 		$sql = "select * from ehm_pha_history_job order by access_time desc limit ". $offset . ",". $limit;
 		$query = $this->db->query($sql);
@@ -33,7 +34,7 @@ class History_model extends CI_Model
 		return $result;// object array need foreach to fetch it
 	}
 	
-	public function get_history_by_user($username , $limit = "20", $offset = "0")
+	public function get_history_list_by_user($username , $limit = "20", $offset = "0")
 	{
 		$sql = "select * from ehm_pha_history_job where username = '". $username ."' order by access_time desc limit ". $offset . ",". $limit;
 		$query = $this->db->query($sql);

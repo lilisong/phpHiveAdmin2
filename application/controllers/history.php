@@ -5,6 +5,11 @@ class History extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		if(!$this->session->userdata('login') || $this->session->userdata('login') == FALSE)
+		{
+			$this->load->helper('url');
+			redirect($this->config->base_url() . 'index.php/user/login/');
+		}
 	}
 	
 	public function Index()
@@ -33,7 +38,7 @@ class History extends CI_Controller
 		$this->load->model('history_model', 'history');
 		$this->load->library('pagination');
 		$config['base_url'] = $this->config->base_url() . 'index.php/history/index/';
-		$config['total_rows'] = $this->history->count_history();
+		$config['total_rows'] = $this->history->count_history($this->session->userdata('role'));
 		$config['per_page'] = 30;
 		$offset = $this->uri->segment(3,0);
 		if($offset == 0):
@@ -44,10 +49,18 @@ class History extends CI_Controller
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
 		
-		$data['common_log_out'] = $this->lang->line('common_log_out');
-		$data['common_log_out'] = $this->lang->line('common_log_out');
-		$data['common_log_out'] = $this->lang->line('common_log_out');
-		$data['results'] = $this->history->get_history($config['per_page'], $offset);
+		$data['common_file_name'] = $this->lang->line('common_file_name');
+		$data['common_file_content'] = $this->lang->line('common_file_content');
+		$data['common_file_size'] = $this->lang->line('common_file_size');
+		if($this->session->userdata('role') == "admin")
+		{
+			$data['results'] = $this->history->get_history_list($config['per_page'], $offset);
+		}
+		else
+		{
+			$data['results'] = $this->history->get_history_list_by_user($this->session->userdata('username'), $config['per_page'], $offset);
+		}
+		$this->load->view('history_list', $data);
 		
 		$this->load->view('div_end');
 		$this->load->view('div_end');

@@ -32,6 +32,24 @@ class Hive_model extends CI_Model
 			$this->transport->open();
 			$db_array = $this->hive->get_all_databases();
 			$this->transport->close();
+			$onlydb = $this->session->userdata('onlydb');
+			$role = $this->session->userdata('role');
+			if($role == "admin")
+			{
+				$db_array = $db_array;
+			}
+			else
+			{
+				for($i = 0; $i < count($db_array); $i++)
+				{
+					if(in_array($db_array[$i], $onlydb))
+					{
+						$arr[$i] = $db_array[$i];
+					}
+				}
+				$this->load->model('utilities_model', 'utils');
+				$db_array = $this->utils->array_reindex($arr);
+			}
 			return $db_array;
 		}
 		catch (Exception $e)
@@ -832,6 +850,7 @@ class Hive_model extends CI_Model
 		{
 			write_file($log_file, $sql);
 			$this->load->model('history_model', 'history');
+			$this->history->create_history($this->session->userdata('username'), $finger_print);
 			
 			echo $run_file;
 			

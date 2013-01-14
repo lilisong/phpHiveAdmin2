@@ -1,8 +1,8 @@
 <div class="span10">
 
-	<table>
+	<table class="table table-bordered table-striped table-hover">
 		<thead>
-			<tr>
+			<tr class="success">
 				<td><?php echo $common_file_name;?></td>
 				<td><?php echo $common_file_content;?></td>
 				<td><?php echo $common_file_size;?></td>
@@ -33,5 +33,7 @@
 			<?php endforeach;?>
 		</tbody>
 	</table>
-
+	<div>
+		<h3><?php echo $pagination;?></h3>
+	</div>
 </div>
