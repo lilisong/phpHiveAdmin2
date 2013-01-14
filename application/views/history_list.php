@@ -1,5 +1,33 @@
 <div class="span10">
 
+	<script>
+	function CheckUnCheckAll()
+	{
+		var checkAll = document.getElementById('chkAll');
+		var checkBox = document.getElementsByName("history_id[]");
+		var arr = checkBox;
+		if(checkAll.checked==true){
+			checkAll.value = "";
+			for(i=0; i<arr.length; i++){
+				arr[i].checked = true;
+				checkAll.value += arr[i].value + ';';
+			}
+			var json = '{"tables":"' + checkAll.value.substring(0, (checkAll.value.length-1)) + '"}';
+			//alert(json);
+		}
+		if(checkAll.checked==false){
+			for(i=0; i<arr.length; i++){
+				if(arr[i].checked == true){
+					arr[i].checked = false;
+				}else {
+					arr[i].checked = true ;
+				}
+			}
+		}
+	}
+	
+	</script>
+	<form method="post" action="<?php echo $this->config->base_url();?>index.php/history/batchdrophistory/">
 	<table class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="success">
@@ -16,7 +44,7 @@
 			<tr>
 			<?php if($this->session->userdata('role') == "admin"):?>
 				<td>
-					<input type="chechbox" name="history_id[]" value="<?php echo $item->id;?>" />
+					<input type="checkbox" name="history_id[]" value="<?php echo $item->id;?>" />
 				</td>
 			<?php endif;?>
 				<?php
@@ -51,6 +79,7 @@
 			<?php endif;?>
 		</tbody>
 	</table>
+	</form>
 	<div>
 		<h3><?php echo $pagination;?></h3>
 	</div>

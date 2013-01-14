@@ -42,12 +42,12 @@ class History_model extends CI_Model
 		return $result;// object array need foreach to fetch it
 	}
 	
-	public function drop_history($id = array())
+	public function batch_drop_history($id = array())
 	{
 		if(count($id) > 0)
 		{
 			$ids = implode(",", $id);
-			$sql = "select finger_print from ehm_pha_history_job where id in (".$ids.")";
+			echo $sql = "select username,finger_print from ehm_pha_history_job where id in (".$ids.")";
 			$query = $this->db->query($sql);
 			$result = $query->result();
 			
@@ -55,9 +55,11 @@ class History_model extends CI_Model
 			foreach($result as $row)
 			{
 				$filename = $this->utils->make_filename($row->finger_print);
+				$log = $row->username."_" . $finger_print . ".log";
+				$log_with_path =  $this->config->item('log_path') . $log;
 				try
 				{
-					unlink($filename['log_with_path']);
+					unlink($log_with_path);
 					unlink($filename['csv_with_path']);
 					unlink($filename['run_with_path']);
 				}
