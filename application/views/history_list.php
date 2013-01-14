@@ -9,13 +9,17 @@
 			</tr>
 		</thead>
 		<tbody>
+			<?php $this->load->model('utilities_model', 'utils');?>
 			<?php foreach($results as $item):?>
 			<tr>
 				<?php
-				$filename['log_with_path'] = $this->config->item('log_path') . $this->session->userdata('username') . "_" . $item->fingerprint . ".log";
-				$filename['log'] = $this->session->userdata('username') . "_" . $item->fingerprint . ".log";
+				//$filename['log_with_path'] = $this->config->item('log_path') . $this->session->userdata('username') . "_" . $item->fingerprint . ".log";
+				//$filename['log'] = $this->session->userdata('username') . "_" . $item->fingerprint . ".log";
+				
+				
+				$filename = $this->utils->make_filename($item->fingerprint);
 				?>
-				<td><?php echo $filename['log'];?></td>
+				<td><a href="<?php echo $this->config->base_url();?>index.php/manage/getresult/<?php echo $item->fingerprint;?>" target="_blank"><?php echo $filename['log'];?></td>
 				<?php
 				$this->load->helper('file');
 				try
