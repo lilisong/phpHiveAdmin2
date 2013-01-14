@@ -44,6 +44,6 @@
 
 		<!-- end: JavaScript-->
 		<hr></hr>
-		<center>Copyright phpHiveAdmin under GPLv3 license</center>
+		<center>Copyright Xianglei under GPLv3 license</center>
 	</body>
 </html>

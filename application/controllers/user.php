@@ -118,7 +118,7 @@ class User extends CI_Controller
 			echo "Password not matched";
 		}
 		$this->load->helper('url');
-		redirect($this->config->base_url() . 'index.php/user/index/', '2', "refresh");
+		redirect($this->config->base_url() . 'index.php/user/index/', '1', "refresh");
 	}
 	
 	public function DropUserAction()
