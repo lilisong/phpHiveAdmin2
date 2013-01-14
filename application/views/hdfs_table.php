@@ -1,6 +1,6 @@
 <div class="span10">
 
-	<table>
+	<table class="table table-bordered table-striped table-condensed">
 		<thead>
 			<tr class="info">
 				<td><?php echo $common_file_property;?></td>
@@ -19,7 +19,7 @@
 				<td><?php echo $hdfs_matrix['file_group'][$i];?></td>
 				<td><?php echo $hdfs_matrix['file_size'][$i];?></td>
 				<td><?php echo $hdfs_matrix['file_time'][$i];?></td>
-				<td><?php echo $hdfs_matrix['file_name'][$i];?></td>
+				<td><a href="<?php echo $this->config->base_url();?>index.php/hdfs/index/<?php echo base64_encode( $hdfs_matrix['file_name'][$i]);?>"><?php echo $hdfs_matrix['file_name'][$i];?></a></td>
 			</tr>
 			<?php endfor;?>
 		</tbody>
