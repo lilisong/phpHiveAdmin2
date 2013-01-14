@@ -244,12 +244,6 @@ class Manage extends CI_Controller
 		$this->load->view('div_fluid');
 		$this->load->view('div_row_fluid');
 		
-		#Generate Database list on left area
-		$this->load->model('hive_model','hive');
-		$data['db_list'] = $this->hive->show_databases();
-		$this->load->view('db_list',$data);
-		
-		
 		$data['common_download_result'] = $this->lang->line('common_download_result');
 		$data['sql_columns'] = $sql_columns;
 		$data['data_matrix'] = $data_matrix;
@@ -265,7 +259,7 @@ class Manage extends CI_Controller
 	public function DownloadResult()
 	{
 		$finger_print = $this->uri->segment(3,0);
-		$this->load->model('hive_model', 'hive');
-		$this->hive->download_result($finger_print);
+		$this->load->model('utilities_model', 'utils');
+		$this->utils->download_csv($finger_print);
 	}
 }

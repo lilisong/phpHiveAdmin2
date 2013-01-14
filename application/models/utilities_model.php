@@ -175,14 +175,15 @@ class Utilities_model extends CI_Model
 		return $file_array;
 	}
 	
-	public function download_csv($file_name)
+	public function download_csv($finger_print)
 	{
 		$this->load->helper('file');
 		$this->load->helper('download');
 		try
 		{
-			$content = readfile($file_name);
-			force_download($file_name, $content);
+			$filename = $this->make_filename($finger_print);
+			$content = readfile($filename['csv_with_path']);
+			force_download($filename['csv'], $content);
 		}
 		catch (Exception $e)
 		{
