@@ -12,7 +12,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php for($i = 0; $i < count($hdfs_matrix['file_name']); $i++):?>
+			<?php for($i = 1; $i <= count($hdfs_matrix['file_name']); $i++):?>
 			<tr>
 				<td><?php echo $hdfs_matrix['file_property'][$i];?></td>
 				<td><?php echo $hdfs_matrix['file_user'][$i];?></td>
