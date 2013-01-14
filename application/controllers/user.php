@@ -76,6 +76,7 @@ class User extends CI_Controller
 		$data['common_username'] = $this->lang->line('common_username');
 		$data['common_password'] = $this->lang->line('common_password');
 		$data['common_submit'] = $this->lang->line('common_submit');
+		$data['common_delete'] = $this->lang->line('common_delete');
 		$this->load->view('header',$data);
 		
 		$this->load->view('login_form', $data);
@@ -121,7 +122,7 @@ class User extends CI_Controller
 	public function DropUserAction()
 	{
 		$this->load->model('user_model', 'user');
-		$user_id = $this->uri->segment(3,0);
+		$user_id = $this->input->post('user_id');
 		
 		$this->user->drop_user($user_id);
 		$this->load->helper('url');
