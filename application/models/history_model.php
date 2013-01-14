@@ -47,7 +47,7 @@ class History_model extends CI_Model
 		if(count($id) > 0)
 		{
 			$ids = implode(",", $id);
-			echo $sql = "select username,finger_print from ehm_pha_history_job where id in (".$ids.")";
+			echo $sql = "select username,fingerprint from ehm_pha_history_job where id in (".$ids.")";
 			$query = $this->db->query($sql);
 			$result = $query->result();
 			
