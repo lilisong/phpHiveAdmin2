@@ -125,7 +125,8 @@
 		<?php if($this->session->userdata('role') == "admin"):?>
 			<tr>
 				<td>
-					<input type="hidden" name="db_name" value=<?php echo $var_db_name;?>><input type="checkbox" id="chkAll" onClick="CheckUnCheckAll()" /><br /><?php echo $common_select?> / <?php echo $common_deselect;?>
+					<input type="hidden" name="db_name" value=<?php echo $var_db_name;?>>
+					<input type="checkbox" id="chkAll" onClick="CheckUnCheckAll()" /><br /><?php echo $common_select?> / <?php echo $common_deselect;?>
 				</td>
 				<td></td>
 				<td></td>
