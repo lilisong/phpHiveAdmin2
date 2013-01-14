@@ -3,6 +3,9 @@
 	<table class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="success">
+			<?php if($this->session->userdata('role') == "admin"):?>
+				<td></td>
+			<?php endif;?>
 				<td><?php echo $common_file_name;?></td>
 				<td><?php echo $common_file_content;?></td>
 				<td><?php echo $common_file_size;?></td>
@@ -11,6 +14,11 @@
 		<tbody>
 			<?php foreach($results as $item):?>
 			<tr>
+			<?php if($this->session->userdata('role') == "admin"):?>
+				<td>
+					<input type="chechbox" name="history_id[]" value="<?php echo $item->id;?>" />
+				</td>
+			<?php endif;?>
 				<?php
 				$filename['log_with_path'] = $this->config->item('log_path') . $item->username . "_" . $item->fingerprint . ".log";
 				$filename['log'] = $item->username . "_" . $item->fingerprint . ".log";
@@ -31,6 +39,16 @@
 				<td><?php $this->load->helper('number'); echo byte_format(filesize($filename['log_with_path']));?></td>
 			</tr>
 			<?php endforeach;?>
+			<?php if($this->session->userdata('role') == "admin"):?>
+			<tr>
+				<td>
+					<input type="chechbox" id="chkAll" />
+				</td>
+				<td></td>
+				<td></td>
+				<td><button><?php echo $common_delete;?></button></td>
+			</tr>
+			<?php endif;?>
 		</tbody>
 	</table>
 	<div>

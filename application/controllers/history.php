@@ -52,6 +52,7 @@ class History extends CI_Controller
 		$data['common_file_name'] = $this->lang->line('common_file_name');
 		$data['common_file_content'] = $this->lang->line('common_file_content');
 		$data['common_file_size'] = $this->lang->line('common_file_size');
+		$data['common_delete'] = $this->lang->line('common_delete');
 		if($this->session->userdata('role') == "admin")
 		{
 			$data['results'] = $this->history->get_history_list($config['per_page'], $offset);
