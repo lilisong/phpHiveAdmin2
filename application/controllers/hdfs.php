@@ -41,6 +41,8 @@ class Hdfs extends CI_Controller
 		$data['common_file_user'] = $this->lang->line('common_file_user');
 		$data['common_file_time'] = $this->lang->line('common_file_time');
 		$data['common_file_name'] = $this->lang->line('common_file_name');
+		$data['common_back_to_root'] = $this->lang->line('common_back_to_root');
+		$data['common_back'] = $this->lang->line('common_back');
 		$this->load->model('hdfs_model', 'hdfs');
 		$path = $this->uri->segment(3,0);
 		$path = base64_decode($path);

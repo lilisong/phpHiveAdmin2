@@ -1,8 +1,12 @@
 <div class="span10">
-
+<div class="btn-group">
+<a class="btn btn-info" href="fileBrowser.php?dir=/"><i class="icon-eject"></i><?php echo $common_back_to_root;?></a>
+<a class="btn btn-info" href="javascript:history.back()"><i class="icon-backward"></i><?php echo $common_back;?></a>
+</div>
+<br>
 	<table class="table table-bordered table-striped table-condensed">
 		<thead>
-			<tr class="info">
+			<tr class="success">
 				<td><?php echo $common_file_property;?></td>
 				<td><?php echo $common_file_user;?></td>
 				<td><?php echo $common_file_group;?></td>
@@ -24,5 +28,9 @@
 			<?php endfor;?>
 		</tbody>
 	</table>
-
+<div class="btn-group">
+<a class="btn btn-info" href="fileBrowser.php?dir=/"><i class="icon-eject"></i><?php echo $common_back_to_root;?></a>
+<a class="btn btn-info" href="javascript:history.back()"><i class="icon-backward"></i><?php echo $common_back;?></a>
+</div>
+<br>
 </div>
