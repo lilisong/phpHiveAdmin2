@@ -54,11 +54,14 @@
 	<table class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
+			<?php if($this->session->userdata('role') == "admin"):?>
 				<td>
 				</td>
+			<?php endif;?>
 				<td>
 				<?php echo $common_table_name;?>
 				</td>
+			<?php if($this->session->userdata('role') == "admin"):?>
 				<td>
 				<?php echo $common_alter_table;?>
 				</td>
@@ -74,17 +77,21 @@
 				<td>
 				<?php echo $common_drop_table;?>
 				</td>
+			<?php endif;?>
 			</tr>
 		</thead>
 		<tbody>
 		<?php foreach($table_list as $item):?>
 			<tr>
+			<?php if($this->session->userdata('role') == "admin"):?>
 				<td>
 				<input type="checkbox" name="selected_table_name[]" value="<?php echo $item;?>">
 				</td>
+			<?php endif;?>
 				<td>
 				<i class="icon-th-list"></i><a href="<?php echo $this->config->base_url();?>index.php/manage/query/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $item;?></a>
 				</td>
+			<?php if($this->session->userdata('role') == "admin"):?>
 				<td>
 				<i class="icon-pencil"></i><a href="<?php echo $this->config->base_url();?>index.php/table/altertable/<?php echo $var_db_name;?>/<?php echo $item;?>"><?php echo $common_alter_table;?></a>
 				</td>
@@ -112,8 +119,10 @@
 				?>
 				
 				</td>
+			<?php endif;?>
 			</tr>
 		<?php endforeach;?>
+		<?php if($this->session->userdata('role') == "admin"):?>
 			<tr>
 				<td>
 					<input type="hidden" name="db_name" value=<?php echo $var_db_name;?>><input type="checkbox" id="chkAll" onClick="CheckUnCheckAll()" /><br /><?php echo $common_select?> / <?php echo $common_deselect;?>
@@ -125,6 +134,7 @@
 				<td></td>
 				<td><a href="#batch_drop_table" data-toggle="modal" class="btn btn-danger btn-small" onclick="BatchTableDropView()"><?php echo $common_delete;?></a></td>
 			</tr>
+		<?php endif;?>
 		</tbody>
 	</table>
 </div>
