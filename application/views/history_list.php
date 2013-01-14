@@ -28,7 +28,7 @@
 				}
 				?>
 				<td><?php echo $content;?></td>
-				<td><?php echo filesize($filename['log_with_path']);?></td>
+				<td><?php $this->load->helper('number'); echo byte_format(filesize($filename['log_with_path']));?></td>
 			</tr>
 			<?php endforeach;?>
 		</tbody>

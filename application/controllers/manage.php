@@ -260,6 +260,6 @@ class Manage extends CI_Controller
 	{
 		$finger_print = $this->uri->segment(3,0);
 		$this->load->model('utilities_model', 'utils');
-		$this->utils->download_csv($finger_print);
+		
 	}
 }
