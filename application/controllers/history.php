@@ -60,6 +60,7 @@ class History extends CI_Controller
 		{
 			$data['results'] = $this->history->get_history_list_by_user($this->session->userdata('username'), $config['per_page'], $offset);
 		}
+		$data['utils'] = $this->utils;
 		$this->load->view('history_list', $data);
 		
 		$this->load->view('div_end');

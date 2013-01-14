@@ -9,11 +9,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach($results as $key => $history):?>
+			<?php foreach($results $history):?>
 			<tr>
 				<?php
-				$this->load->model('utilities_model', 'utils');
-				$filename = $this->utils->make_filename($history->fingerprint);
+				$filename = $utils->make_filename($history->fingerprint);
 				?>
 				<td><?php echo $filename['out'];?></td>
 				<?php
