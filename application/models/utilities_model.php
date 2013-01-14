@@ -179,10 +179,6 @@ class Utilities_model extends CI_Model
 	{
 		$this->load->helper('file');
 		$this->load->helper('download');
-		//$this->load->database();
-		$this->load->model('history_model', 'history');
-		$res = $this->history->get_history_by_fingerprint($finger_print);
-		$username = $res->username;
 		try
 		{
 			$csv = 'hive_res.' . $finger_print . '.csv';
