@@ -1,9 +1,9 @@
 <div class="span4">
-<img src="/img/phphiveadmin.jpg" />
+<img src="<?php echo $this->config->base_url();?>img/phphiveadmin.jpg" />
 <br>
 <br>
 <?php if($this->session->userdata('role') == 'admin'):?>
-<form method=post action=<?php echo $this->config->base_url();?>index.php/hive/createdatabase>
+<form method="post" action="<?php echo $this->config->base_url();?>index.php/hive/createdatabase">
 	<table class="table-bordered table-striped table-hover">
 		<tr>
 			<td>
