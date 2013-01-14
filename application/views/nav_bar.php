@@ -15,7 +15,7 @@
 					</a>
 				</li>
 				<li <?php if($this->router->class == "etl"){ echo "class=\"active\"";}?>>
-					<a href="<?php echo $this->config->base_url();?>index.php/etl/index/" target="right">
+					<a href="<?php echo $this->config->base_url();?>index.php/etl/index/">
 						<?php echo $common_etl;?>
 					</a>
 				</li>

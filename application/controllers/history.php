@@ -76,7 +76,7 @@ class History extends CI_Controller
 		$this->load->model('history_model', 'history');
 		$this->history->batch_drop_history($history_ids);
 		$this->load->helper('url');
-		//redirect($this->config->base_url(). 'index.php/history/index/', "0", "refresh");
+		redirect($this->config->base_url(). 'index.php/history/index/', "0", "refresh");
 	}
 }
 
