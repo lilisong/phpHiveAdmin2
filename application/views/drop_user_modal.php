@@ -4,7 +4,7 @@
 	<form method="post" action="<?php echo $this->config->base_url();?>index.php/user/dropuseraction/">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 id="myModalLabel"><?php echo $common_update_user;?>: <?php echo $row->username;?></h3>
+		<h3 id="myModalLabel"><?php echo $common_drop_user;?>: <?php echo $row->username;?></h3>
 	</div>
 	<div class="modal-body">
 		Drop User? <?php echo $row->username;?>
