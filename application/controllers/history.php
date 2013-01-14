@@ -21,6 +21,7 @@ class History extends CI_Controller
 		$data['common_hdfs_browser'] = $this->lang->line('common_hdfs_browser');
 		$data['common_history'] = $this->lang->line('common_history');
 		$data['common_log_out'] = $this->lang->line('common_log_out');
+		$data['common_user_admin'] = $this->lang->line('common_user_admin');
 		$this->load->view('nav_bar',$data);
 
 		#Generate div container
