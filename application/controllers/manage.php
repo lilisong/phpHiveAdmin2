@@ -192,8 +192,6 @@ class Manage extends CI_Controller
 			else
 			{
 				echo "No privileges";
-				$this->load->helper('url');
-				redirect($this->config-base_url() . 'index.php',"2","refresh");
 			}
 		}
 	}
