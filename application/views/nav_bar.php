@@ -36,7 +36,7 @@
 						<?php echo $common_history;?>
 					</a>
 				</li>
-				<li <?php if($this->router->class == "user"){ echo "class=\"active\"";}?>>
+				<li>
 					<a href="<?php echo $this->config->base_url();?>index.php/user/logout/">
 						<?php echo $common_log_out;?>
 					</a>
