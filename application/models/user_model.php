@@ -81,7 +81,7 @@ class User_model extends CI_Model
 				unlink($filename['run_with_path']);
 				
 				$sql = "delete from ehm_pha_user where id = '" . $id . "'";
-				$this->db->simple_query($sql)
+				$this->db->simple_query($sql);
 				$sql = "delete from ehm_pha_history_job where username = '".$username."'";
 				if($this->db->simple_query($sql))
 				{
