@@ -113,9 +113,14 @@ class User extends CI_Controller
 		if($password == $repassword)
 		{
 			$this->user->create_user($username, $password, $onlydb, $role, $reduce=0, $description);
+			echo "Successed";
+		}
+		else
+		{
+			echo "Failed";
 		}
 		$this->load->helper('url');
-		redirect($this->config->base_url() . 'index.php/user/index/', '0', "refresh");
+		redirect($this->config->base_url() . 'index.php/user/index/', '2', "refresh");
 	}
 	
 	public function DropUserAction()
