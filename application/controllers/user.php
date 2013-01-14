@@ -14,7 +14,6 @@ class User extends CI_Controller
 	
 	public function Index()
 	{
-		$this->lang->load('commons');
 		#Generate Header
 		$this->lang->load('commons');
 		$this->lang->load('errors');
@@ -53,6 +52,11 @@ class User extends CI_Controller
 		$data['common_submit'] = $this->lang->line('common_submit');
 		$data['common_add_user'] = $this->lang->line('common_add_user');
 		$this->load->view('user_nav_bar', $data);
+		
+		$this->load->model('user_model', 'user');
+		$data['common_update_user'] = $this->lang->line('common_update_user');
+		$data['common_drop_user'] = $this->lang->line('common_drop_user');
+		$data['user_list'] = $this->user->get_user_list();
 		
 		$this->load->view('user_list', $data);
 		$this->load->view('create_user_modal', $data);
@@ -112,7 +116,7 @@ class User extends CI_Controller
 	public function DropUserAction()
 	{
 		$this->load->model('user_model', 'user');
-		$user_id = $this->input->post('id');
+		$user_id = $this->uri->segment(3,0);
 		
 		$this->user->drop_user($user_id);
 		$this->load->helper('url');

@@ -49,7 +49,7 @@ class User_model extends CI_Model
 		}
 	}
 	
-	public function update_user($id, $username, $password, $onlydb, $role, $reduce, $description)
+	public function update_user($id, $username, $password, $onlydb, $role, $reduce="0", $description)
 	{
 		$sql = "update ehm_pha_user set username = '" . $username . "', password = '" . $password . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "' where id = '" . $id . "'";
 		if($this->db->simple_query($sql))
@@ -88,7 +88,7 @@ class User_model extends CI_Model
 		return $result;//object
 	}
 	
-	public function get_users()
+	public function get_user_list()
 	{
 		$sql = "select * from ehm_pha_user";
 		$query = $this->db->query($sql);
