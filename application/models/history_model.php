@@ -8,17 +8,34 @@ class History_model extends CI_Model
 		parent::__construct();
 	}
 	
-	public function get_histroy()
+	public function count_history($username = "")
 	{
-		$sql = "select * from ehm_pha_history_job order by access_time desc";
+		if($username == "")
+		{
+			$sql = "select * from ehm_pha_history_job";
+			$query = $this->db->query($sql);
+			$count = $query->num_rows();
+		}
+		else
+		{
+			$sql = "select * from ehm_pha_history_job where username = '".$username."'";
+			$query = $this->db->query($sql);
+			$count = $query->num_rows();
+		}
+		return $count;
+	}
+	
+	public function get_history($limit = "20", $offset = "0")
+	{
+		$sql = "select * from ehm_pha_history_job order by access_time desc limit ". $offset . ",". $limit;
 		$query = $this->db->query($sql);
 		$result = $query->result();
 		return $result;// object array need foreach to fetch it
 	}
 	
-	public function get_history_by_user($username)
+	public function get_history_by_user($username , $limit = "20", $offset = "0")
 	{
-		$sql = "select * from ehm_pha_history_job where username = '". $username ."' order by access_time desc";
+		$sql = "select * from ehm_pha_history_job where username = '". $username ."' order by access_time desc limit ". $offset . ",". $limit;
 		$query = $this->db->query($sql);
 		$result = $query->result();
 		return $result;// object array need foreach to fetch it
@@ -48,12 +65,35 @@ class History_model extends CI_Model
 					echo 'Caught exception: ',  $e->getMessage(), "\n";
 				}
 			}
-			return TRUE;
+			
+			$sql = "delete from ehm_pha_history_job where id in (" . $ids . ")";
+			if($this->db->simple_query($sql))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
 		}
 		else
 		{
 			return FALSE;
 		}
+	}
+	
+	public function create_history($username, $finger_print)
+	{
+		$sql = "insert ehm_pha_history_job set username = '". $username ."', fingerprint = '". $finger_print ."'";
+		if($this->db->simple_query($sql))
+		{
+			$json = '{"status":"success"}';
+		}
+		else
+		{
+			$json = '{"status":"fail"}';
+		}
+		return $json;
 	}
 	
 }

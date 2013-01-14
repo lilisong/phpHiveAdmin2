@@ -29,6 +29,7 @@ class User_model extends CI_Model
 			}
 			else
 			{
+				$login = FALSE;
 				$this->load->helper('url');
 				redirect($this->config->base_url().'index.php/user/login/');
 			}

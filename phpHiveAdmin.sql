@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `easyhadoop` charset utf8 COLLATE utf8_general_ci;
+USE easyhadoop;
 CREATE TABLE IF NOT EXISTS `ehm_pha_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(60) NOT NULL,
@@ -9,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `ehm_pha_user` (
   `description` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 INSERT INTO `ehm_pha_user` (`id`, `username`, `password`, `role`) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin');
 
 CREATE TABLE IF NOT EXISTS `ehm_pha_history_job` (
@@ -18,4 +20,4 @@ CREATE TABLE IF NOT EXISTS `ehm_pha_history_job` (
   `fingerprint` varchar(200) NOT NULL,
   `access_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -3,7 +3,7 @@
 function SqlQuery()
 {
 	$('#query_submit').addClass('disabled');
-	$('#query_submit').attr('href','#');
+	$('#query_submit').attr('href','javascript:void(0)');
 	$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:$('#sql').val(), finger_print:$('#finger_print').val()}, function(html){
 		html = html;
 		$('#sql_query_status').html(html);
@@ -38,7 +38,7 @@ function RefreshStatus(ctrl)
 
 function GetResult()
 {
-	var finger_print = document.getElementById('finger_print').value;
+	var finger_print = $('#finger_print').val();
 	var href = '<?php echo $this->config->base_url();?>index.php/manage/getresult/' + finger_print;
 	window.location = href;
 }
@@ -78,7 +78,7 @@ function ConfirmClose()
 
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" onclick="ConfirmClose()"><?php echo $common_cli_done;?></a>
+		<a href="javascript:ConfirmClose()" class="btn"><?php echo $common_cli_done;?></a>
 		<a href="javascript:SqlQuery();RefreshStatus(true);" id="query_submit" class="btn btn-primary"><?php echo $common_submit;?></a>
 	</div>
 </div>

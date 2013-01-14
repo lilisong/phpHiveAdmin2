@@ -99,7 +99,7 @@ class Utilities_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -169,7 +169,7 @@ class Utilities_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 
 		return $file_array;
@@ -186,7 +186,7 @@ class Utilities_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -203,7 +203,7 @@ class Utilities_model extends CI_Model
 			}
 			catch (Exception $e)
 			{
-				echo 'Caught exception: ',  $e->getMessage(), "\n";
+				echo 'Caught exception: '.  $e->getMessage(). "\n";
 			}
 		}
 		else

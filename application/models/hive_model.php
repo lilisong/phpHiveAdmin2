@@ -36,7 +36,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -53,7 +53,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -68,7 +68,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -205,7 +205,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -238,7 +238,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -254,7 +254,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -272,7 +272,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -298,7 +298,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -397,7 +397,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -423,7 +423,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -459,7 +459,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -499,7 +499,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -516,7 +516,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -548,7 +548,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -590,7 +590,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -609,7 +609,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
@@ -631,7 +631,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -691,7 +691,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -719,7 +719,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -735,12 +735,12 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 
 
-	private function async_execute_hql($command, $file_name, $type, &$code)
+	public function async_execute_hql($command, $file_name, $type, &$code)
 	{
 		$descriptorspec = array(
 			0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
@@ -802,7 +802,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 		
 		fclose($pipes[1]);
@@ -831,6 +831,7 @@ class Hive_model extends CI_Model
 		try
 		{
 			write_file($log_file, $sql);
+			$this->load->model('history_model', 'history');
 			
 			echo $run_file;
 			
@@ -842,7 +843,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -892,7 +893,7 @@ class Hive_model extends CI_Model
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: '.  $e->getMessage(). "\n";
 		}
 	}
 	
@@ -933,7 +934,7 @@ class Hive_model extends CI_Model
 			}
 			catch (Exception $e)
 			{
-				echo 'Caught exception: ',  $e->getMessage(), "\n";
+				echo 'Caught exception: '.  $e->getMessage(). "\n";
 			}
 		}
 		else

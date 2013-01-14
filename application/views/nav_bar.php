@@ -10,37 +10,27 @@
 			<div class="nav-collapse collapse">
 				<ul class="nav">
 				<li <?php if($this->router->class == "manage" || $this->router->class == "table"){ echo "class=\"active\"";}?>>
-					<a class="active" href="/index.php">
+					<a class="active" href="<?php echo $this->config->base_url();?>index.php/">
 						<?php echo $common_hql_query;?>
 					</a>
 				</li>
 				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
-					<a href="execEtl.php" target="right">
+					<a href="<?php echo $this->config->base_url();?>index.php/etl/index/" target="right">
 						<?php echo $common_etl;?>
 					</a>
 				</li>
 				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
-					<a href="getClusterStatus.php">
-						<?php echo $common_cluster_status;?>
-					</a>
-				</li>
-				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
-					<a href="fileBrowser.php">
+					<a href="<?php echo $this->config->base_url();?>index.php/hdfs/index/">
 						<?php echo $common_hdfs_browser;?>
 					</a>
 				</li>
-				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
-					<a href="metaSummury.php">
-						<?php echo $common_meta_summury;?>
-					</a>
-				</li>
-				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
-					<a href="history.php">
+				<li <?php if($this->router->class == "history"){ echo "class=\"active\"";}?>>
+					<a href="<?php echo $this->config->base_url();?>index.php/history/index/">
 						<?php echo $common_history;?>
 					</a>
 				</li>
-				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
-					<a href="logOut.php">
+				<li <?php if($this->router->class == "user"){ echo "class=\"active\"";}?>>
+					<a href="<?php echo $this->config->base_url();?>index.php/user/logout/">
 						<?php echo $common_log_out;?>
 					</a>
 				</li>
