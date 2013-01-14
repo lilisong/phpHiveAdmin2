@@ -14,12 +14,12 @@
 						<?php echo $common_hql_query;?>
 					</a>
 				</li>
-				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
+				<li <?php if($this->router->class == "etl"){ echo "class=\"active\"";}?>>
 					<a href="<?php echo $this->config->base_url();?>index.php/etl/index/" target="right">
 						<?php echo $common_etl;?>
 					</a>
 				</li>
-				<li <?php if($this->router->class == "index"){ echo "class=\"active\"";}?>>
+				<li <?php if($this->router->class == "hdfs"){ echo "class=\"active\"";}?>>
 					<a href="<?php echo $this->config->base_url();?>index.php/hdfs/index/">
 						<?php echo $common_hdfs_browser;?>
 					</a>
