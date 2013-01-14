@@ -39,7 +39,7 @@ class History extends CI_Controller
 		$this->load->library('pagination');
 		$config['base_url'] = $this->config->base_url() . 'index.php/history/index/';
 		$config['total_rows'] = $this->history->count_history($this->session->userdata('role'));
-		$config['per_page'] = 1;
+		$config['per_page'] = 30;
 		$offset = $this->uri->segment(3,0);
 		if($offset == 0):
 			$offset = 0;
