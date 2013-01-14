@@ -16,7 +16,7 @@
 			<td><?php echo $row->role;?></td>
 			<td><?php echo $row->description;?></td>
 			<td><a href="#update_user_<?php echo $row->id;?>" class="btn" data-toggle="modal"><?php echo $common_update_user;?></a></td>
-			<td><a class="btn btn-danger" href="#drop_user_<?php echo $row->id;?>"><?php echo $common_drop_user;?></a></td>
+			<td><a class="btn btn-danger" href="#drop_user_<?php echo $row->id;?>" data-toggle="modal"><?php echo $common_drop_user;?></a></td>
 		</tr>
 		<?php endforeach;?>
 	</table>

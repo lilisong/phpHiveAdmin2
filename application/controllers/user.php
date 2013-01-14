@@ -51,6 +51,7 @@ class User extends CI_Controller
 		$this->load->model('user_model', 'user');
 		$data['common_update_user'] = $this->lang->line('common_update_user');
 		$data['common_drop_user'] = $this->lang->line('common_drop_user');
+		$data['common_delete'] = $this->lang->line('common_delete');
 		$data['user_list'] = $this->user->get_user_list();
 		
 		$this->load->view('user_list', $data);
