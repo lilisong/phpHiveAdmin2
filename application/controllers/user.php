@@ -146,7 +146,7 @@ class User extends CI_Controller
 		
 		if($password == $repassword)
 		{
-			$this->user->create_user($user_id, $username, $password, $onlydb, $role, $reduce="0", $description);
+			$this->user->update_user($user_id, $username, $password, $onlydb, $role, $reduce="0", $description);
 			echo "Successed";
 		}
 		else
