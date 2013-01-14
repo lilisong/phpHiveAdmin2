@@ -44,7 +44,7 @@ class User extends CI_Controller
 		$this->load->view('user_nav_bar', $data);
 		
 		$this->load->view('user_list', $data);
-		$this->load->view('create_user_model', $data);
+		$this->load->view('create_user_modal', $data);
 		
 		#Generate div end
 		$this->load->view('div_end');
