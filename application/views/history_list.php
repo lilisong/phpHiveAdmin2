@@ -70,7 +70,7 @@
 			<?php if($this->session->userdata('role') == "admin"):?>
 			<tr>
 				<td>
-					<input type="chechbox" id="chkAll" />
+					<input type="checkbox" id="chkAll" />
 				</td>
 				<td></td>
 				<td></td>
