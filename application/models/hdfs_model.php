@@ -29,13 +29,13 @@ class Hdfs_model extends CI_Model
 		{
 			$list_arr = @file($filename);
 			$i = 0;
-			$arr = array();
+			$arr = "";
 			foreach($list_arr as $k => $line)
 			{
 				if(!preg_match("/Found/i", $line))
 				{
 					$cols = explode(" ", $line);
-					$cols = $this->utils->array_filter($cols);
+					$cols = $this->utils->array_filters($cols);
 					$arr['file_property'][$i] = trim($cols[0]);
 					$arr['file_user'][$i] = trim($cols[2]);
 					$arr['file_group'][$i] = trim($cols[3]);

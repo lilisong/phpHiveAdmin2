@@ -25,7 +25,7 @@ class Utilities_model extends CI_Model
 		}
 	}
 
-	public function array_filter($array)
+	public function array_filters($array)
 	{
 		if(is_array($array) == FALSE)
 		{
