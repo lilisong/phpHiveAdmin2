@@ -29,7 +29,7 @@ class Hdfs_model extends CI_Model
 		{
 			$list_arr = @file($filename);
 			$i = 0;
-			$arr = array(array());
+			$arr = array();
 			foreach($list_arr as $k => $line)
 			{
 				if(!preg_match("/Found/i", $line))
