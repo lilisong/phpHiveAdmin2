@@ -131,9 +131,30 @@ class User extends CI_Controller
 		redirect($this->config->base_url() . 'index.php/user/index/', '0', "refresh");
 	}
 	
-	public function UpdateUserAcrion()
+	public function UpdateUserAction()
 	{
+		$this->load->model('user_model', 'user');
+		$user_id = $this->input->post('user_id');
 		
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		$repassword = $this->input->post('repassword');
+		$onlydb = $this->input->post('onlydb');
+		$role = $this->input->post('role');
+		$reduce = $this->input->post('reduce');
+		$description = $this->input->post('description');
+		
+		if($password == $repassword)
+		{
+			$this->user->create_user($user_id, $username, $password, $onlydb, $role, $reduce="0", $description);
+			echo "Successed";
+		}
+		else
+		{
+			echo "Password not matched";
+		}
+		$this->load->helper('url');
+		redirect($this->config->base_url() . 'index.php/user/index/', '1', "refresh");
 	}
 	
 	public function LogOut()
