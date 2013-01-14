@@ -14,7 +14,7 @@ class User extends CI_Controller
 		{
 			if($this->session->userdata('role') != "admin")
 			{
-				redirect($this->config->base_url() . 'index.php/user/logout/');
+				redirect($this->config->base_url() . 'index.php/manage/index/');
 			}
 		}
 	}
