@@ -80,23 +80,23 @@ class User_model extends CI_Model
 				unlink($log_with_path);
 				unlink($filename['csv_with_path']);
 				unlink($filename['run_with_path']);
-				
-				$sql = "delete from ehm_pha_user where id = '" . $id . "'";
-				$this->db->simple_query($sql);
-				$sql = "delete from ehm_pha_history_job where username = '".$username."'";
-				if($this->db->simple_query($sql))
-				{
-					return '{"status":"success"}';
-				}
-				else
-				{
-					return '{"status":"fail"}';
-				}
 			}
 			catch (Exception $e)
 			{
 				echo 'Caught exception: '.  $e->getMessage(). "\n";
 			}
+		}
+		
+		$sql = "delete from ehm_pha_user where id = '" . $id . "'";
+		$this->db->simple_query($sql);
+		$sql = "delete from ehm_pha_history_job where username = '".$username."'";
+		if($this->db->simple_query($sql))
+		{
+			return '{"status":"success"}';
+		}
+		else
+		{
+			return '{"status":"fail"}';
 		}
 	}
 	
