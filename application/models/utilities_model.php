@@ -179,11 +179,17 @@ class Utilities_model extends CI_Model
 	{
 		$this->load->helper('file');
 		$this->load->helper('download');
+		//$this->load->database();
+		$sql = "select * from ehm_pha_history_job where fingerprint = '". $finger_print ."'";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		$username = $res[0]->username;
 		try
 		{
-			$filename = $this->make_filename($finger_print);
-			$content = readfile($filename['csv_with_path']);
-			force_download($filename['csv'], $content);
+			$csv = 'hive_res.' . $finger_print . '.csv';
+			$csv_with_path = $this->config->item('result_path') . $csv;
+			$content = readfile($csv_with_path);
+			force_download($csv, $content);
 		}
 		catch (Exception $e)
 		{
