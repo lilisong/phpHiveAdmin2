@@ -38,7 +38,7 @@ class User_model extends CI_Model
 	public function create_user($username, $password, $onlydb, $role = "user", $reduce = '2', $description)
 	{
 		#role must be user | admin
-		$sql = "insert ehm_pha_user set username = '" . $username . "', password = '" . $password . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "'";
+		$sql = "insert ehm_pha_user set username = '" . $username . "', password = '" . md5($password) . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "'";
 		if($this->db->simple_query($sql))
 		{
 			return '{"status":"success"}';
