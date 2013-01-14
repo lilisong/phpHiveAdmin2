@@ -54,8 +54,8 @@ class History_model extends CI_Model
 			$this->load->model('utilities_model', 'utils');
 			foreach($result as $row)
 			{
-				$filename = $this->utils->make_filename($row->finger_print);
-				$log = $row->username."_" . $finger_print . ".log";
+				$filename = $this->utils->make_filename($row->fingerprint);
+				$log = $row->username."_" . $row->fingerprint . ".log";
 				$log_with_path =  $this->config->item('log_path') . $log;
 				try
 				{
