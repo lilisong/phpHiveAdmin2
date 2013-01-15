@@ -40,7 +40,7 @@ class Hive_model extends CI_Model
 			}
 			else
 			{
-				if(!empty($onlydb))
+				if( (count($onlydb) > 0) && $onlydb[0] != "" )
 				{
 					for($i = 0; $i < count($db_array); $i++)
 					{
