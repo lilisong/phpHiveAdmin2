@@ -215,7 +215,8 @@ class Hive_model extends CI_Model
 		####################
 		
 		try
-		{echo $sql;
+		{
+			echo $sql;
 			$this->transport->open();
 			$this->hive->execute($sql);
 			$this->transport->close();
@@ -248,7 +249,8 @@ class Hive_model extends CI_Model
 		}
 		
 		try
-		{echo $sql;
+		{
+			echo $sql;
 			$this->transport->open();
 			$this->hive->execute($sql);
 			$this->transport->close();
