@@ -164,6 +164,74 @@ class User extends CI_Controller
 		$this->load->helper('url');
 		redirect($this->config->base_url(), "0", "refresh");
 	}
+	
+	public function ChangePassword()
+	{
+		#Generate Header
+		$this->lang->load('commons');
+		$this->lang->load('errors');
+		$data['common_lang_set'] = $this->lang->line('common_lang_set');
+		$data['common_title'] = $this->lang->line('common_title');
+		$data['common_username'] = $this->lang->line('common_username');
+		$data['common_password'] = $this->lang->line('common_password');
+		$data['common_submit'] = $this->lang->line('common_submit');
+		$this->load->view('header',$data);
+		
+		#Generate Navigation top bar
+		$data['common_hql_query'] = $this->lang->line('common_hql_query');
+		$data['common_etl'] = $this->lang->line('common_etl');
+		$data['common_cluster_status'] = $this->lang->line('common_cluster_status');
+		$data['common_hdfs_browser'] = $this->lang->line('common_hdfs_browser');
+		$data['common_meta_summury'] = $this->lang->line('common_meta_summury');
+		$data['common_history'] = $this->lang->line('common_history');
+		$data['common_log_out'] = $this->lang->line('common_log_out');
+		$data['common_user_admin'] = $this->lang->line('common_user_admin');
+		$this->load->view('nav_bar',$data);
+		
+		#Generate div container
+		$this->load->view('div_fluid');
+		$this->load->view('div_row_fluid');
+		
+		$data['common_user_list'] = $this->lang->line('common_user_list');
+		$data['common_update_password'] = $this->lang->line('common_update_password');
+		$data['common_password'] = $this->lang->line('common_password');
+		$data['common_onlydb'] = $this->lang->line('common_onlydb');
+		$data['common_role'] = $this->lang->line('common_role');
+		$data['common_user'] = $this->lang->line('common_user');
+		$data['common_admin'] = $this->lang->line('common_admin');
+		$data['common_reduce'] = $this->lang->line('common_reduce');
+		$data['common_description'] = $this->lang->line('common_description');
+		$data['common_close'] = $this->lang->line('common_close');
+		$data['common_submit'] = $this->lang->line('common_submit');
+		$data['common_add_user'] = $this->lang->line('common_add_user');
+		$this->load->view('user_nav_bar', $data);
+		
+		$this->load->view('update_password_form', $data);
+		
+		#Generate div end
+		$this->load->view('div_end');
+		$this->load->view('div_end');
+		
+		#Generate Footer
+		$this->load->view('footer');
+	}
+	
+	public function ChangePasswordAction()
+	{
+		$this->load->model('user_model', 'user');
+		$user_id = $this->session->userdata('id');
+		$password = $this->input->post('password');
+		$repassword = $this->input->post('repassword');
+		if($password == $repassword)
+		{
+			$this->user->update_password($user_id, $password);
+			echo "Successed";
+		}
+		else
+		{
+			echo "Password not matched";
+		}
+	}
 }
 
 ?>

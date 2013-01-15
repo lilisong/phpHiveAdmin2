@@ -122,5 +122,17 @@ class User_model extends CI_Model
 		return $result;// object array need foreach to fetch it
 	}
 	
+	public function update_password($user_id, $password)
+	{
+		$sql = "update ehm_pha_user set password = '" . md5($password) . "' where id = '". $user_id ."'";
+		if($this->db->simple_query($sql))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 }
 ?>
