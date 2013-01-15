@@ -51,7 +51,7 @@ class User_model extends CI_Model
 	
 	public function update_user($id, $username, $password, $onlydb, $role, $reduce="0", $description)
 	{
-		$sql = "update ehm_pha_user set username = '" . $username . "', password = '" . $password . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "' where id = '" . $id . "'";
+		$sql = "update ehm_pha_user set username = '" . $username . "', password = '" . md5($password) . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "' where id = '" . $id . "'";
 		if($this->db->simple_query($sql))
 		{
 			return '{"status":"success"}';
@@ -64,7 +64,33 @@ class User_model extends CI_Model
 	
 	public function drop_user($id)
 	{
+		$sql = "select user.username as username,job.fingerprint as fingerprint from ehm_pha_user user, ehm_pha_history_job job where user.id = '". $id ."' and user.username = job.username";
+		$query = $this->db->query($sql);
+		$result = @$query->result();
+		$this->load->model('utilities_model', 'utils');
+		$username = @$result[0]->username;
+		foreach(@$result as $row)
+		{
+			$username = $row->username;
+			$finger_print = $row->fingerprint;
+			$filename = $this->utils->make_filename($finger_print);
+			$log = $username .  "_" . $finger_print . ".log";
+			$log_with_path = $this->config->item('log_path') . $log;
+			try
+			{
+				@unlink($log_with_path);
+				@unlink($filename['csv_with_path']);
+				@unlink($filename['run_with_path']);
+			}
+			catch (Exception $e)
+			{
+				echo 'Caught exception: '.  $e->getMessage(). "\n";
+			}
+		}
+		
 		$sql = "delete from ehm_pha_user where id = '" . $id . "'";
+		$this->db->simple_query($sql);
+		$sql = "delete from ehm_pha_history_job where username = '".$username."'";
 		if($this->db->simple_query($sql))
 		{
 			return '{"status":"success"}';
@@ -85,7 +111,7 @@ class User_model extends CI_Model
 		$sql = "select * from ehm_pha_user where id = '" . $id . "'";
 		$query = $this->db->query($sql);
 		$result = $query->result();
-		return $result;//object
+		return $result[0];//object
 	}
 	
 	public function get_user_list()
