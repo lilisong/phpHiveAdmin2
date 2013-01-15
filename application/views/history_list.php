@@ -74,7 +74,7 @@
 				</td>
 				<td></td>
 				<td></td>
-				<td><button><?php echo $common_delete;?></button></td>
+				<td><button class="btn btn-danger" type="submit"><?php echo $common_delete;?></button></td>
 			</tr>
 			<?php endif;?>
 		</tbody>
