@@ -14,11 +14,11 @@
 			</tr>
 			<tr>
 				<td><?php echo $common_password;?></td>
-				<td><input type="password" name="password" placeholder="Password" value="<?php echo $row->password;?>"></td>
+				<td><input type="password" name="password" placeholder="Password"></td>
 			</tr>
 			<tr>
 				<td><?php echo $common_password;?></td>
-				<td><input type="password" name="repassword" placeholder="Retype password" value="<?php echo $row->password;?>"></td>
+				<td><input type="password" name="repassword" placeholder="Retype password"></td>
 			</tr>
 			<tr>
 				<td><?php echo $common_onlydb;?></td>

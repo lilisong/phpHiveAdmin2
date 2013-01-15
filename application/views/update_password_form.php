@@ -4,11 +4,11 @@
 		<table class="table table-bordered table-striped table-hover">
 			<tr>
 				<td><?php echo $common_password;?></td>
-				<td><input type="password" name="password" placeholder="Password" value="<?php echo $result->password;?>"></td>
+				<td><input type="password" name="password" placeholder="Password"></td>
 			</tr>
 			<tr>
 				<td><?php echo $common_password;?></td>
-				<td><input type="password" name="repassword" placeholder="Retype password" value="<?php echo $result->password;?>"></td>
+				<td><input type="password" name="repassword" placeholder="Retype password"></td>
 			</tr>
 		</table>
 		<input type="hidden" name="user_id" value="<?php echo $result->id;?>" />

@@ -51,7 +51,14 @@ class User_model extends CI_Model
 	
 	public function update_user($id, $username, $password, $onlydb, $role, $reduce="0", $description)
 	{
-		$sql = "update ehm_pha_user set username = '" . $username . "', password = '" . md5($password) . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "' where id = '" . $id . "'";
+		if($password != "")
+		{
+			$sql = "update ehm_pha_user set username = '" . $username . "', password = '" . md5($password) . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "' where id = '" . $id . "'";
+		}
+		else
+		{
+			$sql = "update ehm_pha_user set username = '" . $username . "', onlydb = '" . $onlydb . "', role = '" . $role . "', reduce = '" . $reduce . "', description = '" . $description . "' where id = '" . $id . "'";
+		}
 		if($this->db->simple_query($sql))
 		{
 			return '{"status":"success"}';
@@ -124,15 +131,23 @@ class User_model extends CI_Model
 	
 	public function update_password($user_id, $password)
 	{
-		$sql = "update ehm_pha_user set password = '" . md5($password) . "' where id = '". $user_id ."'";
-		if($this->db->simple_query($sql))
+		if($password != "")
 		{
-			return TRUE;
+			$sql = "update ehm_pha_user set password = '" . md5($password) . "' where id = '". $user_id ."'";
+			if($this->db->simple_query($sql))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
 		}
 		else
 		{
-			return FALSE;
+			echo "Empty password";
 		}
 	}
+	
 }
 ?>
