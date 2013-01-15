@@ -207,7 +207,7 @@ class User extends CI_Controller
 		$this->load->view('user_nav_bar', $data);
 		$this->load->model('user_model', 'user');
 		$result = $this->user->get_user($this->session->userdata('id'));
-		$data['result'] = $result[0];
+		$data['result'] = $result;
 		
 		$this->load->view('update_password_form', $data);
 		
