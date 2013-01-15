@@ -9,6 +9,11 @@ class User extends CI_Controller
 	
 	public function Index()
 	{
+		if($this->session->userdata('role') == 'user')
+		{
+			$this->load->helper('url');
+			redirect($this->config->base_url() . 'index.php/user/changepassword/');
+		}
 		#Generate Header
 		$this->lang->load('commons');
 		$this->lang->load('errors');
