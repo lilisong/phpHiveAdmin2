@@ -11,7 +11,7 @@
 				<td><input type="password" name="repassword" placeholder="Retype password"></td>
 			</tr>
 		</table>
-		<input type="submit" value="<?php echo $common_submit;?>" />
+		<input type="submit" value="<?php echo $common_submit;?>" class="btn btn-primary" />
 	</form>
 
 </div>
