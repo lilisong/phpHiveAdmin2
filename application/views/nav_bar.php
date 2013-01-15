@@ -24,13 +24,11 @@
 						<?php echo $common_hdfs_browser;?>
 					</a>
 				</li>
-				<?php if($this->session->userdata('role') == 'admin'):?>
 				<li <?php if($this->router->class == "user"){ echo "class=\"active\"";}?>>
 					<a href="<?php echo $this->config->base_url();?>index.php/user/index/">
 						<?php echo $common_user_admin;;?>
 					</a>
 				</li>
-				<?php endif;?>
 				<li <?php if($this->router->class == "history"){ echo "class=\"active\"";}?>>
 					<a href="<?php echo $this->config->base_url();?>index.php/history/index/">
 						<?php echo $common_history;?>

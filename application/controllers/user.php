@@ -205,6 +205,9 @@ class User extends CI_Controller
 		$data['common_submit'] = $this->lang->line('common_submit');
 		$data['common_add_user'] = $this->lang->line('common_add_user');
 		$this->load->view('user_nav_bar', $data);
+		$this->load->model('user_model', 'user');
+		$result = $this->user->get_user($this->session->userdata('id'));
+		$data['result'] = $result[0];
 		
 		$this->load->view('update_password_form', $data);
 		
@@ -219,7 +222,7 @@ class User extends CI_Controller
 	public function ChangePasswordAction()
 	{
 		$this->load->model('user_model', 'user');
-		$user_id = $this->session->userdata('id');
+		$user_id = $this->input->post('user_id');
 		$password = $this->input->post('password');
 		$repassword = $this->input->post('repassword');
 		if($password == $repassword)
