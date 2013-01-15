@@ -1,6 +1,6 @@
 <div class="span4">
 <script type="text/javascript">
-$(function () {
+/*$(function () {
 	var chart = new Highcharts.Chart({
 		chart: {
 			backgroundColor: "#FFFFFF",
@@ -123,7 +123,7 @@ $(function () {
 	
 	});
 });
-
+*/
 
 //----------------------------
 var map=0;
@@ -237,6 +237,6 @@ $(function () {
 	
 });
 </script>
-<div id="mapred_slot_realtime" style="width: 600px; height: 300px; "></div>
+<!--<div id="mapred_slot_realtime" style="width: 600px; height: 300px; "></div>-->
 <div id="mapred_slots_lines" style="width: 600px; height: 200px; "></div>
 </div>
