@@ -4,7 +4,7 @@ function SqlQuery()
 {
 	$('#query_submit').addClass('disabled');
 	$('#query_submit').attr('href','javascript:void(0)');
-	$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:$('#sql').val(), finger_print:$('#finger_print').val()}, function(html){
+	$.post('<?php echo $this->config->base_url();?>index.php/manage/sqlquery/' , {sql:$('#sql').val(), finger_print:$('#finger_print').val(),db_name:$('#db_name').val() }, function(html){
 		html = html;
 		$('#sql_query_status').html(html);
 	});
@@ -74,7 +74,8 @@ function ConfirmClose()
 			
 			<div id="sql_query_status">
 			</div>
-			<input type="hidden" id="finger_print" value="">
+			<input type="hidden" id="finger_print" value="" />
+			<input type="hidden" id="db_name" value="<?php echo $var_db_name;?>" />
 
 	</div>
 	<div class="modal-footer">

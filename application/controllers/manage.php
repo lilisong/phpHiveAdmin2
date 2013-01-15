@@ -176,6 +176,8 @@ class Manage extends CI_Controller
 	{
 		set_time_limit(0);
 		$sql = $this->input->post('sql');
+		$db_name = $this->input->post('db_name');
+		$sql = "USE ".$db_name. ";".$sql;
 		$finger_print = $this->input->post('finger_print');
 		$this->load->model('hive_model', 'hive');
 		if($this->session->userdata('role') == "admin")
