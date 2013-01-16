@@ -377,8 +377,8 @@ $config['hive_home'] = $configure['hive_home'];
 $config['lang_set'] = $configure['lang_set'];
 $config['output_seperator'] = $configure['output_seperator'];
 
-$config['etl_path'] = './etl/';
-$config['result_path'] = './results/';
-$config['log_path'] = './logs/';
+$config['etl_path'] = $configure['etl_path'];
+$config['result_path'] =  $configure['result_path'];
+$config['log_path'] =  $configure['log_path'];
 
 

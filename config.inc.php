@@ -54,6 +54,8 @@ please use linux commandline console to chmod these path below to 777
 设置phpHiveAdmin的输出路径
 请使用Linux命令行终端来将下列路径chmod为777
 */
-
+$configure['etl_path'] = './etl/';
+$configure['result_path'] = './results/';
+$configure['log_path'] = './logs/';
 
 ?>
